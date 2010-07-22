@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Lat:</b>
+  <%= @pothole.lat %>
+</p>
+
+<p>
+  <b>Lon:</b>
+  <%= @pothole.lon %>
+</p>
+
+<p>
+  <b>Reported date:</b>
+  <%= @pothole.reported_date %>
+</p>
+
+<p>
+  <b>Reported by:</b>
+  <%= @pothole.reported_by %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @pothole.address %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%= @pothole.zip %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @pothole.city %>
+</p>
+
+<p>
+  <b>Country:</b>
+  <%= @pothole.country %>
+</p>
+
+
+<%= link_to 'Edit', edit_pothole_path(@pothole) %> |
+<%= link_to 'Back', potholes_path %>

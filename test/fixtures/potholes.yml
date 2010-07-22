@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  lat: 1.5
+  lon: 1.5
+  reported_date: 2010-07-22 09:53:58
+  reported_by: MyString
+  address: MyString
+  zip: MyString
+  city: 
+  country: 
+
+two:
+  lat: 1.5
+  lon: 1.5
+  reported_date: 2010-07-22 09:53:58
+  reported_by: MyString
+  address: MyString
+  zip: MyString
+  city: 
+  country: 

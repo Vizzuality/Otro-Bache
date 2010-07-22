@@ -1,0 +1,37 @@
+<h1>Listing potholes</h1>
+
+<table>
+  <tr>
+    <th>Lat</th>
+    <th>Lon</th>
+    <th>Reported date</th>
+    <th>Reported by</th>
+    <th>Address</th>
+    <th>Zip</th>
+    <th>City</th>
+    <th>Country</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @potholes.each do |pothole| %>
+  <tr>
+    <td><%= pothole.lat %></td>
+    <td><%= pothole.lon %></td>
+    <td><%= pothole.reported_date %></td>
+    <td><%= pothole.reported_by %></td>
+    <td><%= pothole.address %></td>
+    <td><%= pothole.zip %></td>
+    <td><%= pothole.city %></td>
+    <td><%= pothole.country %></td>
+    <td><%= link_to 'Show', pothole %></td>
+    <td><%= link_to 'Edit', edit_pothole_path(pothole) %></td>
+    <td><%= link_to 'Destroy', pothole, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Pothole', new_pothole_path %>
