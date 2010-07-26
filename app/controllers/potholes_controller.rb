@@ -40,17 +40,19 @@ class PotholesController < ApplicationController
   # POST /potholes
   # POST /potholes.xml
   def create
-    @pothole = Pothole.new(params[:pothole])
-
-    respond_to do |format|
-      if @pothole.save
-        format.html { redirect_to(@pothole, :notice => 'Pothole was successfully created.') }
-        format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
-      end
-    end
+#     @pothole = Pothole.new(params[:pothole])
+	print "pon algo"
+	STDIN.read
+	print "por aqui"
+#     respond_to do |format|
+#       if @pothole.save
+#         format.html { redirect_to(@pothole, :notice => 'Pothole was successfully created.') }
+#         format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
+#       else
+#         format.html { render :action => "new" }
+#         format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
+#       end
+#     end
   end
 
   # PUT /potholes/1
