@@ -12,7 +12,8 @@ class PotholesController < ApplicationController
 
   # GET /potholes/1
   # GET /potholes/1.xml
-  def show
+  def show  
+    
     @pothole = Pothole.find(params[:id])
 
     respond_to do |format|
@@ -40,24 +41,61 @@ class PotholesController < ApplicationController
   # POST /potholes
   # POST /potholes.xml
   def create
-#     @pothole = Pothole.new(params[:pothole])
-	print "pon algo"
-	STDIN.read
-	print "por aqui"
-#     respond_to do |format|
-#       if @pothole.save
-#         format.html { redirect_to(@pothole, :notice => 'Pothole was successfully created.') }
-#         format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
-#       else
-#         format.html { render :action => "new" }
-#         format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
-#       end
-#     end
+    print "\n\n\n ----- create_ini ------\n"
+    debugger
+    
+    @country =  Country.find_or_create_by_name(params[:pothole][:country])
+    @city = City.find_or_create_by_name(params[:pothole][:city], :country_id => @country.id)
+    
+    if (Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]]) == nil)
+      print "\n\n\n ----- NUEVO_BACHE ------\n"
+      @pothole = Pothole.new( :lat => params[:pothole][:lat],
+                              :lon=> params[:pothole][:lon],
+                              :reported_date => Time.now,
+                              :reported_by => "web",
+                              :address => params[:pothole][:address],
+                              :zip => params[:pothole][:zip],
+                              :counter => 1,
+                              :city_id => @city.id,
+                              :country_id => @country.id)
+
+      respond_to do |format|
+        if @pothole.save
+          format.html { redirect_to(@pothole, :notice => 'Pothole was successfully created.') }
+          format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
+        end
+      end
+      
+    else
+      print "\n\n\n ----- ACTUALIZO_BACHE ------\n"
+      @count = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]]).counter + 1
+      params[:pothole][:reported_date] = Time.now
+      params[:pothole][:counter] = @count
+      debugger
+#      @pothole = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]])
+      respond_to do |format|
+        if @pothole.update_attributes(params[:pothole])
+          format.html { redirect_to(@pothole, :notice => 'Pothole was successfully updated.') }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
+        end
+      end
+
+    end
+    
+    print "\n\n\n ----- create_pothole_creado ------"    
+    
   end
 
   # PUT /potholes/1
   # PUT /potholes/1.xml
   def update
+    debugger
     @pothole = Pothole.find(params[:id])
 
     respond_to do |format|

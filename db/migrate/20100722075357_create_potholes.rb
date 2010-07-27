@@ -7,9 +7,10 @@ class CreatePotholes < ActiveRecord::Migration
       t.string :reported_by
       t.string :address
       t.string :zip
+      t.integer :counter
       t.references :city
       t.references :country
-
+      
       t.timestamps
     end
   end

@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(:version => 20100722075357) do
     t.string   "reported_by"
     t.string   "address"
     t.string   "zip"
+    t.integer  "counter"
     t.integer  "city_id"
     t.integer  "country_id"
     t.datetime "created_at"
