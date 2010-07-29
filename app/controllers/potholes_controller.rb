@@ -2,7 +2,19 @@ class PotholesController < ApplicationController
   # GET /potholes
   # GET /potholes.xml
   def index
-    @potholes = Pothole.all
+
+    if !params[:name].nil?      
+      @city = City.find_by_name(params[:name])
+      @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])   
+    else
+        if !params[:id].nil?
+            potholes = []
+            potholes << Pothole.find(params[:id])
+            @potholes = potholes
+        else
+            @potholes = Pothole.all
+        end
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -12,15 +24,19 @@ class PotholesController < ApplicationController
 
   # GET /potholes/1
   # GET /potholes/1.xml
-  def show  
-    
-    @pothole = Pothole.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @pothole }
-    end
-  end
+  def show 
+            if !params.nil?
+              @pothole = Pothole.find(params[:id])
+              
+              respond_to do |format|
+                format.html # show.html.erb
+                format.xml  { render :xml => @pothole }
+              end
+              
+            else
+              render :xml => "{'Status':'Error'}"      
+            end
+        end
 
   # GET /potholes/new
   # GET /potholes/new.xml
@@ -130,9 +146,16 @@ class PotholesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
   def getfromcity
   
-	@city = City.find_by_name(params[:name])
-	@potholes = Pothole.find(:city_id => @city.id)
+    print "\n **********" + params[:name] + " ************\n"
+    @city = City.find_by_name(params[:name])
+    @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.xml  { render :xml => @potholes }
+    end
   end
 end

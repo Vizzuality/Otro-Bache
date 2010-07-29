@@ -1,45 +1,31 @@
-<p id="notice"><%= notice %></p>
+<h1>Listing potholes</h1>
 
-<p>
-  <b>Lat:</b>
-  <%= @pothole.lat %>
-</p>
+<table>
+  <tr>
+    <th>Lat</th>
+    <th>Lon</th>
+    <th>Reported date</th>
+    <th>Reported by</th>
+    <th>Address</th>
+    <th>Zip</th>
+    <th>City</th>
+    <th>Country</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr>
+    <td><%= @pothole.lat %></td>
+    <td><%= @pothole.lon %></td>
+    <td><%= @pothole.reported_date %></td>
+    <td><%= @pothole.reported_by %></td>
+    <td><%= @pothole.address %></td>
+    <td><%= @pothole.zip %></td>
+    <td><%= link_to @pothole.city.name, 'cities/' %></td>
+    <td><%= @pothole.country.name %></td>
+    <td><%= link_to 'Edit', edit_pothole_path(@pothole) %></td>
+    <td><%= link_to 'Destroy', @pothole, :confirm => 'Are you sure?', :method => :delete %></td>
+	<td><%= link_to 'Back', potholes_path %></td>
+  </tr>
+</table>
 
-<p>
-  <b>Lon:</b>
-  <%= @pothole.lon %>
-</p>
-
-<p>
-  <b>Reported date:</b>
-  <%= @pothole.reported_date %>
-</p>
-
-<p>
-  <b>Reported by:</b>
-  <%= @pothole.reported_by %>
-</p>
-
-<p>
-  <b>Address:</b>
-  <%= @pothole.address %>
-</p>
-
-<p>
-  <b>Zip:</b>
-  <%= @pothole.zip %>
-</p>
-
-<p>
-  <b>City:</b>
-  <%= @pothole.city.name %>
-</p>
-
-<p>
-  <b>Country:</b>
-  <%= @pothole.country.name %>
-</p>
-
-
-<%= link_to 'Edit', edit_pothole_path(@pothole) %> |
-<%= link_to 'Back', potholes_path %>

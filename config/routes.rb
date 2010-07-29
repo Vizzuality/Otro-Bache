@@ -4,15 +4,17 @@ Otrobache::Application.routes.draw do |map|
   
   resources :potholes
 
-  resources :cities do
-	resources :potholes
-  end
+  # resources :cities do
+	#   resources :potholes
+  # end
   
-  resources :countries do
-	resources :potholes
-  end
+  # resources :countries do
+  #     resources :potholes
+  #   end
   
-  match "cities/:name" => "pothole#getfromcity"
+  match "cities/:name" => "potholes#index"
+  match "potholes/:id" => "potholes#index"
+  match "potholes" => "potholes#index"
   
   # The priority is based upon order of creation:
   # first created -> highest priority.
