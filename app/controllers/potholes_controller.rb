@@ -42,7 +42,7 @@ class PotholesController < ApplicationController
   # POST /potholes.xml
   def create
     print "\n\n\n ----- create_ini ------\n"
-    debugger
+    #debugger
     
     @country =  Country.find_or_create_by_name(params[:pothole][:country])
     @city = City.find_or_create_by_name(params[:pothole][:city], :country_id => @country.id)
@@ -71,13 +71,23 @@ class PotholesController < ApplicationController
       
     else
       print "\n\n\n ----- ACTUALIZO_BACHE ------\n"
-      @count = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]]).counter + 1
-      params[:pothole][:reported_date] = Time.now
-      params[:pothole][:counter] = @count
-      debugger
+      @pothole = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]])
+	  
+      @count = @pothole.counter + 1
+	  
+	  
+      # debugger
 #      @pothole = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]])
       respond_to do |format|
-        if @pothole.update_attributes(params[:pothole])
+        if @pothole.update_attributes(	:lat => params[:pothole][:lat],
+										:lon=> params[:pothole][:lon],
+										:reported_date => Time.now, 
+										:reported_by => "web",
+										:address => params[:pothole][:address],
+										:zip => params[:pothole][:zip],
+										:counter => @count, 
+										:city_id => @city.id,
+										:country_id => @country.id)
           format.html { redirect_to(@pothole, :notice => 'Pothole was successfully updated.') }
           format.xml  { head :ok }
         else
@@ -95,7 +105,7 @@ class PotholesController < ApplicationController
   # PUT /potholes/1
   # PUT /potholes/1.xml
   def update
-    debugger
+    #debugger
     @pothole = Pothole.find(params[:id])
 
     respond_to do |format|
