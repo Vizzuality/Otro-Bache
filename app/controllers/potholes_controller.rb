@@ -130,4 +130,9 @@ class PotholesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  def getfromcity
+  
+	@city = City.find_by_name(params[:name])
+	@potholes = Pothole.find(:city_id => @city.id)
+  end
 end

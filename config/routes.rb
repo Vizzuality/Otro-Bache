@@ -12,6 +12,8 @@ Otrobache::Application.routes.draw do |map|
 	resources :potholes
   end
   
+  match "cities/:name" => "pothole#getfromcity"
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
