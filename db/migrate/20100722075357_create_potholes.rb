@@ -10,7 +10,6 @@ class CreatePotholes < ActiveRecord::Migration
       t.integer :counter
       t.references :city
       t.references :country
-      
       t.timestamps
     end
   end

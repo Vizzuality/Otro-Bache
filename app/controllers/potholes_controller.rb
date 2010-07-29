@@ -147,15 +147,4 @@ class PotholesController < ApplicationController
     end
   end
   
-  def getfromcity
-  
-    print "\n **********" + params[:name] + " ************\n"
-    @city = City.find_by_name(params[:name])
-    @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @potholes }
-    end
-  end
 end
