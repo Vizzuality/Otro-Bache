@@ -3,14 +3,6 @@ Otrobache::Application.routes.draw do |map|
   root :to => 'potholes#index'
   
   resources :potholes
-
-  # resources :cities do
-	#   resources :potholes
-  # end
-  
-  # resources :countries do
-  #     resources :potholes
-  #   end
   
   match "countries/:country" => "potholes#index"
   match "cities/:city" => "potholes#index"
