@@ -21,8 +21,8 @@
     <td><%= @pothole.reported_by %></td>
     <td><%= @pothole.address %></td>
     <td><%= @pothole.zip %></td>
-    <td><%= link_to @pothole.city.name, :controller => "potholes", :action => "index", :name => @pothole.city.name %></td>
-    <td><%= @pothole.country.name %></td>
+    <td><%= link_to @pothole.city.name, root_path+'cities/'+@pothole.city.name %></td>
+    <td><%= link_to @pothole.country.name, root_path+'countries/'+@pothole.country.name %></td>
     <td><%= link_to 'Edit', edit_pothole_path(@pothole) %></td>
     <td><%= link_to 'Destroy', @pothole, :confirm => 'Are you sure?', :method => :delete %></td>
 	<td><%= link_to 'Back', potholes_path %></td>

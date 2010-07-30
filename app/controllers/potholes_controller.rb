@@ -3,8 +3,8 @@ class PotholesController < ApplicationController
   # GET /potholes.xml
   def index
 
-    if !params[:name].nil?      
-      @city = City.find_by_name(params[:name])
+    if !params[:city].nil?      
+      @city = City.find_by_name(params[:city])
       @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])   
     else
         if !params[:id].nil?
@@ -12,7 +12,12 @@ class PotholesController < ApplicationController
             potholes << Pothole.find(params[:id])
             @potholes = potholes
         else
-            @potholes = Pothole.all
+            if !params[:country].nil?
+              @country = Country.find_by_name(params[:country])
+              @potholes = Pothole.find(:all, :conditions => ["country_id = ?", @country.id])
+            else
+              @potholes = Pothole.all
+            end
         end
     end
 
