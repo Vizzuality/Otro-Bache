@@ -47,7 +47,6 @@ class PotholesController < ApplicationController
   # GET /potholes/new.xml
   def new
     @pothole = Pothole.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @pothole }
@@ -57,17 +56,39 @@ class PotholesController < ApplicationController
   # GET /potholes/1/edit
   def edit
     @pothole = Pothole.find(params[:id])
+    
+    @count = @pothole.counter + 1
+    
+    @country =  Country.find_by_id(@pothole.country_id)
+    @city = City.find_by_id(@pothole.city_id)
+
+    respond_to do |format|
+      if @pothole.update_attributes(	:lat => @pothole.lat,
+									:lon=> @pothole.lon,
+									:reported_date => Time.now, 
+									:reported_by => "web",
+									:address => @pothole.address,
+									:zip => @pothole.zip,
+									:counter => @count, 
+									:city_id => @city.id,
+									:country_id => @country.id)
+        format.html { redirect_to(@pothole, :notice => 'Pothole was successfully updated.') }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
+      end
+    end
   end
 
   # POST /potholes
   # POST /potholes.xml
   def create
     print "\n\n\n ----- create_ini ------\n"
-    #debugger
-    
+    debugger
     @country =  Country.find_or_create_by_name(params[:pothole][:country])
     @city = City.find_or_create_by_name(params[:pothole][:city], :country_id => @country.id)
-    
+    debugger
     if (Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]]) == nil)
       print "\n\n\n ----- NUEVO_BACHE ------\n"
       @pothole = Pothole.new( :lat => params[:pothole][:lat],
@@ -95,10 +116,7 @@ class PotholesController < ApplicationController
       @pothole = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]])
 	  
       @count = @pothole.counter + 1
-	  
-	  
-      # debugger
-#      @pothole = Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]])
+
       respond_to do |format|
         if @pothole.update_attributes(	:lat => params[:pothole][:lat],
 										:lon=> params[:pothole][:lon],
