@@ -1,14 +1,75 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Otrobache</title>
-  <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
-  <%= csrf_meta_tag %>
-</head>
-<body>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+	<head lang="es" xml:lang="es"> 
+		<title>OtroBache.es - Reporta baches en tu localidad</title>
+		
+		<%= stylesheet_link_tag "layout" %>	
+		<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
+		<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+		<%= javascript_include_tag "jquery.tools.min.js" %>
+		<%= javascript_include_tag "application.js" %>
 
-<%= yield %>
+	  	<%= csrf_meta_tag %>
+	
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+		<meta name="keywords" content="bache, carretera, arreglar, ayuntamiento, socabón">	
+		<meta name="author" content="otrobache.com"> 
+		<meta name="description" content="OtroBache es una iniciativa para reportar los baches en tu ciudad. Busca en el mapa la direccion y envia el bache. Pronto podras realizar a traves de tu Iphone, Android o Blackberry.">
 
-</body>
+	</head> 
+	
+	<body onload="initialize()">
+		
+		<div class="outer_layout top">
+			<div class="header">
+				<div class="header_left">
+					<a href="/"><p class="logo"><sup>(Madrid)</sup></p></a>
+				</div>
+				<div class="header_right">
+					<img src="images/select_arrow.png" alt="select">
+					<ul>
+						<li><a href="#">BACHES</a></li>
+						<li><a href="#">DESCARGAS</a></li>
+						<li><a class="no_margin" href="#">SABER MÁS</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+		<%= yield %>
+		
+		
+		<div class="outer_layout gray">
+			<div class="footer">
+				<img src="images/iphone_nexus.png" alt="iPhone and Android">
+				<div class="footer_left">
+					<h2>Descarga la aplicación en tu móvil<br/> 
+					y reporta baches de la manera más<br/>
+					rápida y cómoda</h2>
+					<p>Las ciudades están llenas de baches. Los vemos mientras vamos al trabajo, a la compra o andando con nuestros amigos.</p>
+					<p>Por eso, hemos preparado una aplicación totalmente gratuíta, para que puedas reportar los baches que encuentres desde tu iphone / android.</p>
+
+					<div class="download">
+						<h3>Descarga para</h3>
+						<a href="#" class="iphone"></a>
+						<a href="#" class="android"></a>
+					</div>
+				</div>
+
+				<div class="footer_right">
+					<ul>
+						<li><a href="#">BACHES</a></li>
+						<li><a href="#">DESCARGA</a></li>
+						<li><a href="#">SABER MÁS</a></li>
+					</ul>
+					<div class="information">
+						<p class="project">otrobache.com</p>
+						<p class="vizzuality">Un proyecto de vizzuality</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 </html>

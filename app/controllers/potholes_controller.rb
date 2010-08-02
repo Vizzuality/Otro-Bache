@@ -20,6 +20,23 @@ class PotholesController < ApplicationController
             end
         end
     end
+    
+    @cities = City.all
+
+    # How many potholes are in Madrid?
+    @madrid = City.find_by_name("Madrid")
+    @potholes_mad = Pothole.find(:all, :conditions => ["city_id = ?", @madrid.id])
+    
+    # Tell me all the cities with pohtoles
+    @cities = City.find :all, :joins => [:potholes]
+    
+    # I want to create a new array with the data of the city and the number of potholes that there are
+    @cities_and_count = []
+    
+    @cities.each do |city|
+      @counter = Pothole.count(:conditions => ["city_id = ?", city.id])         
+      @cities_and_count << {:city => city, :counter => @counter} 
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -32,7 +49,7 @@ class PotholesController < ApplicationController
   def show 
             if !params.nil?
               @pothole = Pothole.find(params[:id])
-              
+                            
               respond_to do |format|
                 format.html # show.html.erb
                 format.xml  { render :xml => @pothole }
@@ -85,7 +102,7 @@ class PotholesController < ApplicationController
   # POST /potholes.xml
   def create
     print "\n\n\n ----- create_ini ------\n"
-    debugger
+    
     @country =  Country.find_or_create_by_name(params[:pothole][:country])
     @city = City.find_or_create_by_name(params[:pothole][:city], :country_id => @country.id)
     debugger

@@ -1,3 +1,133 @@
+<div class="outer_layout sub">
+	<div class="subheader">
+		<div class="subheader_left">
+			<h3>Que nosotros sepamos,</h3>
+			<h1>hay <strong><%= @potholes_mad.size %> <%= (@potholes_mad.size > 1)? 'baches' : 'bache'%> en Madrid</strong></h1>
+		</div>
+		<div class="subheader_right"></div>
+	</div>
+</div>
+
+<div class="outer_layout map">
+	<div class="main_map">
+		<div class="main_map_left">
+			<div class="border_map">
+				<div id="main_map"></div>
+				<div class="geocorder">
+					<div class="left">
+						<p>Busca cerca de </p>
+						<form action="javascript:void geocorder()">
+							<input type="text" value="" />
+							<input type="submit" value="" />
+						</form>
+					</div>
+					<div class="right">
+						<a href="javascript:void addNewPothole()" id="send_pothole"></a>
+					</div>
+				</div>
+				<div id="mamufas_main">
+					<%= image_tag("ajax-loader.gif") %>
+				</div>
+				<p class="click">Pulsa en cualquier parte del mapa para añadir el marker</p>
+				<p class="done">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+
+				<%= image_tag("map_shadow.png", :class => "shadow") %>
+
+			</div>
+		</div>
+		<div class="main_map_right">
+			<label>Municipios cerca</label>
+			<ul class="margin" id="locations_list">
+				<% @cities_and_count.each do |city| %>
+					<li><a class="stat" href="#"><span><%= city[:city].name %></span><p class="number"><%= city[:counter] %></p></a></li>
+				<% end %>
+				<li><a class="others" href="#">Otros municipios</a></li>
+			</ul>
+			<label>Ver todos los baches en</label>
+			<ul>
+				<li><a class="stat" href="#"><span>España</span></a></li>
+			</ul>
+			<a href="#" class="add_pothole" id="addPothole"></a>
+		</div>
+	</div>
+</div>
+
+<div class="outer_layout list">
+	<div class="sort">
+		<p>Ordenar: <a class="selected" href="#">Últimos primero</a> | <a href="#">Más confirmados</a></p>
+	</div>
+	<ul id="pothole_list">	
+		
+		<% @potholes.each do |pothole| %>
+			<li class="first">
+				<div class="outer_item">
+					<div class="pothole_inf">
+						<a href="#" class="view_more"></a>
+						<div class="image"> 						
+							<img src= <%= (pothole.counter > 1)? 'images/plus.png' : 'images/reported.png'%>  alt="reported">
+						</div>
+						<div class="data">
+							<p class="place"><%= pothole.address %> <strong>(<%= pothole.zip %>, <%= pothole.city.name %>)</strong></p>
+							<p class="reported"><strong class="count"><%= pothole.counter %></strong> 
+							
+							<% if (pothole.counter > 1) %> 
+								veces 
+							<% else %> 
+								vez 
+							<% end %> reportado. Última vez hace 
+							
+							<strong><%= Time.now - pothole.reported_date %></strong> días</p>
+							
+							<p class="hidden lat"><%= pothole.lat %></p>
+							<p class="hidden lon"><%= pothole.lon %></p>
+							<p class="hidden days"><%= pothole.reported_date %></p>
+						</div>
+					</div>
+				</div>
+			</li>
+		<% end %>
+		<li class="selected">
+			<div class="pothole_data">
+				<div class="left_selected">
+					<a href="javascript:void closeSelectedItem()" class="close_arrow" id="close_selected"></a>
+					<img src="images/gray_arrow.png" alt="grey arrow" class="grey_arrow"/>
+					<div class="information">
+						<p class="place">c/Jacobinia, cerca del 38</p>
+						<p class="reported">2 veces reportado. Última vez <strong>hace 23 días</strong></p>
+					</div>
+					<div class="border_map">
+						<div id="selected_map"></div>
+						<div id="mamufas_selected">
+							<img src="images/ajax-loader.gif" />
+						</div>
+					</div>
+					<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+					<a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
+				</div>
+				<div class="right_selected">
+					<div class="social_media">
+						<p>Quéjate en...</p>
+						<p><a href="#">facebook</a>/<a href="#">twitter</a></p>
+					</div>						
+					<p class="first">Lleva</p>
+					<p class="days">65 días</p>
+					<p class="first">sin ser arreglado</p>
+					<p class="first gray">(que nosotros sepamos)</p>
+				</div>
+			</div>
+		</li>
+	</ul>
+	<div class="background_summary">
+		<div class="summary">
+			<p>viendo los <strong>
+			<%= (@potholes.size < 10)? @potholes.size : '10'%>
+			últimos baches</strong></p>
+			<a href="#" class="view_more"></a>
+		</div>
+	</div>
+</div>
+
+
 <h1>Listing potholes</h1>
 
 <table>
