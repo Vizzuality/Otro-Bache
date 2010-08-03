@@ -7,7 +7,7 @@ var add_marker;
 var geocoder;
 var layer;
 var reported_potholes;
-
+var id_pothole; 
 var map_enabled = false;
 
 
@@ -148,7 +148,10 @@ $(document).ready(function() {
     map = new google.maps.Map(document.getElementById("main_map"), myOptions);
 		map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
 		
-		layer = new google.maps.FusionTablesLayer(136993);
+		
+		// The official id is 136993
+		// The developer id is 225314
+		layer = new google.maps.FusionTablesLayer(225314);
 		layer.setMap(map);
 		
 		google.maps.event.addListener(map, 'click', function(event) {
@@ -176,11 +179,13 @@ $(document).ready(function() {
 	//Get pothole data
 	function getPotholeData(element) {
 		var data = new Object();
+
 		data.address = $(element).find('p.place').text();
 		data.reported = $(element).find('p.reported').html();
 		data.lat = $(element).find('p.lat').text();
 		data.lon = $(element).find('p.lon').text();
 		data.days = $(element).find('p.days').text();
+		
 		
 		return data;
 	}
@@ -234,6 +239,10 @@ $(document).ready(function() {
 	
 	//Confirm pothole showed in the list
 	function confirmPothole() {
+		
+		id_pothole = $('p.id_pothole').html();
+		
+		console.log(id_pothole);
 		$("li.selected").expose({
 				closeOnClick: false,
 				closeOnEsc: false,
@@ -245,7 +254,7 @@ $(document).ready(function() {
 				}
 		 });
 		
-  	$.ajax({ url: "/amfphp/json.php/OtroBache.reportBache/"+marker.getPosition().lat()+"/"+marker.getPosition().lng()+"/web", method:'GET', success: function(){
+  		$.ajax({ url: "/report/"+ id_pothole, method:'POST', success: function(){
     	$('#mamufas_selected').fadeOut('fast');
 			$('p.confirm_tooltip').fadeIn();
 			$('p.confirm_tooltip').delay(4000).fadeOut();
@@ -262,7 +271,6 @@ $(document).ready(function() {
 					}
 			});
 			
-			
 			var pothole_ = new Object();
 			pothole_.lat = marker.getPosition().lat();
 			pothole_.lon = marker.getPosition().lng();
@@ -271,14 +279,12 @@ $(document).ready(function() {
 		
 	}
 	
-	
-
 	//Confirm pothole showed in the list
 	function addNewPothole() {
 		if (add_marker!=null && add_marker.getMap()!=null) {
 			$('#mamufas_main').fadeIn('fast');
 			$('div.main_map_left div.border_map p.click').fadeOut();
-	  	$.ajax({ url: "/amfphp/json.php/OtroBache.reportBache/"+add_marker.getPosition().lat()+"/"+add_marker.getPosition().lng()+"/web", method:'GET', success: function(){
+	  	$.ajax({ url: "/create",data: "lat="+add_marker.getPosition().lat()+"&long="+add_marker.getPosition().lng(), method:'POST', success: function(){
 	  	    	$('#mamufas_main').fadeOut('fast');
 	  				$('div.main_map_left div.border_map p.done').fadeIn();
 	  				$('div.main_map_left div.border_map p.done').delay(4000).fadeOut();

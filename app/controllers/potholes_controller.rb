@@ -72,15 +72,16 @@ class PotholesController < ApplicationController
 
   # GET /potholes/1/edit
   def edit
+
     @pothole = Pothole.find(params[:id])
     
     @count = @pothole.counter + 1
     
     @country =  Country.find_by_id(@pothole.country_id)
     @city = City.find_by_id(@pothole.city_id)
-
+    
     respond_to do |format|
-      if @pothole.update_attributes(	:lat => @pothole.lat,
+      if @pothole.update_attributes(:lat => @pothole.lat,
 									:lon=> @pothole.lon,
 									:reported_date => Time.now, 
 									:reported_by => "web",
@@ -89,7 +90,7 @@ class PotholesController < ApplicationController
 									:counter => @count, 
 									:city_id => @city.id,
 									:country_id => @country.id)
-        format.html { redirect_to(@pothole, :notice => 'Pothole was successfully updated.') }
+        format.html { redirect_to :controller => "potholes", :action => "index" }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -101,26 +102,28 @@ class PotholesController < ApplicationController
   # POST /potholes
   # POST /potholes.xml
   def create
-    print "\n\n\n ----- create_ini ------\n"
+
+    @address = "Calle Melancolia"
+    @country =  Country.find_or_create_by_name("Spain")
+    @city = City.find_or_create_by_name("Madrid", :country_id => @country.id)
+    @zip = "28023"
     
-    @country =  Country.find_or_create_by_name(params[:pothole][:country])
-    @city = City.find_or_create_by_name(params[:pothole][:city], :country_id => @country.id)
-    debugger
-    if (Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:pothole][:lat], params[:pothole][:lon]]) == nil)
+    if (Pothole.find(:first, :conditions => ["lat = ? AND lon = ?", params[:lat], params[:long]]) == nil)
       print "\n\n\n ----- NUEVO_BACHE ------\n"
-      @pothole = Pothole.new( :lat => params[:pothole][:lat],
-                              :lon=> params[:pothole][:lon],
+      @pothole = Pothole.new( :lat => params[:lat],
+                              :lon=> params[:long],
                               :reported_date => Time.now,
                               :reported_by => "web",
-                              :address => params[:pothole][:address],
-                              :zip => params[:pothole][:zip],
+                              :address => @address,
+                              :zip => @zip,
                               :counter => 1,
                               :city_id => @city.id,
                               :country_id => @country.id)
 
       respond_to do |format|
         if @pothole.save
-          format.html { redirect_to(@pothole, :notice => 'Pothole was successfully created.') }
+          format.html { redirect_to :controller => "potholes", :action => "index" }
+          # format.xml  { head :ok }
           format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
         else
           format.html { render :action => "new" }
@@ -144,7 +147,7 @@ class PotholesController < ApplicationController
 										:counter => @count, 
 										:city_id => @city.id,
 										:country_id => @country.id)
-          format.html { redirect_to(@pothole, :notice => 'Pothole was successfully updated.') }
+          format.html { redirect_to :controller => "potholes", :action => "index" }
           format.xml  { head :ok }
         else
           format.html { render :action => "edit" }

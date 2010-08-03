@@ -2,12 +2,21 @@ Otrobache::Application.routes.draw do |map|
 
   root :to => 'potholes#index'
   
-  resources :potholes
-  
+  resources :potholes    
+  # match "create(/:lat/:long)" => "potholes#create"     
+    
+    
   match "countries/:country" => "potholes#index"
   match "cities/:city" => "potholes#index"
   match "potholes/:id" => "potholes#index"
+  
+  match "report/:id" => "potholes#edit"  
+  match "create" => "potholes#create"
   match "potholes" => "potholes#index"
+
+
+  # map.latlongroute 'create/:lat/:lng' :controller 
+  
   
   # The priority is based upon order of creation:
   # first created -> highest priority.

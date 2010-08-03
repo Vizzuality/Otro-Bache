@@ -38,8 +38,8 @@
 		<div class="main_map_right">
 			<label>Municipios cerca</label>
 			<ul class="margin" id="locations_list">
-				<% @cities_and_count.each do |city| %>
-					<li><a class="stat" href="#"><span><%= city[:city].name %></span><p class="number"><%= city[:counter] %></p></a></li>
+				<% @cities_and_count.each do |city| %>				
+					<li><a class="stat" href="/cities/<%= city[:city].name %>"><span><%= city[:city].name %></span><p class="number"><%= city[:counter] %></p></a></li>
 				<% end %>
 				<li><a class="others" href="#">Otros municipios</a></li>
 			</ul>
@@ -63,8 +63,8 @@
 				<div class="outer_item">
 					<div class="pothole_inf">
 						<a href="#" class="view_more"></a>
-						<div class="image"> 						
-							<img src= <%= (pothole.counter > 1)? 'images/plus.png' : 'images/reported.png'%>  alt="reported">
+						<div class="image">
+							<%= image_tag((pothole.counter > 1)? "plus.png" : "reported.png", :alt => "reported") %>
 						</div>
 						<div class="data">
 							<p class="place"><%= pothole.address %> <strong>(<%= pothole.zip %>, <%= pothole.city.name %>)</strong></p>
@@ -76,10 +76,14 @@
 								vez 
 							<% end %> reportado. Última vez hace 
 							
-							<strong><%= Time.now - pothole.reported_date %></strong> días</p>
+							<strong>N/A</strong> días</p>
+
+							<!-- <%= Time.now - pothole.reported_date %> -->
+							
 							
 							<p class="hidden lat"><%= pothole.lat %></p>
 							<p class="hidden lon"><%= pothole.lon %></p>
+							<p class="hidden id_pothole"><%= pothole.id %></p>
 							<p class="hidden days"><%= pothole.reported_date %></p>
 						</div>
 					</div>
@@ -90,7 +94,7 @@
 			<div class="pothole_data">
 				<div class="left_selected">
 					<a href="javascript:void closeSelectedItem()" class="close_arrow" id="close_selected"></a>
-					<img src="images/gray_arrow.png" alt="grey arrow" class="grey_arrow"/>
+					<%= image_tag("gray_arrow.png", :class=>"grey_arrow", :alt => "grey arrow") %>
 					<div class="information">
 						<p class="place">c/Jacobinia, cerca del 38</p>
 						<p class="reported">2 veces reportado. Última vez <strong>hace 23 días</strong></p>
@@ -98,7 +102,7 @@
 					<div class="border_map">
 						<div id="selected_map"></div>
 						<div id="mamufas_selected">
-							<img src="images/ajax-loader.gif" />
+							<%= image_tag("ajax-loader.gif") %>
 						</div>
 					</div>
 					<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
