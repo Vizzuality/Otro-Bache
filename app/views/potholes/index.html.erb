@@ -1,8 +1,16 @@
 <div class="outer_layout sub">
 	<div class="subheader">
 		<div class="subheader_left">
-			<h3>Que nosotros sepamos,</h3>
-			<h1>hay <strong><%= @potholes_mad.size %> <%= (@potholes_mad.size > 1)? 'baches' : 'bache'%> en Madrid</strong></h1>
+			
+			<% if (@potholes_size_actual > 0) %>
+				<h3>Que nosotros sepamos,</h3>
+				<h1>hay <strong><%= @potholes_size_actual %> <%= (@potholes_size_actual > 1)? 'baches' : 'bache'%> en <%= truncate(@actual_term_searched,18,"...") %></strong></h1>
+			<% else %>
+				<h3>No tenemos baches reportados</h3>
+				<h1><strong>¡Reporta el primero!</strong></h1>
+			<% end %>
+			
+			
 		</div>
 		<div class="subheader_right"></div>
 	</div>
@@ -39,13 +47,13 @@
 			<label>Municipios cerca</label>
 			<ul class="margin" id="locations_list">
 				<% @cities_and_count.each do |city| %>				
-					<li><a class="stat" href="/cities/<%= city[:city].name %>"><span><%= city[:city].name %></span><p class="number"><%= city[:counter] %></p></a></li>
+					<li><a class="stat" href="/cities/<%= city[:city].name %>"><span><%= truncate(city[:city].name,18,"...") %></span><p class="number"><%= city[:counter] %></p></a></li>
 				<% end %>
 				<li><a class="others" href="#">Otros municipios</a></li>
 			</ul>
 			<label>Ver todos los baches en</label>
 			<ul>
-				<li><a class="stat" href="#"><span>España</span></a></li>
+				<li><a class="stat" href="/countries/spain"><span>España</span></a></li>
 			</ul>
 			<a href="#" class="add_pothole" id="addPothole"></a>
 		</div>
@@ -67,7 +75,7 @@
 							<%= image_tag((pothole.counter > 1)? "plus.png" : "reported.png", :alt => "reported") %>
 						</div>
 						<div class="data">
-							<p class="place"><%= pothole.address %> <strong>(<%= pothole.zip %>, <%= pothole.city.name %>)</strong></p>
+							<p class="place"><%= truncate(pothole.address, 50, "...") %> <strong>(<%= pothole.zip %>, <%= truncate(pothole.city.name, 10, "...") %></strong></p>
 							<p class="reported"><strong class="count"><%= pothole.counter %></strong> 
 							
 							<% if (pothole.counter > 1) %> 
@@ -79,8 +87,6 @@
 							<strong>N/A</strong> días</p>
 
 							<!-- <%= Time.now - pothole.reported_date %> -->
-							
-							
 							<p class="hidden lat"><%= pothole.lat %></p>
 							<p class="hidden lon"><%= pothole.lon %></p>
 							<p class="hidden id_pothole"><%= pothole.id %></p>
@@ -111,7 +117,7 @@
 				<div class="right_selected">
 					<div class="social_media">
 						<p>Quéjate en...</p>
-						<p><a href="#">facebook</a>/<a href="#">twitter</a></p>
+						<p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
 					</div>						
 					<p class="first">Lleva</p>
 					<p class="days">65 días</p>
@@ -123,51 +129,14 @@
 	</ul>
 	<div class="background_summary">
 		<div class="summary">
-			<p>viendo los <strong>
-			<%= (@potholes.size < 10)? @potholes.size : '10'%>
-			últimos baches</strong></p>
-			<a href="#" class="view_more"></a>
+			<% if (@potholes.size > 1) %>
+				<p>viendo los <%= (@potholes.size < 10)? @potholes.size : '10'%> últimos baches</strong></p><strong>
+				<% if (@potholes.size > 10) %>
+					<a href="#" class="view_more"></a>	
+				<%end%>
+			<% else %>
+				<p>viendo el único bache</p>
+			<% end %>			
 		</div>
 	</div>
 </div>
-
-
-<h1>Listing potholes</h1>
-
-<table>
-  <tr>
-    <th>Lat</th>
-    <th>Lon</th>
-    <th>Reported date</th>
-    <th>Reported by</th>
-    <th>Address</th>
-    <th>Zip</th>
-    <th>City</th>
-    <th>Country</th>
-    <th>Nº veces reportado</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @potholes.each do |pothole| %>
-  <tr>
-    <td><%= pothole.lat %></td>
-    <td><%= pothole.lon %></td>
-    <td><%= pothole.reported_date %></td>
-    <td><%= pothole.reported_by %></td>
-    <td><%= pothole.address %></td>
-    <td><%= pothole.zip %></td>
-    <td><%= link_to pothole.city.name, root_path+'cities/'+pothole.city.name %></td>
-    <td><%= link_to pothole.country.name, root_path+'countries/'+pothole.country.name %></td>
-	<td><%= pothole.counter %></td>
-    <td><%= link_to 'Show', pothole %></td>
-    <td><%= link_to 'Reporta', edit_pothole_path(pothole) %></td>
-    <td><%= link_to 'Destroy', pothole, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-<%= link_to 'New Pothole', new_pothole_path %>

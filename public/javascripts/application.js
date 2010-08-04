@@ -44,21 +44,29 @@ $(document).ready(function() {
 	});
 	
 	
-	//List with stats in pothole locations && truncate locations text
+	
 	$('ul#locations_list li').each(function(ev){
-		if ($(this).children('a').children('span').text().length > 14) {
-			var location = $(this).children('a').children('span').text();
-			$(this).children('a').children('span').text(location.substring(0,12)+'...');
-		}
 		var number = $(this).children('a').children('p.number').text();
-		$(this).children('a').children('span').attr('alt',getBarLocationWith(number)+'px');
-		$(this).children('a').children('span').css('width',getBarLocationWith(number)+'px');
+		$(this).children('a').children('span').attr('alt',getBarPosition(number)+'px 0px');
+		 $(this).children('a').children('span').css('background-position', getBarPosition(number)+'px 0px');
 	});
 	
-	$('ul#locations_list li a span').hover(function(ev){
-		$(this).css('width','185px');
+	
+	// To show over background to the right side
+	$('ul#locations_list li a').hover(function(ev){
+		var number = $(this).children('p.number').text();
+		$(this).children('span').css('background-position', getBarPosition(number)+'px -23px');
+
 	},function(ev){
-		$(this).css('width',$(this).attr('alt'));
+		$(this).children('span').css('background-position',$(this).children('span').attr('alt'));
+	});
+	
+	
+	$('ul#locations_list li a span').hover(function(ev){
+		$(this).css('background-position','0 -23px');
+
+	},function(ev){
+		$(this).css('background-position',$(this).attr('alt'));
 	});
 	
 	
@@ -165,13 +173,23 @@ $(document).ready(function() {
 		});
   }
 
-
+	// DEPRECATED
 	//Calculate location bar width
 	function getBarLocationWith(num) {
 		if (num<max_potholes) {
 			return (185*num)/max_potholes;
 		} else {
 			return 185;
+		}
+	}
+	
+	//Calculate location bar width
+	function getBarPosition(num) {
+		if (num<max_potholes) {
+			var position = 185 - (num * 2);
+			return (position * -1);
+		} else {
+			return 0;
 		}
 	}
 	
@@ -242,7 +260,6 @@ $(document).ready(function() {
 		
 		id_pothole = $('p.id_pothole').html();
 		
-		console.log(id_pothole);
 		$("li.selected").expose({
 				closeOnClick: false,
 				closeOnEsc: false,
@@ -266,7 +283,7 @@ $(document).ready(function() {
 			$("ul#pothole_list li").each( function(i) {
 					if (!$(this).is(':visible')) {
 						$(this).find('p.reported').text(counts +  ' veces reportado.');
-						$(this).find('div.image img').attr('src','images/reported.png');
+						$(this).find('div.image img').attr('src','/images/reported.png');
 						return;
 					}
 			});
@@ -294,7 +311,6 @@ $(document).ready(function() {
 		} else {
 			alert('No hay ningún punto marcado en el mapa');
 		}
-
-		
+	
 	}
 	
