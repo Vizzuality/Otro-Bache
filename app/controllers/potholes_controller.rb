@@ -1,7 +1,6 @@
 # encoding: utf-8
 class PotholesController < ApplicationController
   
-  
   # define('FLICKR_API_KEY', '83d63b531d7eb41fbaa916b1bc65ca9a');
   # define('FLICKR_API_SECRET', 'e4dac314a1e456af');
   
@@ -46,7 +45,6 @@ class PotholesController < ApplicationController
     # Cities near
     @cities = City.all
     
-
     # Tell me all the cities with potholes
     @cities = City.find :all
     # @cities = City.find :all, :joins => [:potholes]
@@ -134,12 +132,13 @@ class PotholesController < ApplicationController
     
     @result = JSON.parse(@result)
     
-    # Comprobar si viene a nil alguno de los valores
+    # Comprobar si viene a nil alguno de los valores (google los puede devolver de aquella manera)
     @address = @result["Placemark"][0]["address"]
     @city_name = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["LocalityName"]
     
     # Proabably nil
     @zip = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["PostalCode"]["PostalCodeNumber"]
+    
     if @zip.nil? 
       @zip = "N/A" 
     end
