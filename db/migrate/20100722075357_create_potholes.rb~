@@ -6,7 +6,6 @@ class CreatePotholes < ActiveRecord::Migration
       t.datetime :reported_date
       t.string :reported_by
       t.string :address
-      t.string :addressline
       t.string :zip
       t.references :city
       t.references :country
