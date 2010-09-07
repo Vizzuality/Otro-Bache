@@ -86,7 +86,6 @@
 							
 							<strong>N/A</strong> días</p>
 
-							<!-- <%= Time.now - pothole.reported_date %> -->
 							<p class="hidden lat"><%= pothole.lat %></p>
 							<p class="hidden lon"><%= pothole.lon %></p>
 							<p class="hidden id_pothole"><%= pothole.id %></p>

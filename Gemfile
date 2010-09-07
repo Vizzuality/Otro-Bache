@@ -21,7 +21,7 @@ gem 'ruby-debug19', :require => 'ruby-debug'
 
 gem 'gdata'
 
-gem 'fusion_tables', '0.2.0'
+gem 'fusion_tables', '0.2.2'
 
 # Bundle the extra gems:
 # gem 'bj'

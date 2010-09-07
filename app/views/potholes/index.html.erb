@@ -72,13 +72,13 @@
 					<div class="pothole_inf">
 						<a href="#" class="view_more"></a>
 						<div class="image">
-							<%= image_tag((pothole.counter > 1)? "plus.png" : "reported.png", :alt => "reported") %>
+							<%= image_tag((pothole.counter.to_i > 1)? "plus.png" : "reported.png", :alt => "reported") %>
 						</div>
 						<div class="data">
 							<p class="place"><%= truncate(pothole.address, 50, "...") %> <strong>(<%= pothole.zip %>, <%= truncate(pothole.city.name, 10, "...") %></strong></p>
-							<p class="reported"><strong class="count"><%= pothole.counter %></strong> 
+							<p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong> 
 							
-							<% if (pothole.counter > 1) %> 
+							<% if (pothole.counter.to_i > 1) %> 
 								veces 
 							<% else %> 
 								vez 

@@ -35,9 +35,10 @@ GEM
     columnize (0.3.1)
     erubis (2.6.6)
       abstract (>= 1.0.0)
-    fusion_tables (0.2.0)
-      gdata (>= 1.1.1)
+    fusion_tables (0.2.2)
+      gdata_19 (>= 1.1.2)
     gdata (1.1.1)
+    gdata_19 (1.1.2)
     i18n (0.4.1)
     linecache19 (0.5.11)
       ruby_core_source (>= 0.1.4)
@@ -86,7 +87,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  fusion_tables (= 0.2.0)
+  fusion_tables (= 0.2.2)
   gdata
   pg
   rails (= 3.0.0.beta4)

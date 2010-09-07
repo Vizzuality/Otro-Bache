@@ -11,8 +11,9 @@ class PotholesController < ApplicationController
             
     if !params[:city].nil?      
       @city = City.find_by_name(params[:city])
-      @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])   
-      
+      #      @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])   
+      @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where city_id = ? order by reported_date DESC", @city.id]
+
       # To show it in the title
       @actual_term_searched = @city.name
       
@@ -21,12 +22,14 @@ class PotholesController < ApplicationController
     else
         if !params[:id].nil?
             potholes = []
-            potholes << Pothole.find(params[:id])
-            @potholes = potholes
+            #potholes << Pothole.find(params[:id])
+            #@potholes = potholes
+            @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where id = ? order by reported_date DESC", params[:id]]
         else
             if !params[:country].nil?
               @country = Country.find_by_name(params[:country])
-              @potholes = Pothole.find(:all, :conditions => ["country_id = ?", @country.id])
+              #@potholes = Pothole.find(:all, :conditions => ["country_id = ?", @country.id])
+              @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where country_id = ? order by reported_date DESC", @country.id]              
               
               # How many potholes we have in the city that we are showing
               @potholes_size_actual = @potholes.size
@@ -35,7 +38,8 @@ class PotholesController < ApplicationController
                 @actual_term_searched = "España"
               end 
             else              
-              @potholes = Pothole.all
+              #@potholes = Pothole.all
+              @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p order by reported_date DESC"]
               @potholes_size_actual = @potholes.size
               @actual_term_searched = "total"
             end
@@ -152,21 +156,18 @@ class PotholesController < ApplicationController
     @city = City.find_or_create_by_name(@city_name, :country_id => @country.id)
     
     # Data in correct format:
-	 # LAT: 				40.43937044868159 		-> 40.3855
-	 # LON: 				-3.7282773120117163 		-> -3.70822
+	 # LAT: 				40.43937044868159 		-> 40.43937
+	 # LON: 				-3.7282773120117163 		-> -3.72822
 	 # Reported_date: 09-02-2010					-> 08/30/10 13:42:59
 	 # Address: Av de Juan de Herrera, 2, 28040 Madrid, Spain 
 	 #				-> Calle de Marcelo Usera| 104| 28026 Madrid| Spain
 	 # -----
-	 lat = params[:lat][0..6]
-	 long = params[:long][0..6]
+	 lat = params[:lat][0..7]
+	 long = params[:long][0..7]
 	 @address = @address.gsub(",","|")
 	 @addressline = @addressline.gsub(",","|")  
-	 reported_date = Time.now.strftime("%d/%m/%y %H:%M:%S")
-
-        
-#            data = [{"lat" => "40.4393", "lon" => "-3.7282", "reported_date" => reported_date, "reported_by" => "web", "address" => @address, "zip" => "28040", "city" => "madrid", "country" => "Spain", "addressline" => @addressline}]    
-
+	 reported_date = Time.now
+    
     # $addressline="";
     # $addressline= $jsondata['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['Locality']['AddressLine'][0];
     # 
@@ -184,6 +185,8 @@ class PotholesController < ApplicationController
     config = YAML::load_file("#{Rails.root}/config/credentials.yml")
     ft.clientlogin(config["google_username"], config["google_password"])
     my_table = ft.show_tables[0]
+
+	 #my_table.select COUNT() from "name", "WHERE x=n"
     # --------------
 
     print "\n\n\n ----- NUEVO_BACHE ------\n"
