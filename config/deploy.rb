@@ -7,7 +7,7 @@ require "bundler/capistrano"
 
 default_run_options[:pty] = true
 
-set :application, 'otro-bache'
+set :application, 'otrobache'
 
 set :scm, :git
 # set :git_enable_submodules, 1
