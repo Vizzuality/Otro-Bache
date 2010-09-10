@@ -44,3 +44,5 @@ module Otrobache
     config.filter_parameters += [:password]
   end
 end
+
+require 'extensions/arel'

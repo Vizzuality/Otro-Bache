@@ -1,7 +1,6 @@
 # encoding: utf-8
 class PotholesController < ApplicationController
 
-  include ActionView::Helpers::DateHelper
   # define('FLICKR_API_KEY', '83d63b531d7eb41fbaa916b1bc65ca9a');
   # define('FLICKR_API_SECRET', 'e4dac314a1e456af');
   
@@ -41,7 +40,19 @@ class PotholesController < ApplicationController
               end 
             else              
               #@potholes = Pothole.all
-              @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p order by reported_date DESC"]
+              sql="select distinct on (address,reported_date) *,
+                (select count(id) from potholes where address=p.address)as counter from potholes as p 
+                order by reported_date DESC"
+              sqlCount="select count(*) as count from ("+sql+") as sql"
+              numPotholes=Pothole.find_by_sql(sqlCount).first.count.to_i
+              
+              
+              current_page = params[:page].blank? ? 1 : params[:page].to_i
+              @potholes = WillPaginate::Collection.create(current_page, 10, numPotholes) do |pager| 
+                potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
+                pager.replace(potholes)
+              end
+              
               @potholes_size_actual = @potholes.size
               @actual_term_searched = "total"
             end
@@ -63,7 +74,8 @@ class PotholesController < ApplicationController
     #  @counter = Pothole.count(:conditions => ["city_id = ?", city.id])         
     #  @cities_and_count << {:city => city, :counter => @counter} 
     #end
-    @cities_and_count = Pothole.find_by_sql ["select c.id, c.name, count(p.city_id) as counter from cities c, potholes p where c.id=p.city_id GROUP BY c.id, c.name ORDER BY counter DESC"]
+    @cities_and_count = Pothole.find_by_sql("select c.id, c.name, count(p.city_id) as counter 
+      from cities c, potholes p where c.id=p.city_id GROUP BY c.id, c.name ORDER BY counter DESC limit 5")
     
     respond_to do |format|
       format.html # index.html.erb

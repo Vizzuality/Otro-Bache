@@ -130,10 +130,10 @@
 	</ul>
 	<div class="background_summary">
 		<div class="summary">
-			<% if (@potholes.size > 1) %>
-				<p>viendo los <%= (@potholes.size < 10)? @potholes.size : '10'%> últimos baches</strong></p><strong>
-				<% if (@potholes.size > 10) %>
-					<a href="#" class="view_more"></a>	
+			<% if (@potholes.total_entries > 1) %>
+				<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
+				<% if (@potholes.total_pages > 1) %>
+					<a href="<%=url_for(params.merge(:page=>@potholes.next_page))%>" class="view_more"></a>	
 				<%end%>
 			<% else %>
 				<p>viendo el único bache</p>

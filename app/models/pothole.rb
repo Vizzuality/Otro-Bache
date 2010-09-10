@@ -5,6 +5,6 @@ class Pothole < ActiveRecord::Base
   validates :zip, :presence => true  
   belongs_to :city
   belongs_to :country
-  
+  has_geom :the_geom => :point
   
 end
