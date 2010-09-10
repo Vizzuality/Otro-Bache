@@ -23,7 +23,7 @@ set :user,  'ubuntu'
 
 set :deploy_to, "/home/ubuntu/www/#{application}"
 
-after  "deploy:update_code", :run_migrations, :symlinks, :asset_packages
+after  "deploy:update_code", :run_migrations
 
 desc "Restart Application"
 deploy.task :restart, :roles => [:app] do
@@ -39,19 +39,3 @@ task :run_migrations, :roles => [:app] do
   CMD
 end
  
-task :symlinks, :roles => [:app] do
-  run <<-CMD
-    ln -s #{shared_path}/system #{release_path}/public/system;
-    ln -s #{shared_path}/pdfs #{release_path}/public/;
-    ln -s #{shared_path}/cache #{release_path}/public/;
-  CMD
-end
-
-desc 'Create asset packages'
-task :asset_packages, :roles => [:app] do
- run <<-CMD
-   export RAILS_ENV=production &&
-   cd #{release_path} &&
-   rake asset:packager:build_all
- CMD
-end
