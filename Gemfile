@@ -19,7 +19,7 @@ gem 'pg'
 # To use debugger
 gem 'ruby-debug19', :require => 'ruby-debug'
 
-gem 'gdata'
+gem 'gdata_19'
 
 gem 'fusion_tables', '0.2.2'
 
