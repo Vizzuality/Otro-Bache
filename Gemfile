@@ -19,7 +19,7 @@ gem "will_paginate", "~> 3.0.pre2"
 # gem 'capistrano'
 
 # To use debugger
-gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'ruby-debug'
 
 gem 'gdata_19'
 
@@ -36,3 +36,6 @@ gem 'fusion_tables', '0.2.2'
 # group :test do
 #   gem 'webrat'
 # end
+
+gem 'capistrano'
+gem 'capistrano-ext'
