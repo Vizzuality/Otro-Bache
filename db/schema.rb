@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(:version => 20100722075357) do
     t.string   "address"
     t.string   "addressline"
     t.string   "zip"
+    t.string   "user"
     t.integer  "city_id"
     t.integer  "country_id"
     t.datetime "created_at"

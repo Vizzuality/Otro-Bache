@@ -12,6 +12,8 @@ Otrobache::Application.routes.draw do |map|
   match "report/:id" => "potholes#edit"  
   match "create" => "potholes#create"
   match "potholes" => "potholes#index"
+  
+  match "about" => "potholes#about"
 
 
   # map.latlongroute 'create/:lat/:lng' :controller 

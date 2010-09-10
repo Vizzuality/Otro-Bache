@@ -47,7 +47,7 @@
 			<label>Municipios cerca</label>
 			<ul class="margin" id="locations_list">
 				<% @cities_and_count.each do |city| %>				
-					<li><a class="stat" href="/cities/<%= city[:city].name %>"><span><%= truncate(city[:city].name,18,"...") %></span><p class="number"><%= city[:counter] %></p></a></li>
+					<li><a class="stat" href="/cities/<%= city[:name] %>"><span><%= truncate(city[:name],18,"...") %></span><p class="number"><%= city[:counter] %></p></a></li>
 				<% end %>
 				<li><a class="others" href="#">Otros municipios</a></li>
 			</ul>
@@ -75,7 +75,9 @@
 							<%= image_tag((pothole.counter.to_i > 1)? "plus.png" : "reported.png", :alt => "reported") %>
 						</div>
 						<div class="data">
-							<p class="place"><%= truncate(pothole.address, 50, "...") %> <strong>(<%= pothole.zip %>, <%= truncate(pothole.city.name, 10, "...") %></strong></p>
+							<p class="place">
+							
+							<%= truncate(pothole.addressline, 50, "...") %> <strong>(<%= pothole.zip %>, <%= truncate(pothole.city.name, 10, "...") %>)</strong></p>
 							<p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong> 
 							
 							<% if (pothole.counter.to_i > 1) %> 
@@ -84,12 +86,12 @@
 								vez 
 							<% end %> reportado. Última vez hace 
 							
-							<strong>N/A</strong> días</p>
+							<strong><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año") %></strong></p>
 
 							<p class="hidden lat"><%= pothole.lat %></p>
 							<p class="hidden lon"><%= pothole.lon %></p>
 							<p class="hidden id_pothole"><%= pothole.id %></p>
-							<p class="hidden days"><%= pothole.reported_date %></p>
+							<p class="hidden days"><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año") %></p>
 						</div>
 					</div>
 				</div>

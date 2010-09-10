@@ -16,9 +16,9 @@ namespace :otrobache do
 			city = City.find_or_create_by_name(ftpothole[:city], :country_id => country.id)
 			
 			# Change depending on date format
-			reported_date = Time::parse(ftpotholes[1][:reported_date][3..5]+ftpotholes[1][:reported_date][0..2]+"20"+ftpotholes[1][:reported_date][6..7]+ftpotholes[1][:reported_date][8..16]) 
+			reported_date = Time::strptime(ftpothole[:reported_date], "%m/%d/%y %H:%M:%S")
 		
-			pothole = Pothole.new(:lat => ftpothole[:lat], :lon => ftpothole[:lon], :reported_date => reported_date, :reported_by => ftpothole[:reported_by], :address => ftpothole[:address], :addressline => ftpothole[:addressline], :city => city, :zip => ftpothole[:zip], :country => country)
+			pothole = Pothole.new(:lat => ftpothole[:lat], :lon => ftpothole[:lon], :reported_date => reported_date, :reported_by => ftpothole[:reported_by], :address => ftpothole[:address], :addressline => ftpothole[:addressline], :city => city, :zip => ftpothole[:zip], :country => country, :user => "fusion_tables")
 			pothole.save
 			print "pothole saved\n"
 		end

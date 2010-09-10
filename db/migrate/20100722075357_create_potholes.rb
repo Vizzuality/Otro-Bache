@@ -8,6 +8,7 @@ class CreatePotholes < ActiveRecord::Migration
       t.string :address
       t.string :addressline
       t.string :zip
+      t.string :user
       t.references :city
       t.references :country
       t.timestamps

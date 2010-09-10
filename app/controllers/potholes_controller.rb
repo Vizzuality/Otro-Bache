@@ -1,6 +1,7 @@
 # encoding: utf-8
 class PotholesController < ApplicationController
-  
+
+  include ActionView::Helpers::DateHelper
   # define('FLICKR_API_KEY', '83d63b531d7eb41fbaa916b1bc65ca9a');
   # define('FLICKR_API_SECRET', 'e4dac314a1e456af');
   
@@ -24,9 +25,9 @@ class PotholesController < ApplicationController
             potholes = []
             #potholes << Pothole.find(params[:id])
             #@potholes = potholes
-                        @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where id = ? order by reported_date DESC", params[:id]]
+            @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where id = ? order by reported_date DESC", params[:id]]
         else
-        		debugger
+
             if !params[:country].nil?
               @country = Country.find_by_name(params[:country])
               #@potholes = Pothole.find(:all, :conditions => ["country_id = ?", @country.id])
@@ -56,12 +57,13 @@ class PotholesController < ApplicationController
     
     
     # I want to create a new array with the data of the city and the number of potholes that there are
-    @cities_and_count = []
+    #@cities_and_count = []
     
-    @cities.each do |city|
-      @counter = Pothole.count(:conditions => ["city_id = ?", city.id])         
-      @cities_and_count << {:city => city, :counter => @counter} 
-    end
+    #@cities.each do |city|
+    #  @counter = Pothole.count(:conditions => ["city_id = ?", city.id])         
+    #  @cities_and_count << {:city => city, :counter => @counter} 
+    #end
+    @cities_and_count = Pothole.find_by_sql ["select c.id, c.name, count(p.city_id) as counter from cities c, potholes p where c.id=p.city_id GROUP BY c.id, c.name ORDER BY counter DESC"]
     
     respond_to do |format|
       format.html # index.html.erb
