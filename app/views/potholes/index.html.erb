@@ -133,7 +133,7 @@
 			<% if (@potholes.total_entries > 1) %>
 				<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
 				<% if (@potholes.total_pages > 1) %>
-					<a href="<%=url_for(params.merge(:page=>@potholes.next_page))%>" class="view_more"></a>	
+					<a href="<%=url_for(params.merge(:page=>@potholes.next_page,:total_entries=>@total_entries))%>" class="view_more"></a>	
 				<%end%>
 			<% else %>
 				<p>viendo el único bache</p>

@@ -44,11 +44,11 @@ class PotholesController < ApplicationController
                 (select count(id) from potholes where address=p.address)as counter from potholes as p 
                 order by reported_date DESC"
               sqlCount="select count(*) as count from ("+sql+") as sql"
-              numPotholes=Pothole.find_by_sql(sqlCount).first.count.to_i
+              @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
               
               
               current_page = params[:page].blank? ? 1 : params[:page].to_i
-              @potholes = WillPaginate::Collection.create(current_page, 10, numPotholes) do |pager| 
+              @potholes = WillPaginate::Collection.create(current_page, 10, @total_entries) do |pager| 
                 potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
                 pager.replace(potholes)
               end
