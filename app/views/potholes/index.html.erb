@@ -86,7 +86,7 @@
 								vez 
 							<% end %> reportado. Última vez hace 
 							
-							<strong><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año") %></strong></p>
+							<strong><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
 
 							<p class="hidden lat"><%= pothole.lat %></p>
 							<p class="hidden lon"><%= pothole.lon %></p>

@@ -13,10 +13,17 @@ namespace :otrobache do
   
 		ftpotholes.each do | ftpothole |
 			country = Country.find_or_create_by_name(ftpothole[:country])
-			city = City.find_or_create_by_name(ftpothole[:city], :country_id => country.id,:the_geom => Point.from_x_y(0,0))
+			city = City.find_or_create_by_name(ftpothole[:city], 
+															:country_id => country.id,
+															:the_geom => Point.from_x_y(0,0))
 			
 			# Change depending on date format
-			reported_date = Time::strptime(ftpothole[:reported_date], "%m/%d/%y %H:%M:%S")
+			# For ruby 1.9.2
+			# reported_date = Time.strptime(ftpothole[:reported_date], 
+			# 											"%m/%d/%y %H:%M:%S")
+			# For ruby 1.8.7
+			reported_date = ftpothole[:reported_date][0..5]+"20"+ftpothole[:reported_date][6..16]
+			reported_date = reported_date.to_time			
 		
 			pothole = Pothole.new(:lat => ftpothole[:lat], :lon => ftpothole[:lon], 
 			:reported_date => reported_date, :reported_by => ftpothole[:reported_by], 
