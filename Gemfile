@@ -25,6 +25,8 @@ gem 'gdata_19'
 
 gem 'fusion_tables', '0.2.2'
 
+gem 'google-geo'
+
 # Bundle the extra gems:
 # gem 'bj'
 # gem 'nokogiri', '1.4.1'

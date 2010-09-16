@@ -1,3 +1,5 @@
+require 'google/geo'
+
 namespace :otrobache do
 
 	desc 'Load production data'
@@ -10,13 +12,19 @@ namespace :otrobache do
 
 		my_table = ft.show_tables[0]
 		ftpotholes = my_table.select "*", "ORDER BY reported_date"
-  
-		ftpotholes.each do | ftpothole |
+      geo = Google::Geo.new "83d63b531d7eb41fbaa916b1bc65ca9a"
+      
+      ftpotholes.each do | ftpothole |
 			country = Country.find_or_create_by_name(ftpothole[:country])
-			city = City.find_or_create_by_name(ftpothole[:city], 
+			city = City.find_by_name(ftpothole[:city])
+			if (city == nil)
+	      	address = geo.locate ftpothole[:city]
+				lon = address[0].coordinates[0]
+				lat = address[0].coordinates[1]
+				city = City.find_or_create_by_name(ftpothole[:city], 
 															:country_id => country.id,
-															:the_geom => Point.from_x_y(0,0))
-			
+															:the_geom => Point.from_x_y(lon,lat))
+			end
 			# Change depending on date format
 			# For ruby 1.9.2
 			# reported_date = Time.strptime(ftpothole[:reported_date], 

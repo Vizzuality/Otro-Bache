@@ -11,14 +11,29 @@ class PotholesController < ApplicationController
             
     if !params[:city].nil?      
       @city = City.find_by_name(params[:city])
-      #      @potholes = Pothole.find(:all, :conditions => ["city_id = ?", @city.id])   
-      @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where city_id = ? order by reported_date DESC", @city.id]
-
+      
       # To show it in the title
       @actual_term_searched = @city.name
       
-      # How many potholes we have in the city that we are showing
-      @potholes_size_actual = @potholes.size
+      sql="select distinct on (address,reported_date) *,
+             (select count(id) from potholes where address=p.address)
+             as counter from potholes as p where city_id = #{@city.id} 
+             order by reported_date DESC"
+		sqlCount="select count(*) as count from ("+sql+") as sql"
+		@total_entries = (params[:total_entries]) ? 
+					params[:total_entries].to_i : 
+					Pothole.find_by_sql(sqlCount).first.count.to_i
+              
+		# Paginate
+      @current_page = params[:page].blank? ? 1 : params[:page].to_i
+      @potholes = WillPaginate::Collection.create(@current_page, 10, 
+      															@total_entries) do |pager|
+       
+			potholes = Pothole.find_by_sql(sql +
+							" limit #{pager.per_page} offset #{pager.offset}")
+            	  		pager.replace(potholes)
+		end
+
     else
         if !params[:id].nil?
             potholes = []
@@ -29,11 +44,20 @@ class PotholesController < ApplicationController
 
             if !params[:country].nil?
               @country = Country.find_by_name(params[:country])
-              #@potholes = Pothole.find(:all, :conditions => ["country_id = ?", @country.id])
-              @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where country_id = ? order by reported_date DESC", @country.id]              
+
+              sql="select distinct on (address,reported_date) *,
+                (select count(id) from potholes where address=p.address)
+                as counter from potholes as p where country_id = #{@country.id} order by reported_date DESC"
+              sqlCount="select count(*) as count from ("+sql+") as sql"
+              @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
               
-              # How many potholes we have in the city that we are showing
-              @potholes_size_actual = @potholes.size
+              # Paginate
+              @current_page = params[:page].blank? ? 1 : params[:page].to_i
+              @potholes = WillPaginate::Collection.create(@current_page, 10, @total_entries) do |pager| 
+                potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
+                pager.replace(potholes)
+              end
+              
               @actual_term_searched = @country.name
               if (@actual_term_searched == "spain")
                 @actual_term_searched = "España"
@@ -41,19 +65,20 @@ class PotholesController < ApplicationController
             else              
               #@potholes = Pothole.all
               sql="select distinct on (address,reported_date) *,
-                (select count(id) from potholes where address=p.address)as counter from potholes as p 
-                order by reported_date DESC"
+                (select count(id) from potholes where address=p.address)
+                as counter from potholes as p order by reported_date DESC"
               sqlCount="select count(*) as count from ("+sql+") as sql"
-              @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
+              @total_entries = (params[:total_entries]) ? 
+              				params[:total_entries].to_i : 
+              				Pothole.find_by_sql(sqlCount).first.count.to_i
               
-              
-              current_page = params[:page].blank? ? 1 : params[:page].to_i
-              @potholes = WillPaginate::Collection.create(current_page, 10, @total_entries) do |pager| 
+              # Paginate
+              @current_page = params[:page].blank? ? 1 : params[:page].to_i
+              @potholes = WillPaginate::Collection.create(@current_page, 10, @total_entries) do |pager| 
                 potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
                 pager.replace(potholes)
               end
               
-              @potholes_size_actual = @potholes.size
               @actual_term_searched = "total"
             end
         end
@@ -66,14 +91,6 @@ class PotholesController < ApplicationController
     @cities = City.find :all
     # @cities = City.find :all, :joins => [:potholes]
     
-    
-    # I want to create a new array with the data of the city and the number of potholes that there are
-    #@cities_and_count = []
-    
-    #@cities.each do |city|
-    #  @counter = Pothole.count(:conditions => ["city_id = ?", city.id])         
-    #  @cities_and_count << {:city => city, :counter => @counter} 
-    #end
     @cities_and_count = Pothole.find_by_sql("select c.id, c.name, count(p.city_id) as counter 
       from cities c, potholes p where c.id=p.city_id GROUP BY c.id, c.name ORDER BY counter DESC limit 5")
     
@@ -167,7 +184,7 @@ class PotholesController < ApplicationController
           @country_name = "spain"
     end  
     
-    @country =  Country.find_or_create_by_name(@country_name)
+    @country = Country.find_or_create_by_name(@country_name)
     @city = City.find_or_create_by_name(@city_name, :country_id => @country.id)
     
     # Data in correct format:
@@ -182,18 +199,7 @@ class PotholesController < ApplicationController
 	 @address = @address.gsub(",","|")
 	 @addressline = @addressline.gsub(",","|")  
 	 reported_date = Time.now
-    
-    # $addressline="";
-    # $addressline= $jsondata['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['Locality']['AddressLine'][0];
-    # 
-    # if($addressline=="") {
-    #     $addressline= $jsondata['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['Locality']['Thoroughfare']['ThoroughfareName'];
-    # }
-    # if($addressline=="") {
-    #     $addressline= $jsondata['Placemark'][0]['AddressDetails']['Country']['AdministrativeArea']['SubAdministrativeArea']['Locality']['DependentLocality']['DependentLocalityName'];
-    # }        
-    # $addressline=str_replace(",","|",$addressline);
-    
+        
     # --------------
     # Fusion Tables
     ft = GData::Client::FusionTables.new
@@ -215,7 +221,8 @@ class PotholesController < ApplicationController
                             :addressline => @addressline,
                             :zip => @zip,
                             :city_id => @city.id,
-                            :country_id => @country.id)
+                            :country_id => @country.id, 
+                            :the_geom => Point.from_x_y(long,lat))
 
 	 # --------------
   	 # Add to Fusion Tables

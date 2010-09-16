@@ -2,9 +2,9 @@
 	<div class="subheader">
 		<div class="subheader_left">
 			
-			<% if (@potholes_size_actual > 0) %>
+			<% if (@total_entries > 0) %>
 				<h3>Que nosotros sepamos,</h3>
-				<h1>hay <strong><%= @potholes_size_actual %> <%= (@potholes_size_actual > 1)? 'baches' : 'bache'%> en <%= truncate(@actual_term_searched,18,"...") %></strong></h1>
+				<h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%> en <%= truncate(@actual_term_searched,18,"...") %></strong></h1>
 			<% else %>
 				<h3>No tenemos baches reportados</h3>
 				<h1><strong>¡Reporta el primero!</strong></h1>
@@ -131,8 +131,11 @@
 	<div class="background_summary">
 		<div class="summary">
 			<% if (@potholes.total_entries > 1) %>
+				<% if (@current_page > 1) %>
+					<a href="<%=url_for(params.merge(:page=>@potholes.previous_page,:total_entries=>@total_entries))%>" class="view_more">VER MENOS</a>
+				<% end %>						
 				<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
-				<% if (@potholes.total_pages > 1) %>
+				<% if ((@potholes.total_pages > 1) && (@current_page < @potholes.total_pages)) %>
 					<a href="<%=url_for(params.merge(:page=>@potholes.next_page,:total_entries=>@total_entries))%>" class="view_more"></a>	
 				<%end%>
 			<% else %>
