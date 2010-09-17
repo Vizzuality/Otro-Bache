@@ -80,6 +80,11 @@ class PotholesController < ApplicationController
               end
               
               @actual_term_searched = "total"
+              
+              # Know user location
+              @client_ip = request.remote_ip
+              
+              
             end
         end
     end

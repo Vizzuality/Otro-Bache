@@ -13,7 +13,7 @@ Otrobache::Application.routes.draw do |map|
   match "create" => "potholes#create"
   match "potholes" => "potholes#index"
   
-  match "about" => "potholes#about"
+  get "about" => "about#index"
 
   namespace :api do
     get "get_near_localities" =>"api#get_near_localities",:format => :json
