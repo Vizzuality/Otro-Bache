@@ -2,7 +2,7 @@
 class Api::ApiController < ApplicationController
 
   def get_near_localities
-    
+    result=Array.new
     result = City.find_by_sql("select id,name,  
     							ST_Distance(the_geom::geography, 
     							makepoint(#{params[:lon]},#{params[:lat]})::geography) as dis, 
@@ -10,10 +10,15 @@ class Api::ApiController < ApplicationController
 								from cities as c 
 								order by dis ASC
 								limit 5")
-
+								
+	  res= Array.new
+		result.each do |city|
+		  res << {:name=>city.name,:id=>city.id,:num_baches=>city.num_baches}
+	  end
+		
 	 respond_to do |format|
     	format.json do 
-        render :json => result.to_json
+        render :json => res.to_json
       end
     end
   end

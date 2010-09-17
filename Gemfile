@@ -25,7 +25,8 @@ gem 'gdata_19'
 
 gem 'fusion_tables', '0.2.2'
 
-gem 'google-geo'
+gem 'google-geo' :require =>'google/geo'
+gem 'json'
 
 # Bundle the extra gems:
 # gem 'bj'

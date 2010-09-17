@@ -13,7 +13,7 @@ var map_enabled = false;
 
 $(document).ready(function() {
 	reported_potholes = [];
-	$('a.add_pothole').click(function(ev){
+	$('a#addPothole').click(function(ev){
 		ev.stopPropagation();
 		ev.preventDefault();
 		$("div.main_map_left").expose({
@@ -43,31 +43,10 @@ $(document).ready(function() {
 				});
 	});
 	
-	
-	
-	$('ul#locations_list li').each(function(ev){
-		var number = $(this).children('a').children('p.number').text();
-		$(this).children('a').children('span').attr('alt',getBarPosition(number)+'px 0px');
-		 $(this).children('a').children('span').css('background-position', getBarPosition(number)+'px 0px');
-	});
-	
-	
-	// To show over background to the right side
-	$('ul#locations_list li a').hover(function(ev){
-		var number = $(this).children('p.number').text();
-		$(this).children('span').css('background-position', getBarPosition(number)+'px -23px');
 
-	},function(ev){
-		$(this).children('span').css('background-position',$(this).children('span').attr('alt'));
-	});
 	
-	
-	$('ul#locations_list li a span').hover(function(ev){
-		$(this).css('background-position','0 -23px');
 
-	},function(ev){
-		$(this).css('background-position',$(this).attr('alt'));
-	});
+	
 	
 	
 	selected_height = $('li.selected').height();
@@ -157,9 +136,64 @@ $(document).ready(function() {
 		map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
 		
 		
+		
+		if (google.loader.ClientLocation) {
+      var latlng = new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);
+      var city = google.loader.ClientLocation.address.city;
+			$('p.logo sup').text('('+city+')');
+    } else {
+      var latlng = new google.maps.LatLng(41.387917, 2.1699187);
+			$('p.logo sup').text('(Madrid des)');
+    }
+
+		$.ajax({
+		      url: "/api/get_near_localities/",
+		      type: "GET",
+		      data: ({lat: latlng.lat(), lon: latlng.lng() }),
+		      dataType: "json",
+					
+		      success: function(result){
+						 	for (var i=0; i<result.length; i++) {
+								$('ul#locations_list').append('<li><a class="stat" href="/cities/'+result[i].name+'"><span>'+(result[i].name).substr(0,18)+'</span><p class="number">'+result[i].num_baches+'</p></a></li>');
+							}
+							
+							$('ul#locations_list li').each(function(ev){
+								var number = $(this).children('a').children('p.number').text();
+								$(this).children('a').children('span').attr('alt',getBarPosition(number)+'px 0px');
+								 $(this).children('a').children('span').css('background-position', getBarPosition(number)+'px 0px');
+							});
+							
+							// To show over background to the right side
+							$('ul#locations_list li a').hover(function(ev){
+								var number = $(this).children('p.number').text();
+								$(this).children('span').css('background-position', getBarPosition(number)+'px -23px');
+
+							},function(ev){
+								$(this).children('span').css('background-position',$(this).children('span').attr('alt'));
+							});
+
+							$('ul#locations_list li a span').hover(function(ev){
+								$(this).css('background-position','0 -23px');
+
+							},function(ev){
+								$(this).css('background-position',$(this).attr('alt'));
+							});
+							
+							$('ul#locations_list').append('<li><a class="others" href="#">Otros municipios</a></li>');
+							
+							
+							
+		      }
+		   }
+		);
+
+		map.setCenter(latlng);
+		map.setZoom(11);
+
+		
 		// The official id is 136993
 		// The developer id is 225314
-		layer = new google.maps.FusionTablesLayer(225314);
+		layer = new google.maps.FusionTablesLayer(136993);
 		layer.setMap(map);
 		
 		google.maps.event.addListener(map, 'click', function(event) {
@@ -217,6 +251,7 @@ $(document).ready(function() {
 				function(results, status) {
 					var country = results.formatted_address;
 					if (status == google.maps.GeocoderStatus.OK) {
+						console.log(results);
 						var bounds = new google.maps.LatLngBounds();
 						bounds.extend(new google.maps.LatLng(results[0].geometry.bounds.ea.b,results[0].geometry.bounds.T.b));
 						bounds.extend(new google.maps.LatLng(results[0].geometry.bounds.ea.c,results[0].geometry.bounds.T.c));

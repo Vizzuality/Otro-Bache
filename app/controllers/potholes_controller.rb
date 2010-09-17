@@ -173,7 +173,7 @@ class PotholesController < ApplicationController
     
     # Comprobar si viene a nil alguno de los valores (google los puede devolver de aquella manera)
     @address = @result["Placemark"][0]["address"]
-    @addressline = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["Thoroughfare"]["ThoroughfareName"];
+    @addressline = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["Thoroughfare"]["ThoroughfareName"]
     @city_name = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["LocalityName"]
     
     # Proabably nil
@@ -188,6 +188,8 @@ class PotholesController < ApplicationController
     if ((@country_name == "España") || (@country_name == "Espanya"))
           @country_name = "spain"
     end  
+    
+    puts @city_name
     
     @country = Country.find_or_create_by_name(@country_name)
     @city = City.find_or_create_by_name(@city_name, :country_id => @country.id)
