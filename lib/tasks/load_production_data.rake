@@ -14,9 +14,9 @@ namespace :otrobache do
 		
 		ftpotholes = my_table.select "*", "ORDER BY reported_date"
 		#ftpotholes = my_table.select "*", "where reported_date = '04/07/10' ORDER BY reported_date"
-      geo = Google::Geo.new "83d63b531d7eb41fbaa916b1bc65ca9a"
+    geo = Google::Geo.new "83d63b531d7eb41fbaa916b1bc65ca9a"
       
-      ftpotholes.each do | ftpothole |
+    ftpotholes.each do | ftpothole |
 
 #			if ((ftpothole[:country] == nil) || (ftpothole[:city] == nil) || 
 #				 (ftpothole[:zip] == nil) || (ftpothole[:addressline] == nil))
@@ -28,7 +28,7 @@ namespace :otrobache do
 			if (ftpothole[:country] == nil)
 				ftpothole[:country] = ftpothole[:address].split("|").last.split(" ").last
 			end
-			if ((ftpothole[:country] == "Madrid") || (ftpothole[:country] == "Spain") ||
+			if ((ftpothole[:country] == "Madrid") || (ftpothole[:country] == "Spain") || (ftpothole[:country] == "spain") ||
 				 (ftpothole[:country] == "Espainia") || (ftpothole[:country] == "Espanya"))
 				ftpothole[:country] = "España"
 			end
@@ -69,12 +69,11 @@ namespace :otrobache do
 			# reported_date = Time.strptime(ftpothole[:reported_date], 
 			# 											"%m/%d/%y %H:%M:%S")
 			# For ruby 1.8.7
+			
+			print " saving->" + ftpothole[:lat] + " " + ftpothole[:lon]
 			reported_date = ftpothole[:reported_date][0..5]+ "20" +
 							 	ftpothole[:reported_date][6..16]
 			reported_date = reported_date.to_time			
-		
-		
-			print "saving->" + ftpothole[:lat] + " " + ftpothole[:lon]
 											
 			pothole = Pothole.new(:lat => ftpothole[:lat], 
 										 :lon => ftpothole[:lon], 

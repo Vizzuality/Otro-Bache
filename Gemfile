@@ -8,6 +8,7 @@ gem 'rails', '3.0.0.beta4'
 # gem 'sqlite3-ruby', :require => 'sqlite3'
 
 gem 'pg'
+
 gem 'nofxx-georuby', :require => 'geo_ruby'
 
 gem "will_paginate", "~> 3.0.pre2"
@@ -25,7 +26,7 @@ gem 'gdata_19'
 
 gem 'fusion_tables', '0.2.2'
 
-gem 'google-geo' :require =>'google/geo'
+gem 'google-geo', :require =>'google/geo'
 gem 'json'
 
 # Bundle the extra gems:

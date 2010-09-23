@@ -10,7 +10,7 @@ class PotholesController < ApplicationController
   def index
             
     if !params[:city].nil?      
-      @city = City.find_by_name(params[:city])
+      @city = City.find_by_name(params[:city].downcase)
       
       # To show it in the title
       @actual_term_searched = @city.name
@@ -18,28 +18,30 @@ class PotholesController < ApplicationController
       sql="select distinct on (address,reported_date) *,
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where city_id = #{@city.id} 
-             order by reported_date DESC"
-		sqlCount="select count(*) as count from ("+sql+") as sql"
-		@total_entries = (params[:total_entries]) ? 
+             order by address, reported_date DESC"
+		  sqlCount="select count(*) as count from ("+sql+") as sql"
+		  @total_entries = (params[:total_entries]) ? 
 					params[:total_entries].to_i : 
 					Pothole.find_by_sql(sqlCount).first.count.to_i
               
-		# Paginate
+		  # Paginate
       @current_page = params[:page].blank? ? 1 : params[:page].to_i
       @potholes = WillPaginate::Collection.create(@current_page, 10, 
       															@total_entries) do |pager|
        
-			potholes = Pothole.find_by_sql(sql +
-							" limit #{pager.per_page} offset #{pager.offset}")
-            	  		pager.replace(potholes)
-		end
+         potholes = Pothole.find_by_sql(sql +
+				  			" limit #{pager.per_page} offset #{pager.offset}")
+              	  		pager.replace(potholes)
+		  end
 
     else
         if !params[:id].nil?
             potholes = []
             #potholes << Pothole.find(params[:id])
             #@potholes = potholes
-            @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,(select count(id) from potholes where address=p.address)as counter from potholes as p where id = ? order by reported_date DESC", params[:id]]
+            @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,
+                                              (select count(id) from potholes where address=p.address)as counter 
+                                              from potholes as p where id = ? order by address, reported_date DESC", params[:id]]
         else
 
             if !params[:country].nil?
@@ -47,7 +49,7 @@ class PotholesController < ApplicationController
 
               sql="select distinct on (address,reported_date) *,
                 (select count(id) from potholes where address=p.address)
-                as counter from potholes as p where country_id = #{@country.id} order by reported_date DESC"
+                as counter from potholes as p where country_id = #{@country.id} order by address, reported_date DESC"
               sqlCount="select count(*) as count from ("+sql+") as sql"
               @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
               
@@ -64,9 +66,10 @@ class PotholesController < ApplicationController
               end 
             else              
               #@potholes = Pothole.all
+
               sql="select distinct on (address,reported_date) *,
                 (select count(id) from potholes where address=p.address)
-                as counter from potholes as p order by reported_date DESC"
+                as counter from potholes as p order by address, reported_date DESC"
               sqlCount="select count(*) as count from ("+sql+") as sql"
               @total_entries = (params[:total_entries]) ? 
               				params[:total_entries].to_i : 
@@ -142,7 +145,7 @@ class PotholesController < ApplicationController
     respond_to do |format|
       if @pothole.update_attributes(:lat => @pothole.lat,
 									:lon=> @pothole.lon,
-									:reported_date => Time.now, 
+									:reported_date => Time.now.strftime("%m/%d/%y %H:%M:%S"), 
 									:reported_by => "web",
 									:address => @pothole.address,
 									:addressline => @pothole.addressline,
@@ -189,32 +192,30 @@ class PotholesController < ApplicationController
           @country_name = "spain"
     end  
     
-    puts @city_name
-    
     @country = Country.find_or_create_by_name(@country_name)
-    @city = City.find_or_create_by_name(@city_name, :country_id => @country.id)
+    @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id)
     
     # Data in correct format:
-	 # LAT: 				40.43937044868159 		-> 40.43937
-	 # LON: 				-3.7282773120117163 		-> -3.72822
-	 # Reported_date: 09-02-2010					-> 08/30/10 13:42:59
-	 # Address: Av de Juan de Herrera, 2, 28040 Madrid, Spain 
-	 #				-> Calle de Marcelo Usera| 104| 28026 Madrid| Spain
-	 # -----
-	 lat = params[:lat][0..7]
-	 long = params[:long][0..7]
-	 @address = @address.gsub(",","|")
-	 @addressline = @addressline.gsub(",","|")  
-	 reported_date = Time.now
+	  # LAT: 				40.43937044868159 		-> 40.43937
+	  # LON: 				-3.7282773120117163 		-> -3.72822
+	  # Reported_date: 09-02-2010					-> 08/30/10 13:42:59
+	  # Address: Av de Juan de Herrera, 2, 28040 Madrid, Spain 
+	  #				-> Calle de Marcelo Usera| 104| 28026 Madrid| Spain
+	  # -----
+	  lat = params[:lat][0..7]
+	  long = params[:long][0..7]
+	  @address = @address.gsub(",","|")
+	  @addressline = @addressline.gsub(",","|") 
+	  reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
         
     # --------------
     # Fusion Tables
     ft = GData::Client::FusionTables.new
     config = YAML::load_file("#{Rails.root}/config/credentials.yml")
     ft.clientlogin(config["google_username"], config["google_password"])
-    my_table = ft.show_tables[0]
+    # my_table = ft.show_tables[0]
 
-	 #my_table.select COUNT() from "name", "WHERE x=n"
+	  #my_table.select COUNT() from "name", "WHERE x=n"
     # --------------
 
     print "\n\n\n ----- NUEVO_BACHE ------\n"
@@ -231,23 +232,21 @@ class PotholesController < ApplicationController
                             :country_id => @country.id, 
                             :the_geom => Point.from_x_y(long,lat))
 
-	 # --------------
-  	 # Add to Fusion Tables
-  	 data = [{"lat" => lat,
-  	 			 "lon"=> long,
-             "reported_date" => reported_date,
-             "reported_by" => "web",
-             "address" => @address,
-             "zip" => @zip,
-             "city" => @city_name,
-             "country" => @country_name,
-             "addressline" => @addressline}]
-	 my_table.insert data
-	 # --------------
-
+    # Fusion Tables
+    sql = "insert into 136993 ('lat', 'lon', 'address', 'addressline',
+                              'city', 'country', 'zip', 'reported_by', 'reported_date') 
+                  values ('#{lat}', '#{long}', '#{@address}', '#{@addressline}', '#{@city.name}', 
+                          '#{@country.name}', '#{@zip}', 'web', '#{reported_date}')"
+    ft.sql_post(sql)
+    # ---------------------
+                 	   
     respond_to do |format|
     	if @pothole.save
-    		format.html { redirect_to :controller => "potholes", :action => "index" }
+    	   
+    	   # --------------
+      	 # Add to Fusion Tables
+      	    	  
+    		 format.html { redirect_to :controller => "potholes", :action => "index" }
          # format.xml  { head :ok }
          format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
       else
