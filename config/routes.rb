@@ -14,6 +14,8 @@ Otrobache::Application.routes.draw do |map|
   match "potholes" => "potholes#index"
   
   get "about" => "about#index"
+  
+  get "download" => "download#index"
 
   namespace :api do
     get "get_near_localities" =>"api#get_near_localities",:format => :json

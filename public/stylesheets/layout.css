@@ -18,7 +18,9 @@ div.header div.header_left a {text-decoration:none;}
 div.header div.header_left p.logo {float:left; margin:14px 0 0 0; background:url(../images/logo.png) no-repeat 0 0; padding:0 0 5px 0;}
 div.header div.header_left p.logo sup {padding:0 0 0 145px; font:normal 11px "Lucida Grande"; color:#FF9900; text-shadow: #000000 1px -1px 1px}
 div.header div.header_right {position:relative; float:left; width:257px; height:33px; padding:20px 0 0 43px; background:#000000;}
-div.header div.header_right img {position:absolute; bottom:0; left:57px; z-index:10;}
+div.header div.header_right img.select_index {position:absolute; bottom:0; left:57px; z-index:10;}
+div.header div.header_right img.select_descargar {position:absolute; bottom:0; left:140px; z-index:10;}
+div.header div.header_right img.select_saber {position:absolute; bottom:0; left:227px; z-index:10;}
 div.header div.header_right ul {float:left; width:auto;}
 div.header div.header_right ul li {float:left; width:auto;}
 div.header div.header_right ul li a {font:normal 11px "Lucida Grande"; color:white; text-decoration:none; margin:0 30px 0 0;}
@@ -63,6 +65,9 @@ div.outer_layout.map div.main_map div.main_map_left div.border_map div.right {fl
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole {float:right; width:214px; height:34px; background:url(../images/send_pothole.png) no-repeat 0 0; margin:0 10px 0 0;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole:hover {background-position:0 -34px;}
 
+div.outer_layout.map div.main_map div.main_map_left div.main_about {position:relative; display:none; bottom:300px; right:50px; width:159px; padding:12px 15px; height:67px; background:url(../images/click_tooltip.png) no-repeat 0 0; font:normal 15px "Lucida Grande"; color:#CCCCCC; line-height:18px; z-index:100;}
+div.outer_layout.map div.main_map div.main_map_left div.main_about h4 {font:normal 17px "Lucida Grande"; color:#666666;}
+div.outer_layout.map div.main_map div.main_map_left div.main_about h4 a {color:#FF9900;}
 
 div.outer_layout.map div.main_map div.main_map_right {position:relative; float:left; width:264px; padding:5px 0 40px 10px; z-index:10;}
 div.outer_layout.map div.main_map div.main_map_right label {float:left; width:100%; padding:0 0 0 10px; font:normal 13px "Lucida Grande"; color:#999999;}
