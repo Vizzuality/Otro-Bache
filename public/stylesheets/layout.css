@@ -9,11 +9,10 @@ ul{list-style:none;}
 div.outer_layout{width:100%;}
 p.hidden {display:none;}
 
-
 /*HEADER*/
 div.outer_layout.top {float:left; background:url(../images/outer_header_bkg.png) repeat-y center 0;}
 div.header {margin:0 auto; position:relative; width:960px; height:53px;}
-div.header div.header_left {float:left; width:660px; height:53px; background:url(../images/header_bkg.png) repeat-x 0 0;}
+div.header div.header_left {float:left; width:660px; hfeight:53px; background:url(../images/header_bkg.png) repeat-x 0 0;}
 div.header div.header_left a {text-decoration:none;}
 div.header div.header_left p.logo {float:left; margin:14px 0 0 0; background:url(../images/logo.png) no-repeat 0 0; padding:0 0 5px 0;}
 div.header div.header_left p.logo sup {padding:0 0 0 145px; font:normal 11px "Lucida Grande"; color:#FF9900; text-shadow: #000000 1px -1px 1px}
@@ -27,8 +26,6 @@ div.header div.header_right ul li a {font:normal 11px "Lucida Grande"; color:whi
 div.header div.header_right ul li a.no_margin {margin:0;}
 div.header div.header_right ul li a:hover {text-decoration:underline;}
 
-
-
 /*SUBHEADER*/
 div.outer_layout.sub {float:left; background:url(../images/outer_subheader_bkg.png) repeat-y center 0;}
 div.subheader {margin:0 auto; position:relative; width:960px; height:141px;}
@@ -38,7 +35,16 @@ div.subheader div.subheader_left h1 {font:normal 41px "Lucida Grande"; color:#66
 div.subheader div.subheader_left h1 strong {color:#FF9900; font-weight:normal;}
 div.subheader div.subheader_right {float:left; width:300px; height:141px; background:#F5F5F5;}
 
-
+/* MAIN ABOUT */
+div.outer_layout.about {float:left; width:100%; background:url(../images/outer_map_bkg.png) repeat-y center 0;}
+div.outer_layout.about div.about {margin:0 auto; width:960px;}
+div.outer_layout.about div.about div.about_left {position:relative; float:left; width:686px; z-index:1; background:url(../images/map_left_bkg.png) repeat-y right 0 white; padding:0 0 12px 0;}
+div.outer_layout.about div.about div.about_left div.text {position:relative; float:left; width:606px; font:normal 13px "Lucida Grande"; color:#666666;}
+div.outer_layout.about div.about div.about_left div.text p {font:normal 13px "Lucida Grande"; padding:13px 5px 15px 0;}
+div.outer_layout.about div.about div.about_left div.text h4 {font:normal 17px "Lucida Grande";}
+div.outer_layout.about div.about div.about_left div.text h4.first {border-bottom:1px solid #CCCCCC; padding:0 0 20px 0;}
+div.outer_layout.about div.about div.about_left div.text a {color:#FF9900;}
+div.outer_layout.about div.about div.about_left div.text.special {color:#FF0000;}
 
 /*MAIN MAP*/
 div.outer_layout.map {float:left; width:100%; background:url(../images/outer_map_bkg.png) repeat-y center 0;}
@@ -64,10 +70,6 @@ div.outer_layout.map div.main_map div.main_map_left div.border_map div#mamufas_m
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.right {float:right;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole {float:right; width:214px; height:34px; background:url(../images/send_pothole.png) no-repeat 0 0; margin:0 10px 0 0;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole:hover {background-position:0 -34px;}
-
-div.outer_layout.map div.main_map div.main_map_left div.main_about {position:relative; display:none; bottom:300px; right:50px; width:159px; padding:12px 15px; height:67px; background:url(../images/click_tooltip.png) no-repeat 0 0; font:normal 15px "Lucida Grande"; color:#CCCCCC; line-height:18px; z-index:100;}
-div.outer_layout.map div.main_map div.main_map_left div.main_about h4 {font:normal 17px "Lucida Grande"; color:#666666;}
-div.outer_layout.map div.main_map div.main_map_left div.main_about h4 a {color:#FF9900;}
 
 div.outer_layout.map div.main_map div.main_map_right {position:relative; float:left; width:264px; padding:5px 0 40px 10px; z-index:10;}
 div.outer_layout.map div.main_map div.main_map_right label {float:left; width:100%; padding:0 0 0 10px; font:normal 13px "Lucida Grande"; color:#999999;}
