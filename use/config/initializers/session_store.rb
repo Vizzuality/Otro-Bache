@@ -6,7 +6,7 @@
 # no regular words or you'll be exposed to dictionary attacks.
 ActionController::Base.session = {
   :key         => '_use_session',
-  :secret      => '21b5543322c1498f5b3a8ab24b716ed5bfee25629a6911cc1425850d72eb7d7acd90af3d50f0d4478406692e9d35f9115dfdbec36eaaaa09b7577f0dd2e2dc39'
+  :secret      => '940f4e6514587e2d3ceeffa9e5fe2b61371e06e669d1dc7a787457349cad65d24b246b1ba387085e2293f546c23ed8883eb41c00576db58f30b10da7072e6d37'
 }
 
 # Use the database for sessions instead of the cookie-based default,

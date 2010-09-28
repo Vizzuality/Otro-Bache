@@ -29,6 +29,8 @@ gem 'fusion_tables', '0.2.2'
 gem 'google-geo', :require =>'google/geo'
 gem 'json'
 
+gem 'ppe-postgis-adapter', :git => 'git://github.com/ferblape/postgis_adapter.git', :require => 'postgis_adapter'
+
 # Bundle the extra gems:
 # gem 'bj'
 # gem 'nokogiri', '1.4.1'

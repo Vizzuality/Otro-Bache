@@ -1,0 +1,56 @@
+/Users/JavierMorales/.rvm/rubies/ruby-1.8.7-p302/bin/ruby extconf.rb 
+checking for pg_config... no
+
+  ===========   WARNING   ===========
+  
+  You are building this extension on OS X without setting the 
+  ARCHFLAGS environment variable, and pg_config wasn't found in 
+  your PATH. If you are seeing this message, that means that the 
+  build will probably fail.
+
+  If it does, you can correct this by either including the path 
+  to 'pg_config' in your PATH or setting the environment variable 
+  ARCHFLAGS to '-arch <arch>' before building.
+
+  For example:
+  (in bash) $ export PATH=/opt/local/lib/postgresql84/bin:$PATH                  
+            $ export ARCHFLAGS='-arch x86_64'
+  (in tcsh) % set path = ( /opt/local/lib/postgresql84/bin $PATH )
+            % setenv ARCHFLAGS '-arch x86_64'
+
+  Then try building again.
+
+  ===================================
+  
+MacOS X build: fixing architecture flags:
+checking for libpq-fe.h... no
+Can't find the 'libpq-fe.h header
+*** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of
+necessary libraries and/or headers.  Check the mkmf.log file for more
+details.  You may need configuration options.
+
+Provided configuration options:
+	--with-opt-dir
+	--without-opt-dir
+	--with-opt-include
+	--without-opt-include=${opt-dir}/include
+	--with-opt-lib
+	--without-opt-lib=${opt-dir}/lib
+	--with-make-prog
+	--without-make-prog
+	--srcdir=.
+	--curdir
+	--ruby=/Users/JavierMorales/.rvm/rubies/ruby-1.8.7-p302/bin/ruby
+	--with-pg
+	--without-pg
+	--with-pg-config
+	--without-pg-config
+	--with-pg-dir
+	--without-pg-dir
+	--with-pg-include
+	--without-pg-include=${pg-dir}/include
+	--with-pg-lib
+	--without-pg-lib=${pg-dir}/lib
+	--enable-static-build
+	--disable-static-build
