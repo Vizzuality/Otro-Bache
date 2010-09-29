@@ -45,6 +45,7 @@ div.outer_layout.about div.about div.about_left div.text h4 {font:normal 17px "L
 div.outer_layout.about div.about div.about_left div.text h4.first {border-bottom:1px solid #CCCCCC; padding:0 0 20px 0;}
 div.outer_layout.about div.about div.about_left div.text a {color:#FF9900;}
 div.outer_layout.about div.about div.about_left div.text.special {color:#FF0000;}
+div.outer_layout.about div.about_right a {color:#FF9900;}
 
 /*MAIN MAP*/
 div.outer_layout.map {float:left; width:100%; background:url(../images/outer_map_bkg.png) repeat-y center 0;}

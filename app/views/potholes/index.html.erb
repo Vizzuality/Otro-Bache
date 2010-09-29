@@ -4,7 +4,8 @@
 			
 			<% if (@total_entries > 0) %>
 				<h3>Que nosotros sepamos,</h3>
-				<h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%> en <%= truncate(@actual_term_searched,18,"...") %></strong></h1>
+				<h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%> 
+					en <%= @actual_term_searched.truncate(18) %></strong></h1>
 			<% else %>
 				<h3>No tenemos baches reportados</h3>
 				<h1><strong>¡Reporta el primero!</strong></h1>
@@ -46,10 +47,6 @@
 		<div class="main_map_right">
 			<label>Municipios cerca</label>
 			<ul class="margin" id="locations_list">
-				<!-- <% @cities_and_count.each do |city| %>       
-				          <li><a class="stat" href="/cities/<%= city[:name] %>"><span><%= truncate(city[:name],18,"...") %></span><p class="number"><%= city[:counter] %></p></a></li>
-				        <% end %> -->
-				<!-- <li><a class="others" href="#">Otros municipios</a></li> -->
 			</ul>
 			<label>Ver todos los baches en</label>
 			<ul>
@@ -76,8 +73,8 @@
 						</div>
 						<div class="data">
 							<p class="place">
-							
-							<%= truncate(pothole.addressline, 50, "...") %> <strong>(<%= pothole.zip %>, <%= truncate(pothole.city.name, 10, "...") %>)</strong></p>
+							<%= pothole.addressline.truncate(50) %> 
+							<strong>(<%= pothole.zip %>, <%= pothole.city.name.truncate(10) %>)</strong></p>
 							<p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong> 
 							
 							<% if (pothole.counter.to_i > 1) %> 

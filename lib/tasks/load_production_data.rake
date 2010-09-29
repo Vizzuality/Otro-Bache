@@ -28,6 +28,7 @@ namespace :otrobache do
 			if (ftpothole[:country] == nil)
 				ftpothole[:country] = ftpothole[:address].split("|").last.split(" ").last
 			end
+			
 			if ((ftpothole[:country] == "Madrid") || (ftpothole[:country] == "Spain") || (ftpothole[:country] == "spain") ||
 				 (ftpothole[:country] == "Espainia") || (ftpothole[:country] == "Espanya"))
 				ftpothole[:country] = "España"
@@ -35,25 +36,25 @@ namespace :otrobache do
 			 
 			print " country -- " + ftpothole[:country] + "  "		
 			country = Country.find_or_create_by_name(ftpothole[:country])
-			
+
 			if (ftpothole[:city] == nil)
 				ftpothole[:city] = ftpothole[:address].split("|")[1].split(" ").last.downcase
 			end
 
 			city = City.find_by_name(ftpothole[:city])
-			
+
 			if (city == nil)		
 				ftpothole[:city] = ftpothole[:city].downcase						
 			
 				address = geo.locate ftpothole[:city]
 				lon = address[0].coordinates[0]
 				lat = address[0].coordinates[1]
-								
+
 				city = City.find_or_create_by_name(ftpothole[:city], 
 															:country_id => country.id,
 															:the_geom => Point.from_x_y(lon,lat))
 			end
-			
+
 			print " city -- " + ftpothole[:city] + "  "
 				
 			if (ftpothole[:addressline] == nil)
