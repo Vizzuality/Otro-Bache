@@ -26,7 +26,14 @@
 		<div class="outer_layout top">
 			<div class="header">
 				<div class="header_left">
-					<a href="/"><p class="logo"><sup></sup></p></a>
+					<a href="/"><p class="logo"><sup>(
+						<%if(@country_name)%>
+							<%=@country_name.upcase%>
+						<%end%>
+						<%if(@city_name)%>
+							<%=@city_name.upcase%>
+						<%end%>
+						)</sup></p></a>
 				</div>
 				<div class="header_right">
 					<% if current_page?(:controller => 'potholes')  %>

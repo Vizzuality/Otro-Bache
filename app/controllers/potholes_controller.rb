@@ -8,9 +8,53 @@ class PotholesController < ApplicationController
   # GET /potholes
   # GET /potholes.xml
   def index
-            
-    if !params[:city].nil?      
-      @city = City.find_by_name(params[:city].downcase)
+    
+    conn = PGconn.connect( :dbname => 'ipinfo', :user => 'postgres' )
+    #If the controller is called without location params we redirect where the user is geolocating its IP
+    if (params[:location].nil?)
+      #geolocate
+      begin
+        url_to_redirect="spain"
+        result = conn.exec("SELECT * FROM geo_ips where ip_start <= inetmi('#{request.env[:REMOTE_ADDR]}','0.0.0.0') order by ip_start desc limit 1")
+        user_location= result.first
+        if(user_location['city'].nil? && user_location['country_name'].nil? && user_location['country_name']=="Reserved")
+          url_to_redirect = "spain"
+        elsif (user_location['city'].nil?)
+          url_to_redirect=CGI.escape(user_location['country_name'].downcase)
+        else
+          url_to_redirect=CGI.escape(user_location['city'].downcase)
+        end
+        redirect_to "/#{url_to_redirect}" and return
+      rescue
+        #the user location could not be not determined, send it to spain
+        redirect_to "/spain" and return
+      end
+    end
+    
+
+    #first we check if this is a registered country
+    result = conn.exec("SELECT * FROM geo_ips where lower(country_name)=$1 LIMIT 1",[CGI.unescape(params[:location]).downcase])
+    
+    
+    if(result.first)
+      #we have a country
+      country_name=result.first["country_name"].downcase
+      city_name=nil
+    else
+        result = conn.exec("SELECT * FROM geo_ips where lower(city)=$1 LIMIT 1",[CGI.unescape(params[:location]).downcase])
+        if(result.first)
+          #we have a city
+          country_name=nil
+          city_name=result.first["city"].downcase          
+        else
+          #we have nothing.
+          redirect_to "/spain" and return
+        end
+    end        
+    
+    
+    if !city_name.nil?      
+      @city = City.find_by_name(city_name)
       
       # To show it in the title
       @actual_term_searched = @city.name
@@ -19,81 +63,49 @@ class PotholesController < ApplicationController
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where city_id = #{@city.id} 
              order by address, reported_date DESC"
-		  sqlCount="select count(*) as count from ("+sql+") as sql"
-		  @total_entries = (params[:total_entries]) ? 
-					params[:total_entries].to_i : 
-					Pothole.find_by_sql(sqlCount).first.count.to_i
+      sqlCount="select count(*) as count from ("+sql+") as sql"
+      @total_entries = (params[:total_entries]) ? 
+      params[:total_entries].to_i : 
+      Pothole.find_by_sql(sqlCount).first.count.to_i
               
-		  # Paginate
+      # Paginate
       @current_page = params[:page].blank? ? 1 : params[:page].to_i
-      @potholes = WillPaginate::Collection.create(@current_page, 10, 
-      															@total_entries) do |pager|
+      @potholes = WillPaginate::Collection.create(@current_page, 10, @total_entries) do |pager|
        
-         potholes = Pothole.find_by_sql(sql +
-				  			" limit #{pager.per_page} offset #{pager.offset}")
-              	  		pager.replace(potholes)
+      potholes = Pothole.find_by_sql(sql +
+        " limit #{pager.per_page} offset #{pager.offset}")
+        pager.replace(potholes)
 		  end
 
-    else
-        if !params[:id].nil?
-            potholes = []
-            #potholes << Pothole.find(params[:id])
-            #@potholes = potholes
-            @potholes = Pothole.find_by_sql ["select distinct on (address,reported_date) *,
-                                              (select count(id) from potholes where address=p.address)as counter 
-                                              from potholes as p where id = ? order by address, reported_date DESC", params[:id]]
-        else
+    elsif !country_name.nil?
+      @country = Country.find_or_create_by_name(country_name)
 
-            if !params[:country].nil?
-              @country = Country.find_by_name(params[:country])
-
-              sql="select distinct on (address,reported_date) *,
-                (select count(id) from potholes where address=p.address)
-                as counter from potholes as p where country_id = #{@country.id} order by address, reported_date DESC"
-              sqlCount="select count(*) as count from ("+sql+") as sql"
-              @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
-              
-              # Paginate
-              @current_page = params[:page].blank? ? 1 : params[:page].to_i
-              @potholes = WillPaginate::Collection.create(@current_page, 10, @total_entries) do |pager| 
-                potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
-                pager.replace(potholes)
-              end
-              
-              @actual_term_searched = @country.name
-              if (@actual_term_searched == "spain")
-                @actual_term_searched = "España"
-              end 
-            else              
-              #@potholes = Pothole.all
-
-              sql="select distinct on (address,reported_date) *,
-                (select count(id) from potholes where address=p.address)
-                as counter from potholes as p order by address, reported_date DESC"
-              sqlCount="select count(*) as count from ("+sql+") as sql"
-              @total_entries = (params[:total_entries]) ? 
-              				params[:total_entries].to_i : 
-              				Pothole.find_by_sql(sqlCount).first.count.to_i
-              
-              # Paginate
-              @current_page = params[:page].blank? ? 1 : params[:page].to_i
-              @potholes = WillPaginate::Collection.create(@current_page, 10, @total_entries) do |pager| 
-                potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
-                pager.replace(potholes)
-              end
-              
-              @actual_term_searched = "total"
-              
-              # Know user location
-              @client_ip = request.remote_ip
-              
-              
-            end
-        end
+      sql="select distinct on (address,reported_date) *,
+        (select count(id) from potholes where address=p.address)
+        as counter from potholes as p where country_id = #{@country.id} order by address, reported_date DESC"
+      sqlCount="select count(*) as count from ("+sql+") as sql"
+      @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
+      
+      # Paginate
+      @current_page = params[:page].blank? ? 1 : params[:page].to_i
+      @potholes = WillPaginate::Collection.create(@current_page, 10, @total_entries) do |pager| 
+        potholes = Pothole.find_by_sql(sql +" limit #{pager.per_page} offset #{pager.offset}")
+        pager.replace(potholes)
+      end
+      
+      @actual_term_searched = @country.name
+      if (@actual_term_searched == "spain")
+        @actual_term_searched = "España"
+      end 
+    else   
+      #This should never happen. If happens send to 404                  
     end
     
     # Cities near
     @cities = City.all
+    
+    @city_name=city_name
+    @country_name=country_name
     
     # Tell me all the cities with potholes
     @cities = City.find :all
