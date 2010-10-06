@@ -10,47 +10,49 @@
 	<div class="about">
 		<div class="about_left">
 			<div class="text">
-				<h4 class="first"><a href="http://www.elpais.com/articulo/madrid/capital/bache/elpepiespmad/20100227elpmad_1/Tes">Un artículo</a> de El País nos impulsón a hacer esto. En Madrid se realizan <strong>más de 90 denuncias al día</strong>, sobre los socavones de la capital. Por desgracia estos datos no son públicos, y por eso queremos saber dónde y cuántos hay realmente.</h4>
-				<p><a name="one"></a>
-					<h4>¿Cómo nace otrobache.com?</h4><br />
-					Con tantos baches por las ciudades es difícil no reparar en ellos! De ahí que desde hace unos días no paramos de decir, otro bache! En Madrid se puede llamar al 012 para reportarlos, te dan un número y adiós muy buenas. ¿Y dónde hay más baches? ¿Por qué no es pública esta información?<br /><br />
-					Ya que el ayuntamiento no los publica hemos creado <%= link_to "otrobache.com", "/", :class => "no_margin" %> para que toeo el mundo pueda reportar los que vea.	
-				</p>
-				<p><a name="two"></a>
-					<h4>¿Qué se considera un bache?</h4><br />
-					Para nosotros, un bache es cualquier irregularidad en el terreno, que se supone, debe ser llano, y no lo es.<br /><br />
+				<h4 class="first"><a href="http://www.elpais.com/articulo/madrid/capital/bache/elpepiespmad/20100227elpmad_1/Tes" target="_blank">Un artículo</a> de El País nos impulsón a hacer esto. En Madrid se realizan <strong>más de 90 denuncias al día</strong>, sobre los socavones de la capital. Por desgracia estos datos no son públicos, y por eso queremos saber dónde y cuántos hay realmente.</h4>
+				
+				<div class="parragraph"><a name="one"></a>
+					<h4>¿Cómo nace otrobache.com?</h4>
+					<p>Con tantos baches por las ciudades es difícil no reparar en ellos! De ahí que desde hace unos días no paramos de decir, otro bache! En Madrid se puede llamar al 012 para reportarlos, te dan un número y adiós muy buenas. ¿Y dónde hay más baches? ¿Por qué no es pública esta información?</p>
+					<p>Ya que el ayuntamiento no los publica hemos creado <%= link_to "otrobache.com", "/", :class => "no_margin" %> para que toeo el mundo pueda reportar los que vea.</p>
+				</div>
+				
+				<div class="parragraph"><a name="two"></a>
+					<h4>¿Qué se considera un bache?</h4>
+					<p>Para nosotros, un bache es cualquier irregularidad en el terreno, que se supone, debe ser llano, y no lo es.</p>
 
-					Guardamos los baches en la base de datos hasta 2 meses (tiempo medio que consideramos que se arreglan) desde la última vez que se reporta. Si se reportan varios baches en un radio menor a 15 metros (la precisión del GPS más o menos), los agruparemos en uno mismo. Si el bache es reportado varias veces los 2 meses empiezan desde el último.	
-				</p>
-				<p><a name="three"></a>
-					<h4>¿Se pueden reportar baches de cualquier ciudad?</h4><br />
-					Sí. La web luego los agrupa por localidades para que puedan ser vistos independientemente, como por ejemplo en <% link_to "otrobache.com/cities/Barcelona", "/cities/barcelona"%> o <% link_to "otrobache.com/cities/Mostoles", "/cities/mostoles" %><br /><br />
-				</p>
-				<p><a name="four"></a>
-					<h4>¿Qué aspiraciones tiene el proyecto?</h4><br />
-					Constituir una fuente de datos transparente y actualizada sobre el estado actual de la vía pública y ser el germen del posible <a href="http://open311.org/">open311.org</a> español.<br /><br />
-					Con suerte además conseguiremos que las administraciones locales sean un poco más trasparentes y permitan que les ayudemos en la gestión de la ciudad y podemos ver qué tal lo hacen. Ya de paso, lo mismo conseguimos políticos en España con ganas de hacer cosas innovadoras, como ya pasa en otros sitios.
-				</p>
-				<p><a name="five"></a>
-					<h4>Y... ¿qué tiene de nuevo?</h4><br />
-					Esperamos que la facilidad de uso de la web y las distintas aplicaciones para reportar baches lo hagan lo suficientemente atractivo para que colaborativamente identifiquemos todos los baches en todas las ciudades.<br /><br />
+					<p>Guardamos los baches en la base de datos hasta 2 meses (tiempo medio que consideramos que se arreglan) desde la última vez que se reporta. Si se reportan varios baches en un radio menor a 15 metros (la precisión del GPS más o menos), los agruparemos en uno mismo. Si el bache es reportado varias veces los 2 meses empiezan desde el último.</p>
+				</div>
+				
+				<div class="parragraph"><a name="three"></a>
+					<h4>¿Se pueden reportar baches de cualquier ciudad?</h4>
+					<p>Sí. La web luego los agrupa por localidades para que puedan ser vistos independientemente, como por ejemplo en <%= link_to "otrobache.com/cities/Barcelona", "/cities/barcelona" %> o <%= link_to "otrobache.com/cities/Mostoles", "/cities/mostoles" %></p>
+				</div>
+				<div class="parragraph"><a name="four"></a>
+					<h4>¿Qué aspiraciones tiene el proyecto?</h4>
+					<p>Constituir una fuente de datos transparente y actualizada sobre el estado actual de la vía pública y ser el germen del posible <a href="http://open311.org/">open311.org</a> español.</p>
+					<p>Con suerte además conseguiremos que las administraciones locales sean un poco más trasparentes y permitan que les ayudemos en la gestión de la ciudad y podemos ver qué tal lo hacen. Ya de paso, lo mismo conseguimos políticos en España con ganas de hacer cosas innovadoras, como ya pasa en otros sitios.</p>
+				</div>
+				<div class="parragraph"><a name="five"></a>
+					<h4>Y... ¿qué tiene de nuevo?</h4>
+					<p>Esperamos que la facilidad de uso de la web y las distintas aplicaciones para reportar baches lo hagan lo suficientemente atractivo para que colaborativamente identifiquemos todos los baches en todas las ciudades.</p>
 
-					El proyecto no está creado sobre una base de datos normal, sino sobre <a href="">Google Fusion Tables</a>. La ventaja que tiene esto es que todos los datos son públicos directamente, pueden ser comentados a través de su interfaz, reutilizados en otras aplicaciones, mezclados, etc. Invitamos a todos los desarrolladores a crear aplicaciones para enviar o para analizar los baches que ya se han enviado. Y por supuesto, no podía faltar el crear una aplicaicón para Iphone y para Android para poder reportar baches! Si llevamos un GPS en el bolsillo, que sirva para algo! Versión para Blackberry y otras plataformas está por venir también. Para participar de beta tester <% link_to "vuelve a la home", "/"%>.
-				</p>
-				<p><a name="six"></a>
-					<div class="one" id="one"></div>
-					<h4>¿Quién está detrás del proyecto?</h4><br />
-					<%= link_to "otrobache.com", "/" %> es un proyecto creado por vizzuality. <div class="text special">Sigue el proyecto con los enlaces de abajo! Y por supuesto estaremos encantados de recibir tus sugerencias usando el botón de la izaquierda.</div>
-				</p>
+					<p>El proyecto no está creado sobre una base de datos normal, sino sobre <a href="http://tables.googlelabs.com/DataSource?dsrcid=136993" target="_blank">Google Fusion Tables</a>. La ventaja que tiene esto es que todos los datos son públicos directamente, pueden ser comentados a través de su interfaz, reutilizados en otras aplicaciones, mezclados, etc. Invitamos a todos los desarrolladores a crear aplicaciones para enviar o para analizar los baches que ya se han enviado. Y por supuesto, no podía faltar el crear una aplicaicón para Iphone y para Android para poder reportar baches! Si llevamos un GPS en el bolsillo, que sirva para algo! Versión para Blackberry y otras plataformas está por venir también. Para participar de beta tester <%= link_to "vuelve a la home", "/" %>.</p>
+				</div>
+				<div class="parragraph"><a name="six"></a>
+					<h4>¿Quién está detrás del proyecto?</h4>
+					<p><%= link_to "otrobache.com", "/" %> es un proyecto creado por vizzuality. <strong class="special">Sigue el proyecto con los enlaces de abajo! Y por supuesto estaremos encantados de recibir tus sugerencias usando el botón de la izaquierda.</strong></p>
+				</div>
 			</div>
 	</div>
 	<div class="about_right">
-			<p><%= link_to "¿Cómo nace otrobache.com?", :anchor =>"one" %></p><br />
-			<p><%= link_to "¿Qué se considera un bache?", :anchor => "two" %></p><br />
-			<p><%= link_to "¿Se pueden reportar baches de cualquier ciudad?", :anchor => "three" %></p><br />
-			<p><%= link_to "¿Qué aspiraciones tiene el proyecto?", :anchor => "four" %></p><br />
-			<p><%= link_to "¿Qué tiene de nuevo?", :anchor => "five" %></p><br />
-			<p><%= link_to "¿Quién está detrás del proyecto?", :anchor => "six" %></p><br />
+			<p><%= link_to "¿Cómo nace otrobache.com?", :anchor =>"one" %></p>
+			<p><%= link_to "¿Qué se considera un bache?", :anchor => "two" %></p>
+			<p><%= link_to "¿Se pueden reportar baches de cualquier ciudad?", :anchor => "three" %></p>
+			<p><%= link_to "¿Qué aspiraciones tiene el proyecto?", :anchor => "four" %></p>
+			<p><%= link_to "¿Qué tiene de nuevo?", :anchor => "five" %></p>
+			<p><%= link_to "¿Quién está detrás del proyecto?", :anchor => "six" %></p>
 	</div>
 </div>
 

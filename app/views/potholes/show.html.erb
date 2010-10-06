@@ -10,7 +10,6 @@
     <th>Zip</th>
     <th>City</th>
     <th>Country</th>
-    <th>Nº veces reportado </th>
     <th></th>
     <th></th>
     <th></th>
@@ -24,7 +23,6 @@
     <td><%= @pothole.zip %></td>
     <td><%= link_to @pothole.city.name, root_path+'cities/'+@pothole.city.name %></td>
     <td><%= link_to @pothole.country.name, root_path+'countries/'+@pothole.country.name %></td>
-	<td><%= @pothole.counter %></td>
     <td><%= link_to 'Reporta', edit_pothole_path(@pothole) %></td>
     <td><%= link_to 'Destroy', @pothole, :confirm => 'Are you sure?', :method => :delete %></td>
 	<td><%= link_to 'Back', potholes_path %></td>

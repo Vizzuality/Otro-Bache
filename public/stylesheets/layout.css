@@ -40,12 +40,16 @@ div.outer_layout.about {float:left; width:100%; background:url(../images/outer_m
 div.outer_layout.about div.about {margin:0 auto; width:960px;}
 div.outer_layout.about div.about div.about_left {position:relative; float:left; width:686px; z-index:1; background:url(../images/map_left_bkg.png) repeat-y right 0 white; padding:0 0 12px 0;}
 div.outer_layout.about div.about div.about_left div.text {position:relative; float:left; width:606px; font:normal 13px "Lucida Grande"; color:#666666;}
-div.outer_layout.about div.about div.about_left div.text p {font:normal 13px "Lucida Grande"; padding:13px 5px 15px 0;}
 div.outer_layout.about div.about div.about_left div.text h4 {font:normal 17px "Lucida Grande";}
 div.outer_layout.about div.about div.about_left div.text h4.first {border-bottom:1px solid #CCCCCC; padding:0 0 20px 0;}
 div.outer_layout.about div.about div.about_left div.text a {color:#FF9900;}
-div.outer_layout.about div.about div.about_left div.text.special {color:#FF0000;}
+div.outer_layout.about div.about div.about_left div.text div.parragraph {float:left; padding:25px 5px 20px 0;}
+div.outer_layout.about div.about div.about_left div.text div.parragraph h4 {float:left; padding:0 0 12px 0;}
+div.outer_layout.about div.about div.about_left div.text div.parragraph p {float:left; padding:0 0 10px 0; font:normal 13px "Lucida Grande";}
+div.outer_layout.about div.about div.about_left div.text div.parragraph strong.special {color:#FF0000; font:normal;}
 div.outer_layout.about div.about_right a {color:#FF9900;}
+div.outer_layout.about div.about_right p {float:left; background:url(../images/arrow_right.jpg) no-repeat 0 2px; padding: 0 0 15px 18px; font: normal 13px "Lucida Grande";}
+div.outer_layout.about div.about_right {float:right; width:270px;}
 
 /*MAIN MAP*/
 div.outer_layout.map {float:left; width:100%; background:url(../images/outer_map_bkg.png) repeat-y center 0;}
@@ -105,6 +109,8 @@ div.outer_layout.list div.summary p {float:left; text-align:center; width:auto; 
 div.outer_layout.list div.summary p strong {font:normal 17px "Lucida Grande"; color:#999999;}
 div.outer_layout.list div.summary a.view_more {float:left; height:34px; background:url(../images/view_more_button.png) no-repeat 0 0; width:91px; margin:13px 0 0 10px;}
 div.outer_layout.list div.summary a.view_more:hover {background-position:0 -34px;}
+div.outer_layout.list div.summary a.view_less {float:left; height:34px; background:url(../images/view_less_button.png) no-repeat 0 0; width:91px; margin:13px 0 0 10px;}
+div.outer_layout.list div.summary a.view_less:hover {background-position:0 -34px;}
 
 div.outer_layout.list ul {width:100%;}
 div.outer_layout.list ul li {float:left; width:100%;}

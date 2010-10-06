@@ -129,9 +129,13 @@
 		<div class="summary">
 			<% if (@potholes.total_entries > 1) %>
 				<% if (@current_page > 1) %>
-					<a href="<%=url_for(params.merge(:page=>@potholes.previous_page,:total_entries=>@total_entries))%>" class="view_more">VER MENOS</a>
-				<% end %>						
-				<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
+					<a href="<%=url_for(params.merge(:page=>@potholes.previous_page,:total_entries=>@total_entries))%>" class="view_less"></a>
+				<% end %>
+				<% if (@current_page > 1) %>
+				 	<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> baches seleccionados</p>
+				<% else %>
+					<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
+				<% end %>
 				<% if ((@potholes.total_pages > 1) && (@current_page < @potholes.total_pages)) %>
 					<a href="<%=url_for(params.merge(:page=>@potholes.next_page,:total_entries=>@total_entries))%>" class="view_more"></a>	
 				<%end%>
