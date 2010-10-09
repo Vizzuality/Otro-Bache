@@ -10,6 +10,7 @@ gem 'rails', '3.0.0'
 gem 'pg'
 
 gem 'nofxx-georuby', :require => 'geo_ruby'
+gem 'hoptoad_notifier'
 
 gem "will_paginate", "~> 3.0.pre2"
 

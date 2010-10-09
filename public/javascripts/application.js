@@ -196,9 +196,9 @@ $(document).ready(function() {
       
 
 		
-		// The official id is 136993
+		// The official id is 272266
 		// The developer id is 225314
-		layer = new google.maps.FusionTablesLayer(136993);
+		layer = new google.maps.FusionTablesLayer(272266);
 		layer.setMap(map);
 		
 		google.maps.event.addListener(map, 'click', function(event) {

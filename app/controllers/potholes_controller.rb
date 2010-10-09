@@ -24,10 +24,10 @@ class PotholesController < ApplicationController
         else
           url_to_redirect=CGI.escape(user_location['city'].downcase)
         end
-        redirect_to "/#{url_to_redirect}" and return
+        redirect_to "/in/#{url_to_redirect}" and return
       rescue
         #the user location could not be not determined, send it to spain
-        redirect_to "/spain" and return
+        redirect_to "/in/spain" and return
       end
     end
     
@@ -48,13 +48,13 @@ class PotholesController < ApplicationController
           city_name=result.first["city"].downcase          
         else
           #we have nothing.
-          redirect_to "/spain" and return
+          redirect_to "/in/spain" and return
         end
     end        
     
     
     if !city_name.nil?      
-      @city = City.find_by_name(city_name)
+      @city = City.find_or_create_by_name(city_name)
       
       # To show it in the title
       @actual_term_searched = @city.name
@@ -245,28 +245,18 @@ class PotholesController < ApplicationController
                             :the_geom => Point.from_x_y(long,lat))
 
     # Fusion Tables
-    sql = "insert into 136993 ('lat', 'lon', 'address', 'addressline',
+    sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
                               'city', 'country', 'zip', 'reported_by', 'reported_date') 
                   values ('#{lat}', '#{long}', '#{@address}', '#{@addressline}', '#{@city.name}', 
                           '#{@country.name}', '#{@zip}', 'web', '#{reported_date}')"
     ft.sql_post(sql)
     # ---------------------
                  	   
-    respond_to do |format|
-    	if @pothole.save
-    	   
-    	   # --------------
-      	 # Add to Fusion Tables
-      	    	  
-    		 format.html { redirect_to :controller => "potholes", :action => "index" }
-         # format.xml  { head :ok }
-         format.xml  { render :xml => @pothole, :status => :created, :location => @pothole }
-      else
-         format.html { render :action => "new" }
-         format.xml  { render :xml => @pothole.errors, :status => :unprocessable_entity }
-      end
-    end      
-    print "\n\n\n ----- create_pothole_creado ------"    
+    if @pothole.save
+      render :text => "saved"
+    else
+      render :text => "failed"
+    end   
   end
 
   # PUT /potholes/1

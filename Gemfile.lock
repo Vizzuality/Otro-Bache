@@ -53,6 +53,8 @@ GEM
     gdata_19 (1.1.2)
     google-geo (2.3)
     highline (1.6.1)
+    hoptoad_notifier (2.3.8)
+      activesupport
     i18n (0.4.1)
     json (1.4.6)
     linecache (0.43)
@@ -110,6 +112,7 @@ DEPENDENCIES
   fusion_tables (= 0.2.2)
   gdata_19
   google-geo
+  hoptoad_notifier
   json
   nofxx-georuby
   pg

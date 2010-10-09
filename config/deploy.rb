@@ -39,3 +39,5 @@ task :run_migrations, :roles => [:app] do
   CMD
 end
  
+        require 'config/boot'
+        require 'hoptoad_notifier/capistrano'

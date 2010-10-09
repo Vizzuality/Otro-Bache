@@ -3,9 +3,9 @@ Otrobache::Application.routes.draw do |map|
   root :to => 'potholes#index'
   
   resources :potholes
-  # match "create(/:lat/:long)" => "potholes#create"
+  match "create" => "potholes#create"
   
-  match ":location" => "potholes#index"
+  match "in/:location" => "potholes#index"
   match "countries/:country" => "potholes#index"
   match "cities/:city" => "potholes#index"
   match "pothole/:id" => "potholes#show"
