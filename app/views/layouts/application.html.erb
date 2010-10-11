@@ -36,16 +36,16 @@
 						)</sup></p></a>
 				</div>
 				<div class="header_right">
-					<% if current_page?(:controller => 'potholes')  %>
+					<% if (controller.controller_name=='potholes')  %>
 						<%= image_tag("select_arrow.png", :class => "select_index") %>
-					<% elsif current_page?(:controller => 'download')%>
+					<% elsif (controller.controller_name=='about')%>
 						<%= image_tag("select_arrow.png", :class => "select_descargar") %>
 					<% else %>	
 						<%= image_tag("select_arrow.png", :class => "select_saber") %>
 					<% end %>
 					<ul>
 						<li><%= link_to "BACHES", "/" %></li>
-						<li><%= link_to "DESCARGAS", "/download" %></li>
+						<!--li><%= link_to "DESCARGAS", "/download" %></li -->
 						<li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
 					</ul>
 				</div>

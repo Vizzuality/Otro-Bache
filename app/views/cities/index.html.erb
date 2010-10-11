@@ -1,0 +1,29 @@
+<div class="outer_layout sub">
+	<div class="subheader">
+		<div class="subheader_left">
+			<h1><strong>Todos los municipios</strong></h1>
+		</div>
+		<div class="subheader_right">
+
+		</div>
+	</div>
+</div>
+
+<div class="outer_layout about">
+	<div class="about">
+		<div class="about_left">
+			<div class="text">
+				<ul>
+				<%@result.each do |country|%>
+					<li><a href="/in/<%=country[:name]%>"><%=country[:name]%> (<%=country[:num_baches]%>)</a></li>
+					<li><ul>
+						<%country[:cities].each do |city|%>
+							<li><a href="/in/<%=city[:name]%>"><%=city[:name]%> (<%=city[:num_baches]%>)</a></li>
+						<%end%>
+					</ul></li>
+				<%end%>
+				<ul>
+			</div>
+		</div>
+	</div>
+</div>

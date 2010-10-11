@@ -8,6 +8,7 @@ Otrobache::Application.routes.draw do |map|
   match "in/:location" => "potholes#index"
   match "countries/:country" => "potholes#index"
   match "cities/:city" => "potholes#index"
+  match "cities" => "cities#index"
   match "pothole/:id" => "potholes#show"
   
   match "report/:id" => "potholes#edit"  
