@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(:version => 20100910141454) do
 
   create_table "countries", :force => true do |t|
     t.column "name", :string
+    t.column "code", :string
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
   end

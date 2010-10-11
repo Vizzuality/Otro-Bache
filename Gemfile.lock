@@ -4,6 +4,15 @@ GIT
   specs:
     ppe-postgis-adapter (0.7.8)
 
+GIT
+  remote: git://github.com/jlecour/geokit-rails.git
+  revision: 51ed32054d8065bcfcfc923850387b4092f946f2
+  branch: gem
+  specs:
+    geokit-rails (0.0.2)
+      geokit (~> 1.5.0)
+      rails (~> 3.0.0)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -51,6 +60,7 @@ GEM
     fusion_tables (0.2.2)
       gdata_19 (>= 1.1.2)
     gdata_19 (1.1.2)
+    geokit (1.5.0)
     google-geo (2.3)
     highline (1.6.1)
     hoptoad_notifier (2.3.8)
@@ -111,6 +121,8 @@ DEPENDENCIES
   capistrano-ext
   fusion_tables (= 0.2.2)
   gdata_19
+  geokit
+  geokit-rails!
   google-geo
   hoptoad_notifier
   json

@@ -24,6 +24,8 @@ gem "will_paginate", "~> 3.0.pre2"
 gem 'ruby-debug'
 
 gem 'gdata_19'
+gem 'geokit'
+gem 'geokit-rails', :git => 'git://github.com/jlecour/geokit-rails.git', :branch => 'gem' 
 
 gem 'fusion_tables', '0.2.2'
 

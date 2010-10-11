@@ -51,7 +51,9 @@
 			</ul>
 			<label>Ver todos los baches en</label>
 			<ul>
-				<li><a class="stat" href="/countries/spain"><span>España</span></a></li>
+				<% @countries.each do |country| %>
+					<li><a class="stat" href="/in/<%=country.name%>"><span><%=country.name%></span></a></li>
+				<% end %>	
 			</ul>
 			<a href="#" class="add_pothole" id="addPothole"></a>
 		</div>

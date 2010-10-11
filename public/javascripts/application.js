@@ -151,7 +151,7 @@ $(document).ready(function() {
 
   		      success: function(result){
   						 	for (var i=0; i<result.length; i++) {
-  								$('ul#locations_list').append('<li><a class="stat" href="/cities/'+result[i].name+'"><span>'+(result[i].name).substr(0,18)+'</span><p class="number">'+result[i].num_baches+'</p></a></li>');
+  								$('ul#locations_list').append('<li><a class="stat" href="/in/'+result[i].name+'"><span>'+(result[i].name).substr(0,18)+'</span><p class="number">'+result[i].num_baches+'</p></a></li>');
   							}
 
   							$('ul#locations_list li').each(function(ev){

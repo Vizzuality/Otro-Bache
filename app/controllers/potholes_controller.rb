@@ -39,6 +39,7 @@ class PotholesController < ApplicationController
     if(result.first)
       #we have a country
       country_name=result.first["country_name"].downcase
+      country_code=result.first["country_code"]
       city_name=nil
     else
         result = conn.exec("SELECT * FROM geo_ips where lower(city)=$1 LIMIT 1",[CGI.unescape(params[:location]).downcase])
@@ -78,7 +79,7 @@ class PotholesController < ApplicationController
 		  end
 
     elsif !country_name.nil?
-      @country = Country.find_or_create_by_name(country_name)
+      @country = Country.find_or_create_by_code(country_code, :name=>country_name)
 
       sql="select distinct on (address,reported_date) *,
         (select count(id) from potholes where address=p.address)
@@ -101,18 +102,10 @@ class PotholesController < ApplicationController
       #This should never happen. If happens send to 404                  
     end
     
-    # Cities near
-    @cities = City.all
+    @countries = Country.all
     
     @city_name=city_name
     @country_name=country_name
-    
-    # Tell me all the cities with potholes
-    @cities = City.find :all
-    # @cities = City.find :all, :joins => [:potholes]
-    
-    @cities_and_count = Pothole.find_by_sql("select c.id, c.name, count(p.city_id) as counter 
-      from cities c, potholes p where c.id=p.city_id GROUP BY c.id, c.name ORDER BY counter DESC limit 5")
     
     respond_to do |format|
       format.html # index.html.erb
@@ -177,43 +170,31 @@ class PotholesController < ApplicationController
   # POST /potholes.xml
   def create
     
-    @url = 'http://maps.google.com/maps/geo?q='+params[:lat]+','+params[:long]+'&output=json&sensor=true_or_false&key=83d63b531d7eb41fbaa916b1bc65ca9a';
-   
-    require 'open-uri'            
-      open(@url) {
-        |f| @result =  f.read
-    }
+    res=Geokit::Geocoders::GoogleGeocoder.reverse_geocode(params[:lat]+','+params[:long])
+    @country_name = res.country
+    @country_code = res.country_code
+    @address =res.full_address
+    @addressline = res.street_address
+    @city_name = res.city
+    @zip = res.zip
     
-    @result = JSON.parse(@result)
+    #find our country and city
+    begin
+      conn = PGconn.connect( :dbname => 'ipinfo', :user => 'postgres' )
+      result = conn.exec("SELECT * FROM geo_ips where country_code=$1 LIMIT 1",[@country_code])
+      @country_name=result.first["country_name"].downcase
+    rescue
+    end
     
-    # Comprobar si viene a nil alguno de los valores (google los puede devolver de aquella manera)
-    @address = @result["Placemark"][0]["address"]
-    @addressline = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["Thoroughfare"]["ThoroughfareName"]
-    @city_name = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["LocalityName"]
     
-    # Proabably nil
-    @zip = @result["Placemark"][0]["AddressDetails"]["Country"]["AdministrativeArea"]["SubAdministrativeArea"]["Locality"]["PostalCode"]["PostalCodeNumber"]
-    
+     
     if @zip.nil? 
       @zip = "N/A" 
     end
     
-    @country_name = @result["Placemark"][0]["AddressDetails"]["Country"]["CountryName"] # View the code (España/Spain)
-    
-    if ((@country_name == "España") || (@country_name == "Espanya"))
-          @country_name = "spain"
-    end  
-    
-    @country = Country.find_or_create_by_name(@country_name)
+    @country = Country.find_or_create_by_code(@country_code, :name=>@country_name)
     @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id)
     
-    # Data in correct format:
-	  # LAT: 				40.43937044868159 		-> 40.43937
-	  # LON: 				-3.7282773120117163 		-> -3.72822
-	  # Reported_date: 09-02-2010					-> 08/30/10 13:42:59
-	  # Address: Av de Juan de Herrera, 2, 28040 Madrid, Spain 
-	  #				-> Calle de Marcelo Usera| 104| 28026 Madrid| Spain
-	  # -----
 	  lat = params[:lat][0..7]
 	  long = params[:long][0..7]
 	  @address = @address.gsub(",","|")
@@ -246,9 +227,11 @@ class PotholesController < ApplicationController
 
     # Fusion Tables
     sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
-                              'city', 'country', 'zip', 'reported_by', 'reported_date') 
-                  values ('#{lat}', '#{long}', '#{@address}', '#{@addressline}', '#{@city.name}', 
-                          '#{@country.name}', '#{@zip}', 'web', '#{reported_date}')"
+                              'city', 'country','country_code', 'zip', 'reported_by', 'reported_date') 
+                  values ('#{lat}', '#{long}', #{encode_text(@address)}, #{encode_text(@addressline)},
+                          #{encode_text(@city.name)}, 
+                          #{encode_text(@country.name)},#{encode_text(@country.code)}, #{encode_text(@zip)}, 
+                          'web', '#{reported_date}')"
     ft.sql_post(sql)
     # ---------------------
                  	   
@@ -288,4 +271,11 @@ class PotholesController < ApplicationController
     end
   end
   
+end
+
+def encode_text data    
+  return "'#{data.gsub(/\\/, '\&\&').gsub(/'/, "''")}'" 
+end
+def encode_date data    
+  return "'#{data.strftime("%m-%d-%Y %H:%M:%S")}'"
 end
