@@ -51,6 +51,24 @@ div.outer_layout.about div.about_right a {color:#FF9900;}
 div.outer_layout.about div.about_right p {float:left; background:url(../images/arrow_right.jpg) no-repeat 0 2px; padding: 0 0 15px 18px; font: normal 13px "Lucida Grande";}
 div.outer_layout.about div.about_right {float:right; width:270px;}
 
+/* MAIN CITIES */
+div.outer_layout.sub {float:left; background:url(../images/outer_subheader_bkg.png) repeat-y center 0;}
+div.subheader {margin:0 auto; position:relative; width:960px; height:141px;}
+div.subheader div.subheader_main {float:left; width:960px; height:107px; padding:36px 0 0 0; background:url(../images/subheader_bkg.png) repeat-x -1px 0;}
+div.subheader div.subheader_main h1 {font:normal 41px "Lucida Grande"; color:#666666; letter-spacing:-1px;}
+
+div.outer_layout.cities {float:left; width:960px; padding:36px 0 12px 210px; background:#FFFFFF;}
+div.outer_layout.cities div.text {font:normal 13px "Lucida Grande"; color:#666666;}
+div.outer_layout.cities div.text a {color:#FF9900;}
+div.outer_layout.cities div.text ul {float:left; width:100%; padding:25px 0 20px 0; border-bottom:1px solid #CCCCCC;}
+div.outer_layout.cities div.text ul.last {float:left; width:100%; padding:25px 0 20px 0; border-bottom:0px;}
+div.outer_layout.cities div.text ul li ul {border-bottom:0px;}
+div.outer_layout.cities div.text ul li ul li {float:left; width:200px; margin: 0 0 0;}
+div.outer_layout.cities div.text ul li.last {float:left; width:200px; margin: 0 0 0;}
+div.outer_layout.cities div.text h4 {font:normal 17px "Lucida Grande";}
+div.outer_layout.cities div.text h4 strong {font:normal 13px "Lucida Grande";}
+
+
 /*MAIN MAP*/
 div.outer_layout.map {float:left; width:100%; background:url(../images/outer_map_bkg.png) repeat-y center 0;}
 div.outer_layout.map div.main_map {margin:0 auto; width:960px;}
