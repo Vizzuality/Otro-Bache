@@ -36,7 +36,7 @@
 						)</sup></p></a>
 				</div>
 				<div class="header_right">
-					<% if (controller.controller_name=='potholes')  %>
+					<% if ((controller.controller_name=='potholes') || (controller.controller_name == 'cities'))  %>
 						<%= image_tag("select_arrow.png", :class => "select_index") %>
 					<% elsif (controller.controller_name=='about')%>
 						<%= image_tag("select_arrow.png", :class => "select_descargar") %>
