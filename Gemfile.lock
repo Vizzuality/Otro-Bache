@@ -55,6 +55,7 @@ GEM
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
     columnize (0.3.1)
+    connection_ninja (0.4.1)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     fusion_tables (0.2.2)
@@ -119,6 +120,7 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   capistrano-ext
+  connection_ninja
   fusion_tables (= 0.2.2)
   gdata_19
   geokit
