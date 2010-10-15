@@ -155,7 +155,60 @@ div.outer_layout.list div.sort p a:hover {color:#FF6600;}
 div.outer_layout.list div.sort p a.selected {padding:0 5px; color:#666666; text-decoration:none;}
 div.outer_layout.list div.sort p a.selected:hover {text-decoration:none;}
 
-div.outer_layout.list div.background_summary {margin:0 auto; width:960px; }
+div.outer_layout.list div.background_summary {
+  clear:both;
+  margin:0 233px;
+  width:686px;
+}
+div.outer_layout.list div.pagination {
+  float:left;
+  width:100%;
+  padding: 20px 0;
+  background:url(../images/white_gray.png) repeat-y 2px 0 white;
+  text-align: center;
+  font:normal 13px "Lucida Grande"; color:#666666;
+}
+div.outer_layout.list div.pagination a,
+div.outer_layout.list div.pagination span{
+  background-color:#CCCCCC;
+  color:#666666;
+  margin:0 2px;
+  padding:4px 8px;
+}
+div.outer_layout.list div.pagination em{
+  background-color: #FF9900;
+  color: white;
+  margin: 0 1px;
+  padding: 4px 8px;
+  font-style: normal;
+
+}
+div.outer_layout.list div.pagination span.gap{
+  background-color: transparent;
+  font-weight: bold;
+  color: #666666;
+  font-size: 25px;
+  padding: 0;
+}
+div.outer_layout.list div.pagination a{
+  text-decoration: none;
+}
+div.outer_layout.list div.pagination .previous_page{
+  background: transparent url("/images/left_arrow.png") no-repeat scroll center left;
+  padding-left: 14px;
+}
+
+div.outer_layout.list div.pagination .next_page{
+  background: transparent url("/images/right_arrow.png") no-repeat scroll center right;
+  padding-right: 14px;
+}
+div.outer_layout.list div.pagination .previous_page,
+div.outer_layout.list div.pagination .next_page{
+  color: #FF9900;
+  text-decoration: underline;
+}
+
+/*div.outer_layout.list div.background_summary {margin:0 auto; width:960px; }
 div.outer_layout.list div.summary {float:left; width:100%; background:url(../images/white_gray.png) repeat-y 2px 0 white;}
 div.outer_layout.list div.summary p {float:left; text-align:center; width:auto; font:normal 13px "Lucida Grande"; color:#999999; padding:20px 0 75px 0; margin: 0 0 0 170px;}
 div.outer_layout.list div.summary p strong {font:normal 17px "Lucida Grande"; color:#999999;}
@@ -163,7 +216,7 @@ div.outer_layout.list div.summary a.view_more {float:left; height:34px; backgrou
 div.outer_layout.list div.summary a.view_more:hover {background-position:0 -34px;}
 div.outer_layout.list div.summary a.view_less {float:left; height:34px; background:url(../images/view_less_button.png) no-repeat 0 0; width:91px; margin:13px 0 0 10px;}
 div.outer_layout.list div.summary a.view_less:hover {background-position:0 -34px;}
-
+*/
 div.outer_layout.list ul {width:100%;}
 div.outer_layout.list ul li {float:left; width:100%;}
 div.outer_layout.list ul li div.outer_item {margin:0 auto; width:960px;}
