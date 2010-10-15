@@ -1,6 +1,8 @@
 class CitiesController < ApplicationController
   def index
     
+    @country_name = session[:country]
+    
     #select all countries
     sql="select c.id,c.name,count(p.id) as num_baches from potholes as p inner join countries as c on p.country_id=c.id
     group by c.id,c.name

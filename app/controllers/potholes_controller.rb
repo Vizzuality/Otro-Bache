@@ -106,7 +106,8 @@ class PotholesController < ApplicationController
     
     @city_name=city_name
     @country_name=country_name
-    
+    session[:country] = @country.name
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @potholes }
@@ -116,18 +117,26 @@ class PotholesController < ApplicationController
   # GET /potholes/1
   # GET /potholes/1.xml
   def show 
-            if !params.nil?
-              @pothole = Pothole.find(params[:id])
-                            
-              respond_to do |format|
-                format.html # show.html.erb
-                format.xml  { render :xml => @pothole }
-              end
+    if !params.nil?
+      @pothole = Pothole.find(params[:id])
+  
+      sql="select distinct on (address,reported_date) *,
+             (select count(id) from potholes where address=p.address)
+             as counter from potholes as p where lat = #{@pothole.lat} and lon = #{@pothole.lon} 
+             order by address, reported_date DESC"
+      sqlCount="select count(*) as count from ("+sql+") as sql"
+
+      @counter = Pothole.find_by_sql(sqlCount).first.count.to_i
+                                
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @pothole }
+      end
               
-            else
-              render :xml => "{'Status':'Error'}"      
-            end
-        end
+    else
+      render :xml => "{'Status':'Error'}"      
+    end
+  end
 
   # GET /potholes/new
   # GET /potholes/new.xml

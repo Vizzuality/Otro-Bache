@@ -12,6 +12,7 @@ var map_enabled = false;
 
 
 $(document).ready(function() {
+	initialize();
 	reported_potholes = [];
 	$('a#addPothole').click(function(ev){
 		ev.stopPropagation();
@@ -176,7 +177,7 @@ $(document).ready(function() {
   								$(this).css('background-position',$(this).attr('alt'));
   							});
 
-  							$('ul#locations_list').append('<li><a class="others" href="#">Otros municipios</a></li>');
+  							$('ul#locations_list').append('<li><a class="others" href="/cities">Otros municipios</a></li>');
 
 
 

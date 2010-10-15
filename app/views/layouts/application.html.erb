@@ -10,8 +10,7 @@
 		<%= javascript_include_tag "http://www.google.com/jsapi" %>
   	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
 		<%= javascript_include_tag "jquery.tools.min.js" %>
-		<%= javascript_include_tag "application.js" %>
-
+		<%= yield :js %>
 	  	<%= csrf_meta_tag %>
 	
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
@@ -21,7 +20,7 @@
 
 	</head> 
 	
-	<body onload="initialize()">
+	<body>
 		
 		<div class="outer_layout top">
 			<div class="header">
