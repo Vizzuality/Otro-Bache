@@ -2,7 +2,10 @@ Otrobache::Application.routes.draw do |map|
 
   root :to => 'potholes#index'
   
-  resources :potholes
+  resources :potholes do
+    post 'add_photo', :on => :member
+  end
+  
   match "create" => "potholes#create"
   
   match "in/:location" => "potholes#index"

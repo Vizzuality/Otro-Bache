@@ -174,12 +174,12 @@ class PotholesController < ApplicationController
   def create
 
     res           = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(params[:lat]+','+params[:long])
-    @country_name = res.country
-    @country_code = res.country_code
-    @address      = res.full_address
-    @addressline  = res.street_address
-    @city_name    = res.city
-    @zip          = res.zip
+    @country_name = res.country           || ''
+    @country_code = res.country_code      || ''
+    @address      = res.full_address      || ''
+    @addressline  = res.street_address    || ''
+    @city_name    = res.city              || ''
+    @zip          = res.zip               || ''
 
     #find our country and city
     begin
@@ -198,10 +198,10 @@ class PotholesController < ApplicationController
     @country = Country.find_or_create_by_code(@country_code, :name=>@country_name)
     @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id)
 
-	  lat = params[:lat][0..7]
-	  long = params[:long][0..7]
-	  @address = @address.gsub(",","|")
-	  @addressline = @addressline.gsub(",","|")
+	  lat           = params[:lat][0..7]
+	  long          = params[:long][0..7]
+	  @address      = @address.gsub(",","|")
+	  @addressline  = @addressline.gsub(",","|")
 	  reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
 
     # --------------
@@ -238,17 +238,20 @@ class PotholesController < ApplicationController
     ft.sql_post(sql)
     # ---------------------
 
-    if @pothole.save
-      render :text => "saved"
-    else
-      render :text => "failed"
+    respond_to do |format|
+      if @pothole.save
+        format.html { render :text => "saved" }
+        format.json { render :json => @pothole.to_json }
+      else
+        format.html { render :text => "failed" }
+        format.json { render :json => {}.to_json }
+      end
     end
   end
 
   # PUT /potholes/1
   # PUT /potholes/1.xml
   def update
-    #debugger
     @pothole = Pothole.find(params[:id])
 
     respond_to do |format|
@@ -273,6 +276,20 @@ class PotholesController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def add_photo
+    pothole = Pothole.find(params[:id])
+
+    respond_to do |format|
+
+      if pothole.update_attributes(params[:pothole])
+        format.json { render :json => pothole.to_json }
+      else
+        format.json { render :json => {:error => true}.to_json, :status => :error }
+      end
+    end
+  end
+
 
 end
 

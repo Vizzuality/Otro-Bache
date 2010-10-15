@@ -1,154 +1,182 @@
 <% content_for :js do %>
-<%= javascript_include_tag "application.js" %>
-<% end %>
+  <%= javascript_include_tag "application.js", "swfobject.js", "jquery.uploadify.js" %>
+  <script type="text/javascript" charset="utf-8">
+    <% session_key = Rails.application.config.session_options[:key] %>
+    var uploadify_script_data = {};
+    uploadify_script_data['<%= session_key %>'] = '<%= cookies[session_key] %>';
 
+  </script>
+  <%= stylesheet_link_tag "uploadify.css" %>
+<% end %>
 <div class="outer_layout sub">
-	<div class="subheader">
-		<div class="subheader_left">
-			
-			<% if (@total_entries > 0) %>
-				<h3>Que nosotros sepamos,</h3>
-				<h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%> 
-					en <%= @actual_term_searched.truncate(18) %></strong></h1>
-			<% else %>
-				<h3>No tenemos baches reportados</h3>
-				<h1><strong>¡Reporta el primero!</strong></h1>
-			<% end %>
-			
-			
-		</div>
-		<div class="subheader_right"></div>
-	</div>
+  <div class="subheader">
+    <div class="subheader_left">
+      
+      <% if (@total_entries > 0) %>
+        <h3>Que nosotros sepamos,</h3>
+        <h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%> 
+          en <%= @actual_term_searched.truncate(18) %></strong></h1>
+      <% else %>
+        <h3>No tenemos baches reportados</h3>
+        <h1><strong>¡Reporta el primero!</strong></h1>
+      <% end %>
+      
+      
+    </div>
+    <div class="subheader_right"></div>
+  </div>
 </div>
 <div style="display:none" id="location"><%=@country_name%><%=@city_name%></div>
 
 <div class="outer_layout map">
-	<div class="main_map">
-		<div class="main_map_left">
-			<div class="border_map">
-				<div id="main_map"></div>
-				<div class="geocorder">
-					<div class="left">
-						<p>Busca cerca de </p>
-						<form action="javascript:void geocorder()">
-							<input type="text" value="" />
-							<input type="submit" value="" />
-						</form>
-					</div>
-					<div class="right">
-						<a href="javascript:void addNewPothole()" id="send_pothole"></a>
-					</div>
-				</div>
-				<div id="mamufas_main">
-					<%= image_tag("ajax-loader.gif") %>
-				</div>
-				<p class="click">Pulsa en cualquier parte del mapa para añadir el marker</p>
-				<p class="done">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+  <div class="main_map">
+    <div class="main_map_left">
+      <div class="border_map">
+        <div id="main_map"></div>
+        <div id="pothole_info" class="pothole_info">
+          <span>Gracias!,</span>
+          <p>
+            Tu bache se ha reportado correctamente.
+          </p>
+        </div>
+        <div class="geocorder">
+          <div class="left">
+            <p>Busca cerca de </p>
+            <form action="javascript:void geocorder()">
+              <input type="text" value="" />
+              <input type="submit" value="" />
+            </form>
+          </div>
+          <div class="right">
+            <div id="create_pothole" class="steps">
+              <%= link_to_function '', 'addNewPothole()', :id => 'send_pothole' %>
+            </div>
+            <div id="sending_pothole" class="steps">
+              <span>Enviando...</span>
+              <%= image_tag 'loading.gif', :class => 'loading' %>
+            </div>
+            <div id="add_photo" class="steps">
+              <%= link_to_function 'Añadir una foto', '' %>
+              <span> o </span>
+              <%= link_to_function 'finalizar', 'closeExpose()' %>
+            </div>
+            <div id="change_photo" class="steps">
+              <%= link_to_function 'Cambiar la foto', '' %>
+              <span> o </span>
+              <%= link_to_function 'finalizar', 'closeExpose()' %>
+            </div>
+            <div class="uploadify">
+              <div id="fileInput"></div>
+            </div>
+          </div>
+        </div>
+        <p class="click">Pulsa en cualquier parte del mapa para añadir el marker</p>
+        <p class="done">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
 
-				<%= image_tag("map_shadow.png", :class => "shadow") %>
+        <%= image_tag("map_shadow.png", :class => "shadow") %>
 
-			</div>
-		</div>
-		<div class="main_map_right">
-			<label>Municipios cerca</label>
-			<ul class="margin" id="locations_list">
-			</ul>
-			<label>Ver todos los baches en</label>
-			<ul>
-				<% @countries.each do |country| %>
-					<li><a class="stat" href="/in/<%=country.name%>"><span><%=country.name%></span></a></li>
-				<% end %>	
-			</ul>
-			<a href="#" class="add_pothole" id="addPothole"></a>
-		</div>
-	</div>
+      </div>
+    </div>
+    <div class="main_map_right">
+      <label>Municipios cerca</label>
+      <ul class="margin" id="locations_list">
+      </ul>
+      <label>Ver todos los baches en</label>
+      <ul>
+        <% @countries.each do |country| %>
+          <li><a class="stat" href="/in/<%=country.name%>"><span><%=country.name%></span></a></li>
+        <% end %> 
+      </ul>
+      <a href="#" class="add_pothole" id="addPothole"></a>
+    </div>
+  </div>
 </div>
 
 <div class="outer_layout list">
-	<div class="sort">
-		<p>Ordenar: <a class="selected" href="#">Últimos primero</a> | <a href="#">Más confirmados</a></p>
-	</div>
-	<ul id="pothole_list">	
-		
-		<% @potholes.each do |pothole| %>
-			<li class="first">
-				<div class="outer_item">
-					<div class="pothole_inf">
-						<a href="#" class="view_more"></a>
-						<div class="image">
-							<%= image_tag((pothole.counter.to_i > 1)? "plus.png" : "reported.png", :alt => "reported") %>
-						</div>
-						<div class="data">
-							<p class="place">
-							<%= pothole.addressline.truncate(50) %> 
-							<strong>(<%= pothole.zip %>, <%= pothole.city.name.truncate(10) %>)</strong></p>
-							<p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong> 
-							
-							<% if (pothole.counter.to_i > 1) %> 
-								veces 
-							<% else %> 
-								vez 
-							<% end %> reportado. Última vez hace 
-							
-							<strong><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
+  <div class="sort">
+    <p>Ordenar: <a class="selected" href="#">Últimos primero</a> | <a href="#">Más confirmados</a></p>
+  </div>
+  <ul id="pothole_list">  
+    
+    <% @potholes.each do |pothole| %>
+      <li class="first">
+        <div class="outer_item">
+          <div class="pothole_inf">
+            <a href="#" class="view_more"></a>
+            <div class="image">
+              <%= image_tag((pothole.counter.to_i > 1)? "plus.png" : "reported.png", :alt => "reported") %>
+            </div>
+            <div class="data">
+              <p class="place">
+              <%= pothole.addressline.truncate(50) %> 
+              <strong>(<%= pothole.zip %>, <%= pothole.city.name.truncate(10) %>)</strong></p>
+              <p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong> 
+              
+              <% if (pothole.counter.to_i > 1) %> 
+                veces 
+              <% else %> 
+                vez 
+              <% end %> reportado. Última vez hace 
+              
+              <strong><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
 
-							<p class="hidden lat"><%= pothole.lat %></p>
-							<p class="hidden lon"><%= pothole.lon %></p>
-							<p class="hidden id_pothole"><%= pothole.id %></p>
-							<p class="hidden days"><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año") %></p>
-						</div>
-					</div>
-				</div>
-			</li>
-		<% end %>
-		<li class="selected">
-			<div class="pothole_data">
-				<div class="left_selected">
-					<a href="javascript:void closeSelectedItem()" class="close_arrow" id="close_selected"></a>
-					<%= image_tag("gray_arrow.png", :class=>"grey_arrow", :alt => "grey arrow") %>
-					<div class="information">
-						<p class="place">c/Jacobinia, cerca del 38</p>
-						<p class="reported">2 veces reportado. Última vez <strong>hace 23 días</strong></p>
-					</div>
-					<div class="border_map">
-						<div id="selected_map"></div>
-						<div id="mamufas_selected">
-							<%= image_tag("ajax-loader.gif") %>
-						</div>
-					</div>
-					<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
-					<a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
-				</div>
-				<div class="right_selected">
-					<div class="social_media">
-						<p>Quéjate en...</p>
-						<p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
-					</div>						
-					<p class="first">Lleva</p>
-					<p class="days">65 días</p>
-					<p class="first">sin ser arreglado</p>
-					<p class="first gray">(que nosotros sepamos)</p>
-				</div>
-			</div>
-		</li>
-	</ul>
-	<div class="background_summary">
-		<div class="summary">
-			<% if (@potholes.total_entries > 1) %>
-				<% if (@current_page > 1) %>
-					<a href="<%=url_for(params.merge(:page=>@potholes.previous_page,:total_entries=>@total_entries))%>" class="view_less"></a>
-				<% end %>
-				<% if (@current_page > 1) %>
-				 	<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> baches seleccionados</p>
-				<% else %>
-					<p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
-				<% end %>
-				<% if ((@potholes.total_pages > 1) && (@current_page < @potholes.total_pages)) %>
-					<a href="<%=url_for(params.merge(:page=>@potholes.next_page,:total_entries=>@total_entries))%>" class="view_more"></a>	
-				<%end%>
-			<% else %>
-				<p>viendo el único bache</p>
-			<% end %>			
-		</div>
-	</div>
+              <p class="hidden lat"><%= pothole.lat %></p>
+              <p class="hidden lon"><%= pothole.lon %></p>
+              <p class="hidden id_pothole"><%= pothole.id %></p>
+              <p class="hidden days"><%= distance_of_time_in_words(pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año") %></p>
+            </div>
+          </div>
+        </div>
+      </li>
+    <% end %>
+    <li class="selected">
+      <div class="pothole_data">
+        <div class="left_selected">
+          <a href="javascript:void closeSelectedItem()" class="close_arrow" id="close_selected"></a>
+          <%= image_tag("gray_arrow.png", :class=>"grey_arrow", :alt => "grey arrow") %>
+          <div class="information">
+            <p class="place">c/Jacobinia, cerca del 38</p>
+            <p class="reported">2 veces reportado. Última vez <strong>hace 23 días</strong></p>
+          </div>
+          <div class="border_map">
+            <div id="selected_map"></div>
+            <div id="mamufas_selected">
+              <%= image_tag("ajax-loader.gif") %>
+            </div>
+          </div>
+          <p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+          <a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
+        </div>
+        <div class="right_selected">
+          <div class="social_media">
+            <p>Quéjate en...</p>
+            <p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
+          </div>            
+          <p class="first">Lleva</p>
+          <p class="days">65 días</p>
+          <p class="first">sin ser arreglado</p>
+          <p class="first gray">(que nosotros sepamos)</p>
+        </div>
+      </div>
+    </li>
+  </ul>
+  <div class="background_summary">
+    <div class="summary">
+      <% if (@potholes.total_entries > 1) %>
+        <% if (@current_page > 1) %>
+          <a href="<%=url_for(params.merge(:page=>@potholes.previous_page,:total_entries=>@total_entries))%>" class="view_less"></a>
+        <% end %>
+        <% if (@current_page > 1) %>
+          <p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> baches seleccionados</p>
+        <% else %>
+          <p>viendo los <%= (@potholes.total_entries < 10)? @potholes.total_entries : '10'%> últimos baches</strong></p><strong>
+        <% end %>
+        <% if ((@potholes.total_pages > 1) && (@current_page < @potholes.total_pages)) %>
+          <a href="<%=url_for(params.merge(:page=>@potholes.next_page,:total_entries=>@total_entries))%>" class="view_more"></a>  
+        <%end%>
+      <% else %>
+        <p>viendo el único bache</p>
+      <% end %>     
+    </div>
+  </div>
 </div>

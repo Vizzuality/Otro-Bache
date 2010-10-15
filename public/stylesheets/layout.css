@@ -81,8 +81,19 @@ div.outer_layout.map div.main_map div.main_map_left div.border_map img.shadow {p
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.click {position:absolute; display:none; bottom:300px; right:50px; width:159px; padding:12px 15px; height:67px; background:url(../images/click_tooltip.png) no-repeat 0 0; font:normal 15px "Lucida Grande"; color:#CCCCCC; line-height:18px; z-index:100;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.done {display:none; position:absolute; top:-50px; left:450px; width:180px; height:76px; background:url(../images/confirm_tooltip.png) no-repeat 0 0; padding:12px 15px; font:normal 17px "Lucida Grande"; z-index:100; color:white; line-height:21px;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.done strong {padding:5px 0 0 0; font:normal 14px "Lucida Grande"; line-height:18px;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder {position:absolute; height:40px; width:100%; left:0; bottom:33px; background:white; padding:5px 0 0; display:none;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder p {float:left; padding:11px 5px 0 20px; font:normal 13px "Lucida Grande"; color:#666666;}
+
+div.outer_layout.map div.main_map div.main_map_left div.border_map div#pothole_info{display: none;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.pothole_info{}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.pothole_info span{}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.pothole_info span{}
+
+
+
+
+
+
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder {position:absolute; height:40px; width:100%; left:0; bottom:33px; background:white; padding:5px 0 0; display:none;font:normal 13px "Lucida Grande";}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder p {float:left; padding:11px 5px 0 20px; color:#666666;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder form {float:left; margin:5px 0 0 0;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder form input[type="text"] {float:left; border:none; padding:3px 0 0 0; border-bottom:1px solid #999999; font:normal 15px "Lucida Grande"; color:#333333; width:200px;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder form input[type="text"]:focus {outline:none;}
@@ -91,9 +102,24 @@ div.outer_layout.map div.main_map div.main_map_left div.border_map div.geocorder
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#mamufas_main {display:none; position:absolute; z-index:50; top:0; left:0; width:100%; height:100%; background:white; opacity:0.88;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#mamufas_main img {margin:155px 0 0 328px;}
 
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.right {float:right;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole {float:right; width:214px; height:34px; background:url(../images/send_pothole.png) no-repeat 0 0; margin:0 10px 0 0;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right {float:right; overflow: hidden;}
+
+
+
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.steps{display:none; padding: 11px;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div#create_pothole{padding: 0; display: block;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole {display: block; width:214px; height:34px; background:url(../images/send_pothole.png) no-repeat 0 0; margin:0 10px 0 0;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div.right a#send_pothole:hover {background-position:0 -34px;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.steps span,
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.steps a{font-size: 15px; font-weight: bold;vertical-align: middle; margin: 0 2px;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.steps img.loading{vertical-align: middle; margin: 0 2px;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.steps a{color: #FF9900; text-decoration: underline;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.uploadify{position:absolute;left:458px;top:14px;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div.right div.uploadify object{position: absolute;}
+
+
+
+
 
 div.outer_layout.map div.main_map div.main_map_right {position:relative; float:left; width:264px; padding:5px 0 40px 10px; z-index:10;}
 div.outer_layout.map div.main_map div.main_map_right label {float:left; width:100%; padding:0 0 0 10px; font:normal 13px "Lucida Grande"; color:#999999;}

@@ -24,6 +24,7 @@ gem 'hoptoad_notifier'
 gem 'capistrano'
 gem 'capistrano-ext'
 
+gem 'carrierwave'
 
 # Development
 group :development, :test do

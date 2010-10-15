@@ -54,6 +54,8 @@ GEM
       net-ssh-gateway (>= 1.0.0)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
+    carrierwave (0.5.0)
+      activesupport (~> 3.0.0)
     columnize (0.3.1)
     connection_ninja (0.4.1)
     erubis (2.6.6)
@@ -120,6 +122,7 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   capistrano-ext
+  carrierwave
   connection_ninja
   fusion_tables (= 0.2.2)
   gdata_19
