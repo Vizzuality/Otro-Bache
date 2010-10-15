@@ -183,7 +183,7 @@ $(document).ready(function() {
                   $(this).css('background-position',$(this).attr('alt'));
                 });
 
-                $('ul#locations_list').append('<li><a class="others" href="#">Otros municipios</a></li>');
+                $('ul#locations_list').append('<li class="others"><a href="#">Otros lugares</a><span>&#8594;</span></li>');
 
 
 
