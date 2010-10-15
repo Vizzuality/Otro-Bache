@@ -259,11 +259,7 @@ $(document).ready(function() {
         function(results, status) {
           var country = results.formatted_address;
           if (status == google.maps.GeocoderStatus.OK) {
-            console.log(results);
-            var bounds = new google.maps.LatLngBounds();
-            bounds.extend(new google.maps.LatLng(results[0].geometry.bounds.ea.b,results[0].geometry.bounds.T.b));
-            bounds.extend(new google.maps.LatLng(results[0].geometry.bounds.ea.c,results[0].geometry.bounds.T.c));
-            map.fitBounds(bounds);
+            map.fitBounds(results[0].geometry.bounds);
             map.setCenter(results[0].geometry.location);
           } else {
             alert('Lo siento no hemos encontrado tu localidad');
