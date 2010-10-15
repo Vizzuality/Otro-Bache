@@ -183,7 +183,7 @@ $(document).ready(function() {
                   $(this).css('background-position',$(this).attr('alt'));
                 });
 
-                $('ul#locations_list').append('<li class="others"><a href="#">Otros lugares</a><span>&#8594;</span></li>');
+                $('ul#locations_list').append('<li class="others"><a href="/cities">Otros lugares</a><span>&#8594;</span></li>');
 
 
 
@@ -425,8 +425,9 @@ $(document).ready(function() {
         $('#add_photo, #change_photo').fadeOut('fast');
         $('#fileInputQueue span.fileName').text('Añadiendo...');
       },
-      'onError'       : function(){
+      'onError'       : function(event, queueID, fileObj, errorObj){
         alert('Se produjo un error al añadir la imagen.');
+        $('#fileInput'+queueID).remove();
         $('div.geocorder div.steps').hide();
         $('#add_photo').fadeIn('fast');
       },

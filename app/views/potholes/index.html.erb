@@ -1,11 +1,10 @@
 <% content_for :js do %>
-  <%= javascript_include_tag "application.js", "swfobject.js", "jquery.uploadify.js" %>
   <script type="text/javascript" charset="utf-8">
     <% session_key = Rails.application.config.session_options[:key] %>
     var uploadify_script_data = {};
     uploadify_script_data['<%= session_key %>'] = '<%= cookies[session_key] %>';
-
   </script>
+  <%= javascript_include_tag "application.js", "swfobject.js", "jquery.uploadify.js" %>
   <%= stylesheet_link_tag "uploadify.css" %>
 <% end %>
 <div class="outer_layout sub">
