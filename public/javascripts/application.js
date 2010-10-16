@@ -30,7 +30,7 @@ $(document).ready(function() {
             $('div.main_map_left').css('padding-bottom','0');
             $('div.outer_layout.list div.sort p').css('padding-top','42px');
             $('div.main_map_left div.border_map p.click ').fadeIn();
-            $('div.main_map_left div.border_map div.geocorder').fadeIn();
+            $('div.main_map_left div.border_map div#map_search').fadeIn();
             $('div.main_map_left div.border_map div.geocorder div.steps').hide();
             $('#create_pothole').show();
             $('div.main_map_left div.border_map div.geocorder div.uploadify').hide();
@@ -39,6 +39,7 @@ $(document).ready(function() {
             map_enabled = false;
             !add_marker || add_marker.setMap(null);
             $('div.main_map_left div.border_map p.click ').fadeOut();
+            $('div.main_map_left div.border_map div#map_search').hide();
             $('div.main_map_left div.border_map div.geocorder').fadeOut();
           },
           onClose: function() {
@@ -130,21 +131,51 @@ $(document).ready(function() {
 });
 
   function initialize() {
+    
+    function ZoomInControl(controlDiv, map) {
+
+      controlDiv.setAttribute('class', 'map_zoom_in');
+
+      google.maps.event.addDomListener(controlDiv, 'click', function() {
+        map.setZoom(map.getZoom() + 1);
+      });
+    }
+
+    function ZoomOutControl(controlDiv, map) {
+
+      controlDiv.setAttribute('class', 'map_zoom_out');
+
+      google.maps.event.addDomListener(controlDiv, 'click', function() {
+        map.setZoom(map.getZoom() - 1);
+      });
+    }
+    
     var myLatlng = new google.maps.LatLng(40.463667, -3.74922);
     var myOptions = {
       zoom: 8,
       center: myLatlng,
+      mapTypeControl: false,
+      navigationControl: false,
+      navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: false,
-      scrollwheel: false
+      scrollwheel: false,
+      streetViewControl: false
     }
-  geocoder = new google.maps.Geocoder();
-    
-    
-    map = new google.maps.Map(document.getElementById("main_map"), myOptions);
-  map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
-    
+    geocoder = new google.maps.Geocoder();
 
+    map = new google.maps.Map(document.getElementById("main_map"), myOptions);
+    var zoomInControlDiv = document.createElement('DIV');
+    var zoomInControl = new ZoomInControl(zoomInControlDiv, map);
+    zoomInControlDiv.index = 1;
+    var zoomOutControlDiv = document.createElement('DIV');
+    var zoomOutControl = new ZoomOutControl(zoomOutControlDiv, map);
+    zoomOutControlDiv.index = 2;
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomInControlDiv);
+    map.controls[google.maps.ControlPosition.LEFT].push(zoomOutControlDiv);
+  
+    map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
+    
      geocoder.geocode( { 'address': $('#location').text()}, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
           map.fitBounds(results[0].geometry.viewport); 
@@ -208,9 +239,27 @@ $(document).ready(function() {
     
     google.maps.event.addListener(map, 'click', function(event) {
       if (map_enabled) {
+        $('div.main_map_left div.border_map div.geocorder').fadeIn();
         $('div.main_map_left div.border_map p.click').text('Ahora puedes arrastrar el "marker" donde quieras...');
+        
         !add_marker || add_marker.setMap(null);
         add_marker = new google.maps.Marker({position: event.latLng, map: map, draggable: true});
+
+        !geocoder || geocoder.geocode({'latLng': event.latLng}, function(results, status){
+          if (results && results[0] && results[0].formatted_address) {
+            var
+              paragraph = $('div.main_map_left div.border_map div.geocorder div.left p'),
+              font_size = 15;
+            paragraph.css('font-size', font_size).find('span.address').text(results[0].formatted_address);
+            while(paragraph.width() > 400){
+              font_size -= 1;
+              paragraph.css('font-size', font_size);
+            }
+            paragraph.fadeIn();
+          };
+          
+
+        });
       }
     });
   }
