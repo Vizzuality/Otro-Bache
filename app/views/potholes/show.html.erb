@@ -1,3 +1,46 @@
+<% content_for :js do %>
+<%= javascript_include_tag "show.js" %>
+<% end %>
+
+<div class="outer_layout sub">
+	<div class="subheader show">
+		<div class="subheader_left">
+			<h1 class="show">Se ha denunciado un bache en</h1>
+			<h3 class="show"><%= @pothole.addressline %> <strong>(<%= @pothole.zip %>, <%= @pothole.city.name %>)</strong></h3>
+		</div>
+		<div class="subheader_right"></div>
+	</div>
+</div>
+
+<span class="hidden" id="lat"><%= @pothole.lat %></span>
+<span class="hidden" id="lon"><%= @pothole.lon %></span>
+<div class="show">
+	<div class="left_show">
+		<div class="border_map">
+			<div id="show_map"></div>
+			<div id="mamufas_selected">
+				<%= image_tag("ajax-loader.gif") %>
+			</div>
+		</div>
+		<div class="information">
+			<p class="place"></p>
+			<p class="reported"><%= @counter %>2 veces reportado. Última vez <strong>hace 23 días</strong></p>
+		</div>
+		<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+		<a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
+	</div>
+	<div class="right_show">
+		<div class="social_media">
+			<p>Quéjate en...</p>
+			<p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
+		</div>						
+		<p class="first">Lleva</p>
+		<p class="days">65 días</p>
+		<p class="first">sin ser arreglado</p>
+		<p class="first gray">(que nosotros sepamos)</p>
+	</div>
+</div>
+
 <h1>Listing potholes</h1>
 
 <table>

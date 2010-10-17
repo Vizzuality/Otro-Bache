@@ -1,29 +1,34 @@
-<div class="outer_layout sub">
-	<div class="subheader">
-		<div class="subheader_left">
-			<h1><strong>Todos los municipios</strong></h1>
-		</div>
-		<div class="subheader_right">
+<div class="outer_layout head_cities">
+  <div class="subheader">
+	  <div class="subheader_main">
+		  <h1>Todos los municipios</h1>
+	  </div>
+  </div>
+</div>
 
-		</div>
+<div class="outer_layout cities">
+	<div class="text">
+		<%@result.each do |country|%>
+		  <% if country == @result.last%>
+		    <ul class="last">
+		  <% else %>
+		    <ul>
+		  <% end %>
+			  <li><h4><%=country[:name].capitalize%> <strong>(<%=country[:num_baches]%>)</strong></h4>
+			    <ul> <%count=1%>
+			      <%country[:cities].each do |city|%>
+			        <% if count == 4%>
+			          <li class="last"><a href="/in/<%=city[:name]%>"><%=city[:name]%></a> (<%=city[:num_baches]%>)</li>
+			          <%count=1%>
+			        <%else%>
+					      <li><a href="/in/<%=city[:name]%>"><%=city[:name]%></a> (<%=city[:num_baches]%>)</li>
+					      <%count=count+1%>
+					    <%end%>
+				    <%end%>
+				  </ul>
+				</li>
+			</ul>
+		<%end%>
 	</div>
 </div>
 
-<div class="outer_layout about">
-	<div class="about">
-		<div class="about_left">
-			<div class="text">
-				<ul>
-				<%@result.each do |country|%>
-					<li><a href="/in/<%=country[:name]%>"><%=country[:name]%> (<%=country[:num_baches]%>)</a></li>
-					<li><ul>
-						<%country[:cities].each do |city|%>
-							<li><a href="/in/<%=city[:name]%>"><%=city[:name]%> (<%=city[:num_baches]%>)</a></li>
-						<%end%>
-					</ul></li>
-				<%end%>
-				<ul>
-			</div>
-		</div>
-	</div>
-</div>

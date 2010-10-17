@@ -6,7 +6,7 @@ GIT
 
 GIT
   remote: git://github.com/jlecour/geokit-rails.git
-  revision: 51ed32054d8065bcfcfc923850387b4092f946f2
+  revision: 51ed320
   branch: gem
   specs:
     geokit-rails (0.0.2)
@@ -54,7 +54,10 @@ GEM
       net-ssh-gateway (>= 1.0.0)
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
+    carrierwave (0.5.0)
+      activesupport (~> 3.0.0)
     columnize (0.3.1)
+    connection_ninja (0.4.1)
     erubis (2.6.6)
       abstract (>= 1.0.0)
     fusion_tables (0.2.2)
@@ -119,6 +122,8 @@ PLATFORMS
 DEPENDENCIES
   capistrano
   capistrano-ext
+  carrierwave
+  connection_ninja
   fusion_tables (= 0.2.2)
   gdata_19
   geokit

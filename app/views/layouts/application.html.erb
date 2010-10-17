@@ -10,8 +10,7 @@
 		<%= javascript_include_tag "http://www.google.com/jsapi" %>
   	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
 		<%= javascript_include_tag "jquery.tools.min.js" %>
-		<%= javascript_include_tag "application.js" %>
-
+		<%= yield :js %>
 	  	<%= csrf_meta_tag %>
 	
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
@@ -21,7 +20,7 @@
 
 	</head> 
 	
-	<body onload="initialize()">
+	<body>
 		
 		<div class="outer_layout top">
 			<div class="header">
@@ -36,7 +35,7 @@
 						)</sup></p></a>
 				</div>
 				<div class="header_right">
-					<% if (controller.controller_name=='potholes')  %>
+					<% if ((controller.controller_name=='potholes') || (controller.controller_name == 'cities'))  %>
 						<%= image_tag("select_arrow.png", :class => "select_index") %>
 					<% elsif (controller.controller_name=='about')%>
 						<%= image_tag("select_arrow.png", :class => "select_descargar") %>
@@ -45,7 +44,6 @@
 					<% end %>
 					<ul>
 						<li><%= link_to "BACHES", "/" %></li>
-						<!--li><%= link_to "DESCARGAS", "/download" %></li -->
 						<li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
 					</ul>
 				</div>
@@ -78,7 +76,6 @@
 				<div class="footer_right">
 					<ul>
 						<li><%= link_to "BACHES", "/" %></li>
-						<!--li><%= link_to "DESCARGAS", "/download" %></li -->
 						<li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
 					</ul>
 					<div class="information">
