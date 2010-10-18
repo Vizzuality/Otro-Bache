@@ -23,7 +23,10 @@ set :user,  'ubuntu'
 
 set :deploy_to, "/home/ubuntu/www/#{application}"
 
-after  "deploy:update_code", :run_migrations
+after  "deploy:update_code" do
+  symlink_uploads_folder
+  run_migrations
+end
 
 desc "Restart Application"
 deploy.task :restart, :roles => [:app] do
@@ -38,6 +41,12 @@ task :run_migrations, :roles => [:app] do
     rake db:migrate
   CMD
 end
- 
+
+desc "Symlinks uploads folder"
+task :symlink_uploads_folder, :roles => :app do
+  run "mkdir -m 777 #{deploy_to}/shared/uploads ; true"
+  run "ln -nfs #{deploy_to}/shared/uploads/ #{current_release}/public/uploads"
+end
+
         require 'config/boot'
         require 'hoptoad_notifier/capistrano'
