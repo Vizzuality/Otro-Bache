@@ -6,7 +6,7 @@
 	<div class="subheader show">
 		<div class="subheader_left">
 			<h1 class="show">Se ha denunciado un bache en</h1>
-			<h3 class="show"><%= @pothole.addressline %> <strong>(<%= @pothole.zip %>, <%= @pothole.city.name %>)</strong></h3>
+			<h3 class="show"><%= @pothole.addressline.delete("|") %> <strong>(<%= @pothole.zip %>, <%= @pothole.city.name %>)</strong></h3>
 		</div>
 		<div class="subheader_right"></div>
 	</div>
@@ -14,61 +14,54 @@
 
 <span class="hidden" id="lat"><%= @pothole.lat %></span>
 <span class="hidden" id="lon"><%= @pothole.lon %></span>
-<div class="show">
-	<div class="left_show">
-		<div class="border_map">
-			<div id="show_map"></div>
-			<div id="mamufas_selected">
-				<%= image_tag("ajax-loader.gif") %>
+<p class="hidden id_pothole"><%= @pothole.id %></p>
+
+<div class="outer_layout map">
+	<div class="main_map">
+		<div class="main_map_left">
+		  <div class="border_map">
+				<div id="main_map"></div>
+				<div class="geocorder">
+					<div class="left">
+						<p>Busca cerca de </p>
+						<form action="javascript:void geocorder()">
+							<input type="text" value="" />
+							<input type="submit" value="" />
+						</form>
+					</div>
+				</div>
+				<div id="mamufas_main">
+					<%= image_tag("ajax-loader.gif") %>
+				</div>
 			</div>
+			<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+			<div class="information">
+  			<p class="place"></p>
+  			<p class="reported">
+  			  <%= @counter %>
+  			  <% if (@counter > 1) %> 
+						veces 
+					<% else %> 
+						vez 
+					<% end %>
+  			  reportado. Última vez <strong>hace 
+  			        <%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
+  		</div>
 		</div>
-		<div class="information">
-			<p class="place"></p>
-			<p class="reported"><%= @counter %>2 veces reportado. Última vez <strong>hace 23 días</strong></p>
-		</div>
-		<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
-		<a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
-	</div>
-	<div class="right_show">
-		<div class="social_media">
-			<p>Quéjate en...</p>
-			<p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
-		</div>						
-		<p class="first">Lleva</p>
-		<p class="days">65 días</p>
-		<p class="first">sin ser arreglado</p>
-		<p class="first gray">(que nosotros sepamos)</p>
+		<div class="main_map_right">
+		  <div class="right_data">
+  		  <div class="social_media">
+  		    <p>Quéjate en...</p>
+  			  <p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
+  		  </div>						
+  		  <p class="first">Lleva</p>
+  		  <p class="days"><%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></p>
+  		  <p class="first">sin ser arreglado</p>
+  		  <p class="first gray">(que nosotros sepamos)</p>
+		  </div>
+		  <a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
+	  </div>
 	</div>
 </div>
 
-<h1>Listing potholes</h1>
-
-<table>
-  <tr>
-    <th>Lat</th>
-    <th>Lon</th>
-    <th>Reported date</th>
-    <th>Reported by</th>
-    <th>Address</th>
-    <th>Zip</th>
-    <th>City</th>
-    <th>Country</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-  <tr>
-    <td><%= @pothole.lat %></td>
-    <td><%= @pothole.lon %></td>
-    <td><%= @pothole.reported_date %></td>
-    <td><%= @pothole.reported_by %></td>
-    <td><%= @pothole.address %></td>
-    <td><%= @pothole.zip %></td>
-    <td><%= link_to @pothole.city.name, root_path+'cities/'+@pothole.city.name %></td>
-    <td><%= link_to @pothole.country.name, root_path+'countries/'+@pothole.country.name %></td>
-    <td><%= link_to 'Reporta', edit_pothole_path(@pothole) %></td>
-    <td><%= link_to 'Destroy', @pothole, :confirm => 'Are you sure?', :method => :delete %></td>
-	<td><%= link_to 'Back', potholes_path %></td>
-  </tr>
-</table>
 

@@ -113,7 +113,8 @@ class PotholesController < ApplicationController
   def show 
     if !params.nil?
       @pothole = Pothole.find(params[:id])
-  
+      @country_name = @pothole.country.name
+      
       sql="select distinct on (address,reported_date) *,
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where lat = #{@pothole.lat} and lon = #{@pothole.lon} 
