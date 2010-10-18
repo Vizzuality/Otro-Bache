@@ -214,7 +214,7 @@ $(document).ready(function() {
                   $(this).css('background-position',$(this).attr('alt'));
                 });
 
-  				$('ul#locations_list').append('<li><a class="others" href="/cities">Otros municipios</a></li>');
+  				$('ul#locations_list').append('<li class="others"><a href="/cities">Otros lugares</a></li>');
 
 
 

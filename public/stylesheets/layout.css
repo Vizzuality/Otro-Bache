@@ -536,8 +536,9 @@ width: 100%;
 padding: 2px 0 1px;
 }
 div.outer_layout.map div.main_map div.main_map_right ul li.others a {
+background: transparent url('/images/right_arrow.png') no-repeat scroll center right;
 float: left;
-padding: 0 10px;
+padding: 0 15px 0 10px;
 line-height: 23px;
 font: normal 13px "Lucida Grande";
 color: #FF9900;
