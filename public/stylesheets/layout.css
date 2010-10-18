@@ -372,15 +372,7 @@ padding: 5px 0 0 0;
 font: normal 14px "Lucida Grande";
 line-height: 18px;
 }
-div.outer_layout.map div.main_map div.main_map_left div.border_map div#pothole_info {
-display: none;
-}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.pothole_info {
-}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.pothole_info span {
-}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div.pothole_info span {
-}
+
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search {
 position: absolute;
 top: -25px;

@@ -14,7 +14,6 @@ var reported_potholes;
 var id_pothole;
 var map_enabled = false;
 var info_window;
-var info_window_div;
 
 $(document).ready(function() {
   initialize();
@@ -47,6 +46,7 @@ $(document).ready(function() {
             $('div.main_map_left img.shadow').css('display','block');
             $('div.main_map_left').css('padding-bottom','12px');
             $('div.outer_layout.list div.sort p').css('padding-top','30px');
+            !info_window || info_window.remove();
           }
         });
   });
@@ -126,8 +126,6 @@ $(document).ready(function() {
     }
 
   });
-  
-  info_window_div = $('<div>').append($('div#pothole_info').clone().attr('id', null));
 });
 
   function initialize() {
@@ -416,30 +414,43 @@ $(document).ready(function() {
   }
   
   function addPotholeMarker(pothole){
-    if (pothole.photo_url) {
-      $('span', info_window_div).before($('<img alt="Foto bache">').attr('src', pothole.photo_url));
-    };
+    var showInfowindow = function(latLong, map, infowindow_content, dimensions){
+      !add_marker || add_marker.setMap(null);
     
-    var latLong = new google.maps.LatLng(pothole['lat'], pothole['lon']);
+      var image = new google.maps.MarkerImage('/images/fusion_marker.png',new google.maps.Size(14, 14),new google.maps.Point(0,0),new google.maps.Point(7, 7));
 
-    !add_marker || add_marker.setMap(null);
-    
-    info_window = new google.maps.InfoWindow({
-      content: info_window_div.remove().html(),
-      position: latLong
-    });
-
-    layer.setMap(null);
-    layer = new google.maps.FusionTablesLayer(FUSION_TABLES_ID);
-    layer.setMap(map);
-    var image = new google.maps.MarkerImage('/images/fusion_marker.png',new google.maps.Size(14, 14),new google.maps.Point(0,0),new google.maps.Point(7, 7));
-
-    var marker = new google.maps.Marker({
+      var marker = new google.maps.Marker({
+          position: latLong,
+          map: map,
+          icon: image
+      });
+      !info_window || info_window.setMap(null);
+      info_window = new vizzuality.maps.infobox({
+        content: infowindow_content.remove()[0],
+        width: dimensions.width,
+        height: dimensions.height,
         position: latLong,
-        map: map,
-        icon: image
-    });
-    info_window.open(map);
+        map: map
+      });
+
+    }
+
+    var
+      infowindow_content = $('div#pothole_info').clone().attr('id', null),
+      dimensions = infowindow_content.objectSize(),
+      latLong = new google.maps.LatLng(pothole['lat'], pothole['lon']);
+
+    if (pothole.photo_url) {
+      infowindow_content.find('div.text').before($('<img>').attr('src', pothole.photo_url).load(function(){
+        dimensions = infowindow_content.objectSize();
+        showInfowindow(latLong, map, infowindow_content, dimensions);
+      }));
+      
+    }else{
+      showInfowindow(latLong, map, infowindow_content, dimensions);
+    };
+
+
   }
   
   function setupUploadify(pothole){
@@ -478,11 +489,12 @@ $(document).ready(function() {
       },
       'onComplete'    : function(event, queueID, fileObj, response, data){
         $('#change_photo').fadeIn('fast');
+        var objJson = eval('('+response+')');
+        addPotholeMarker(objJson.pothole);
       }
     });
   }
   
   function closeExpose(){
     !$.mask || $.mask.close();
-    !info_window || info_window.close();
   }
