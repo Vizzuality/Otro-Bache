@@ -34,3 +34,7 @@ group :development, :test do
     gem 'ruby-debug19'
   end
 end
+
+group :test do
+  gem 'rspec-rails'
+end
