@@ -469,7 +469,7 @@ $(document).ready(function() {
 
     $('#fileInput').uploadify({
       'uploader'      : '/flash/uploadify.swf',
-      'script'        : '/potholes/'+pothole.id+'/add_photo.json',
+      'script'        : '/potholes/'+pothole.id+'/add_photo',
       'scriptData'    : uploadify_script_data,
       'fileDataName'  : 'pothole[photo]',
       'auto'          : true,
