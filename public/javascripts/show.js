@@ -4,32 +4,32 @@ var FUSION_TABLES_ID = 272266;
 $(document).ready(function() { 
 	
     var mapLatLon = new google.maps.LatLng($("#lat").text(), $("#lon").text());
+
     var myOptions = {
-      zoom: 14,
+      zoom: 16,
       center: mapLatLon,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-			disableDefaultUI: false,
-			scrollwheel: false
+      disableDefaultUI: false,
+      scrollwheel: false
     }
+    map = new google.maps.Map(document.getElementById("main_map"), myOptions);
     
     var marker = new google.maps.Marker ({
-      map: myOptions,
-      position: new google.maps.LatLng($("#lat").text(), $("#lon").text()),
-      draggable: true,
+      map: map,
+      position: mapLatLon,
+      draggable: false,
     });
 
     var circle = new google.maps.Circle ({
-      map: myOptions,
-      radius: 1
+      map: map,
+      radius: 100,
+      fillColor: "#f2c2ad",
+      fillOpacity: 0.5,
+      strokeColor: "#ff6734"
     });
 
     circle.bindTo('center', marker, 'position')
-   
-    geocoder = new google.maps.Geocoder();
-    
-    map = new google.maps.Map(document.getElementById("main_map"), myOptions);
-	
-	
+
 });
 
 
