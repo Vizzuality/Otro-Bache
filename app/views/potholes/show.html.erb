@@ -2,6 +2,10 @@
 <%= javascript_include_tag "show.js" %>
 <% end %>
 
+<span class="hidden" id="lat"><%= @pothole.lat %></span>
+<span class="hidden" id="lon"><%= @pothole.lon %></span>
+<p class="hidden id_pothole"><%= @pothole.id %></p>
+
 <div class="outer_layout sub">
 	<div class="subheader show">
 		<div class="subheader_left">
@@ -12,9 +16,6 @@
 	</div>
 </div>
 
-<span class="hidden" id="lat"><%= @pothole.lat %></span>
-<span class="hidden" id="lon"><%= @pothole.lon %></span>
-<p class="hidden id_pothole"><%= @pothole.id %></p>
 
 <div class="outer_layout map">
 	<div class="main_map">
