@@ -1,95 +1,82 @@
 require 'google/geo'
 
+def encode_text data
+  return "'#{data.gsub(/\\/, '\&\&').gsub(/'/, "''")}'"
+end
+
 namespace :otrobache do
 
-	desc 'Load production data'
-	task :load_production_data => :environment do
-	
-		config = YAML::load_file("#{Rails.root}/config/credentials.yml")
+  desc 'Load production data'
+  task :load_production_data => :environment do
+  
+    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
 
-		ft = GData::Client::FusionTables.new
-		ft.clientlogin(config["google_username"], config["google_password"])
+    ft = GData::Client::FusionTables.new
+    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
+    ft.clientlogin(config["google_username"], config["google_password"])
 
-		my_table = ft.show_tables[0]
-		
-		ftpotholes = my_table.select "*", "ORDER BY reported_date"
-		#ftpotholes = my_table.select "*", "where reported_date = '04/07/10' ORDER BY reported_date"
-    geo = Google::Geo.new "83d63b531d7eb41fbaa916b1bc65ca9a"
-      
+    my_table = ft.show_tables[0]
+    
+    ftpotholes = my_table.select "*", "ORDER BY reported_date"
+
     ftpotholes.each do | ftpothole |
 
-#			if ((ftpothole[:country] == nil) || (ftpothole[:city] == nil) || 
-#				 (ftpothole[:zip] == nil) || (ftpothole[:addressline] == nil))
-#				 
-#				address = geo.locate(ftpothole[:lat], ftpothole[:lon]).first 			
-#			end
+      res           = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(ftpothole[:lat]+','+ftpothole[:lon])
+      country_name = res.country           || ''
+      country_code = res.country_code      || ''
+      address      = res.full_address      || ''
+      addressline  = res.street_address    || ''
+      city_name    = res.city              || ''
+      zip          = res.zip               || ''
 
+      if zip.blank?
+        zip = "N/A"
+      end
 
-			if (ftpothole[:country] == nil)
-				ftpothole[:country] = ftpothole[:address].split("|").last.split(" ").last
-			end
-			
-			if ((ftpothole[:country] == "Madrid") || (ftpothole[:country] == "Spain") || (ftpothole[:country] == "spain") ||
-				 (ftpothole[:country] == "Espainia") || (ftpothole[:country] == "Espanya"))
-				ftpothole[:country] = "España"
-			end
-			 
-			print " country -- " + ftpothole[:country] + "  "		
-			country = Country.find_or_create_by_name(ftpothole[:country])
+      country = Country.find_or_create_by_code(country_code, :name => country_name)
+      city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id)
 
-			if (ftpothole[:city] == nil)
-				ftpothole[:city] = ftpothole[:address].split("|")[1].split(" ").last.downcase
-			end
+      address      = address.gsub(",","|")
+      addressline  = addressline.gsub(",","|")
+      reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
 
-			city = City.find_by_name(ftpothole[:city])
+      print "country: " + country_name + " city: " + city_name
+        
+      # Change depending on date format
+      # For ruby 1.9.2
+      # reported_date = Time.strptime(ftpothole[:reported_date], 
+      #                       "%m/%d/%y %H:%M:%S")
+      # For ruby 1.8.7
+      
+      print " saving->" + ftpothole[:lat] + " " + ftpothole[:lon]
+                      
+      pothole = Pothole.new(:lat => ftpothole[:lat], 
+                     :lon => ftpothole[:lon], 
+                     :reported_date => reported_date, 
+                     :reported_by => ftpothole[:reported_by],
+                     :address => address, 
+                     :addressline => addressline,
+                     :city => city, 
+                     :zip => zip, 
+                     :country => country, 
+                     :user => "fusion_tables",
+                     :the_geom => Point.from_x_y(ftpothole[:lon].to_f,
+                                        ftpothole[:lat].to_f))
+      pothole.save
 
-			if (city == nil)		
-				ftpothole[:city] = ftpothole[:city].downcase						
-			
-				address = geo.locate ftpothole[:city]
-				lon = address[0].coordinates[0]
-				lat = address[0].coordinates[1]
+      # --------------
+      # Fusion Tables
+      sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
+                                'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
+                    values ('#{ftpothole[:lat]}', '#{ftpothole[:long]}', #{encode_text(address)}, #{encode_text(addressline)},
+                            #{encode_text(city.name)},
+                            #{encode_text(country.name)},#{encode_text(country.code)}, #{encode_text(zip)},
+                            'web', '#{reported_date}')"
+      ft.sql_post(sql)
+      sleep(20)
+      # ---------------------
 
-				city = City.find_or_create_by_name(ftpothole[:city], 
-															:country_id => country.id,
-															:the_geom => Point.from_x_y(lon,lat))
-			end
-
-			print " city -- " + ftpothole[:city] + "  "
-				
-			if (ftpothole[:addressline] == nil)
-				ftpothole[:addressline] = ftpothole[:address].split("|")[0]	
-			end
-	
-			if (ftpothole[:zip] == nil)
-		  		ftpothole[:zip] = ftpothole[:address].split("|")[1].split(" ")[0]
-			end
-	
-			# Change depending on date format
-			# For ruby 1.9.2
-			# reported_date = Time.strptime(ftpothole[:reported_date], 
-			# 											"%m/%d/%y %H:%M:%S")
-			# For ruby 1.8.7
-			
-			print " saving->" + ftpothole[:lat] + " " + ftpothole[:lon]
-			reported_date = ftpothole[:reported_date][0..5]+ "20" +
-							 	ftpothole[:reported_date][6..16]
-			reported_date = reported_date.to_time			
-											
-			pothole = Pothole.new(:lat => ftpothole[:lat], 
-										 :lon => ftpothole[:lon], 
-									 	 :reported_date => reported_date, 
-									 	 :reported_by => ftpothole[:reported_by],
-									 	 :address => ftpothole[:address], 
-									 	 :addressline => ftpothole[:addressline],
-									 	 :city => city, 
-									 	 :zip => ftpothole[:zip], 
-									 	 :country => country, 
- 										 :user => "fusion_tables",
-									 	 :the_geom => Point.from_x_y(ftpothole[:lon].to_f,
-									 										  ftpothole[:lat].to_f))
-			pothole.save
-			print " pothole saved\n"
-		end
-	end
+      print " pothole saved\n"
+    end
+  end
 end

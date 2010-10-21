@@ -10,8 +10,12 @@ $(document).ready(function() {
       center: mapLatLon,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: false,
-      scrollwheel: false
+      scrollwheel: false,
+      mapTypeControl: false,
+      navigationControl: false,
+      streetViewControl: false
     }
+        
     map = new google.maps.Map(document.getElementById("main_map"), myOptions);
     
     var marker = new google.maps.Marker ({
