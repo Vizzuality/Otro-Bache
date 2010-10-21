@@ -1,21 +1,35 @@
 var map;
+var FUSION_TABLES_ID = 272266;
 
 $(document).ready(function() { 
 	
-    var myLatlng = new google.maps.LatLng($("#lat").text(), $("#lon").text());
+    var mapLatLon = new google.maps.LatLng($("#lat").text(), $("#lon").text());
+
     var myOptions = {
-      zoom: 8,
-      center: myLatlng,
+      zoom: 16,
+      center: mapLatLon,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
-			disableDefaultUI: false,
-			scrollwheel: false
+      disableDefaultUI: false,
+      scrollwheel: false
     }
-	geocoder = new google.maps.Geocoder();
-    
-    
     map = new google.maps.Map(document.getElementById("main_map"), myOptions);
-	
-	
+    
+    var marker = new google.maps.Marker ({
+      map: map,
+      position: mapLatLon,
+      draggable: false,
+    });
+
+    var circle = new google.maps.Circle ({
+      map: map,
+      radius: 100,
+      fillColor: "#f2c2ad",
+      fillOpacity: 0.5,
+      strokeColor: "#ff6734"
+    });
+
+    circle.bindTo('center', marker, 'position')
+
 });
 
 

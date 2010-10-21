@@ -1,0 +1,15 @@
+== OTRO-BACHE
+
+=== Requirements
+
+	- Ruby 1.9.2
+	- Rails 3 beta
+  
+=== Steps
+	- sudo gem install bundler
+	- bundle install
+	- rake db:migrate
+	
+	If the database not exist, create it. View "database.yml"
+	
+	... Running!
