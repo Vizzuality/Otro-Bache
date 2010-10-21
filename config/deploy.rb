@@ -24,7 +24,7 @@ set :user,  'ubuntu'
 set :deploy_to, "/home/ubuntu/www/#{application}"
 
 after  "deploy:update_code" do
-  symlink_uploads_folder
+  symlinks
   run_migrations
 end
 
@@ -42,11 +42,13 @@ task :run_migrations, :roles => [:app] do
   CMD
 end
 
-desc "Symlinks uploads folder"
-task :symlink_uploads_folder, :roles => :app do
-  run "mkdir -m 777 #{deploy_to}/shared/uploads ; true"
-  run "ln -nfs #{deploy_to}/shared/uploads/ #{current_release}/public/uploads"
+task :symlinks, :roles => :app do
+  run <<-CMD
+    ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml;
+    mkdir -m 777 #{deploy_to}/shared/uploads ; true;
+    ln -nfs #{deploy_to}/shared/uploads/ #{current_release}/public/uploads;
+  CMD
 end
 
-        require 'config/boot'
-        require 'hoptoad_notifier/capistrano'
+require 'config/boot'
+require 'hoptoad_notifier/capistrano'
