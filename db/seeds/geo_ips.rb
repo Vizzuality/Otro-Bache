@@ -18,7 +18,13 @@ drop_indexes_sentence = <<EOF
   DROP INDEX lower_city_idx;
   DROP INDEX lower_country_name_idx;
 EOF
-ActiveRecord::Base.connection.execute(drop_indexes_sentence)
+
+begin
+  ActiveRecord::Base.connection.execute(drop_indexes_sentence)
+rescue
+  
+end
+
 
 if GeoIp.exists?
   puts ''
