@@ -4,7 +4,6 @@ gem 'rails', '3.0.0'
 
 gem 'pg'
 gem 'ppe-postgis-adapter', :git => 'git://github.com/ferblape/postgis_adapter.git', :require => 'postgis_adapter'
-gem 'connection_ninja'
 
 gem 'nofxx-georuby', :require => 'geo_ruby'
 

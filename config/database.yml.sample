@@ -1,0 +1,29 @@
+development:
+  adapter: postgresql
+  template: template_postgis
+  database: otrobache_development
+  host: localhost
+  username: postgres
+  password: 
+  pool: 5
+  timeout: 5000
+
+test:
+  adapter: postgresql
+  template: template_postgis
+  database: otrobache_test
+  host: localhost
+  username: postgres
+  password: 
+  pool: 5
+  timeout: 5000
+
+production:
+  adapter: postgresql
+  template: template_postgis
+  database: otrobache_production
+  host: localhost
+  username: postgres
+  password:
+  pool: 5
+  timeout: 5000

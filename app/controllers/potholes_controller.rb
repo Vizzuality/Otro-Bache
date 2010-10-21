@@ -13,7 +13,7 @@ class PotholesController < ApplicationController
       #geolocate
       begin
         url_to_redirect = "spain"
-        user_location = LatLong.where_ip(request.env[:REMOTE_ADDR]).first
+        user_location = GeoIp.where_ip(request.env[:REMOTE_ADDR]).first
         if user_location.city.blank? && user_location.country_name.present? && user_location.country_name == "Reserved"
           url_to_redirect = "spain"
         elsif user_location.city.blank?
@@ -29,7 +29,7 @@ class PotholesController < ApplicationController
     end
 
     #first we check if this is a registered country
-    result = LatLong.where_country(params[:location]).first
+    result = GeoIp.where_country(params[:location]).first
 
     if result
       #we have a country
@@ -37,7 +37,7 @@ class PotholesController < ApplicationController
       country_code = result.country_code
       city_name    = nil
     else
-        result = LatLong.where_city(params[:location]).first
+        result = GeoIp.where_city(params[:location]).first
         if(result)
           #we have a city
           country_name = nil
