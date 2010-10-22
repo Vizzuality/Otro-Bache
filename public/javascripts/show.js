@@ -1,57 +1,63 @@
-var map;
-var FUSION_TABLES_ID = 272266;
+$(document).ready(function() {
+  var mapLatLon = new google.maps.LatLng(pothole.lat, pothole.lon);
+  
+  var myOptions = {
+    zoom: 16,
+    center: mapLatLon,
+    mapTypeId: google.maps.MapTypeId.ROADMAP,
+    disableDefaultUI: false,
+    scrollwheel: false,
+    mapTypeControl: false,
+    navigationControl: false,
+    streetViewControl: false
+  };
 
-$(document).ready(function() { 
-	
-    var mapLatLon = new google.maps.LatLng($("#lat").text(), $("#lon").text());
-
-    var myOptions = {
-      zoom: 16,
-      center: mapLatLon,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-      disableDefaultUI: false,
-      scrollwheel: false,
-      mapTypeControl: false,
-      navigationControl: false,
-      streetViewControl: false
-    }
-        
-    map = new google.maps.Map(document.getElementById("main_map"), myOptions);
+  var map    = new google.maps.Map(document.getElementById("main_map"), myOptions);
+  
+  var marker = new google.maps.Marker ({
+    map: map,
+    position: mapLatLon,
+    draggable: false,
+    visible: false
+  });
     
-    var marker = new google.maps.Marker ({
-      map: map,
-      position: mapLatLon,
-      draggable: false,
-    });
+  var confirmPothole = function(evt) {
+      evt.preventDefault();
 
-    var circle = new google.maps.Circle ({
-      map: map,
-      radius: 100,
-      fillColor: "#f2c2ad",
-      fillOpacity: 0.5,
-      strokeColor: "#ff6734"
-    });
+      $.ajax({ url: "/report/"+ pothole.id, method:'POST', success: function(){
+        $('#mamufas_selected').fadeOut('fast');
+        $('p.confirm_tooltip').fadeIn();
+        $('p.confirm_tooltip').delay(4000).fadeOut();
+        $.mask.close();
+      }});
+    },
+    addInfoWindow = function(){
+      if (!pothole || !pothole.photo_url) { return; };
+      var infowindow_div = $('div#pothole_info').clone().attr("id", null);
+      var dimensions     = infowindow_div.objectSize();
 
-    circle.bindTo('center', marker, 'position')
+      var info_window    = new vizzuality.maps.infobox({
+        content: infowindow_div.remove()[0],
+        width: dimensions.width,
+        height: dimensions.height,
+        position: mapLatLon,
+        map: map
+      });
+    };
+  
+
+  var circle = new google.maps.Circle ({
+    map: map,
+    radius: 100,
+    fillColor: "#f2c2ad",
+    fillOpacity: 0.5,
+    strokeColor: "#ff6734"
+  });
+  
+  circle.bindTo('center', marker, 'position')
+  
+  $('#confirm_pothole').click(confirmPothole);
+  
+  addInfoWindow();
 
 });
-
-
-//Confirm pothole showed in the list
-function confirmPothole() {
-	
-	id_pothole = $('p.id_pothole').html();
-  
-  $.ajax({ url: "/report/"+ id_pothole, method:'POST', success: function(){
-    $('#mamufas_selected').fadeOut('fast');
-    $('p.confirm_tooltip').fadeIn();
-    $('p.confirm_tooltip').delay(4000).fadeOut();
-    $.mask.close();
-      
-    var pothole_ = new Object();
-    pothole_.lat = marker.getPosition().lat();
-    pothole_.lon = marker.getPosition().lng();
-    reported_potholes.push(pothole_);
-  }});
-
-}

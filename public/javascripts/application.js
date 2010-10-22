@@ -159,7 +159,7 @@ $(document).ready(function() {
       disableDefaultUI: false,
       scrollwheel: false,
       streetViewControl: false
-    }
+    };
     geocoder = new google.maps.Geocoder();
 
     map = new google.maps.Map(document.getElementById("main_map"), myOptions);

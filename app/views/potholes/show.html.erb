@@ -1,68 +1,62 @@
-<% content_for :js do %>
-<%= javascript_include_tag "show.js" %>
+<% content_for :head do %>
+  <script type="text/javascript" charset="utf-8">
+    var pothole = <%= @pothole.to_json.html_safe %>.pothole;
+  </script>
+  <%= javascript_include_tag "show.js", "maps.custom_infowindow.js", "jquery.dimensions.js" %>
+  <%= stylesheet_link_tag "potholes/show", "custom_infowindow" %>
 <% end %>
 
-<span class="hidden" id="lat"><%= @pothole.lat %></span>
-<span class="hidden" id="lon"><%= @pothole.lon %></span>
-<p class="hidden id_pothole"><%= @pothole.id %></p>
-
 <div class="outer_layout sub">
-	<div class="subheader show">
-		<div class="subheader_left">
-			<h1 class="show">Se ha denunciado un bache en</h1>
-			<h3 class="show"><%= @pothole.addressline.delete("|") %> <strong>(<%= @pothole.zip %>, <%= @pothole.city.name %>)</strong></h3>
-		</div>
-		<div class="subheader_right"></div>
-	</div>
+  <div class="subheader show">
+    <div class="subheader_left">
+      <h1 class="show">Se ha denunciado un bache en</h1>
+      <h3 class="show"><%= @pothole.addressline.delete("|") %> <strong>(<%= @pothole.zip %>, <%= @pothole.city.name %>)</strong></h3>
+    </div>
+    <div class="subheader_right"></div>
+  </div>
 </div>
-
 
 <div class="outer_layout map">
-	<div class="main_map">
-		<div class="main_map_left">
-		  <div class="border_map">
-				<div id="main_map"></div>
-				<div class="geocorder">
-					<div class="left">
-						<p>Busca cerca de </p>
-						<form action="javascript:void geocorder()">
-							<input type="text" value="" />
-							<input type="submit" value="" />
-						</form>
-					</div>
-				</div>
-				<div id="mamufas_main">
-					<%= image_tag("ajax-loader.gif") %>
-				</div>
-			</div>
-			<p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
-			<div class="information">
-  			<p class="place"></p>
-  			<p class="reported">
-  			  <%= @counter %>
-  			  <% if (@counter > 1) %> 
-						veces 
-					<% else %> 
-						vez 
-					<% end %>
-  			  reportado. Última vez <strong>hace 
-  			        <%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
-  		</div>
-		</div>
-		<div class="main_map_right">
-		  <div class="right_data">
-  		  <div class="social_media">
-  		    <p>Quéjate en...</p>
-  			  <p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
-  		  </div>						
-  		  <p class="first">Lleva</p>
-  		  <p class="days"><%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></p>
-  		  <p class="first">sin ser arreglado</p>
-  		  <p class="first gray">(que nosotros sepamos)</p>
-		  </div>
-		  <a href="javascript:void confirmPothole()" id="confirm_pothole" class="confirm_pothole"></a>
-	  </div>
-	</div>
+  <div class="main_map">
+    <div class="main_map_left">
+      <div class="border_map">
+        <div id="main_map"></div>
+        <div id="mamufas_main">
+          <%= image_tag("ajax-loader.gif") %>
+        </div>
+      </div>
+      <p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+      <div class="information">
+        <p class="place"></p>
+        <p class="reported">
+          <%= @counter %>
+          <% if (@counter > 1) %> 
+            veces 
+          <% else %> 
+            vez 
+          <% end %>
+          reportado. Última vez <strong>hace 
+                <%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
+      </div>
+    </div>
+    <div class="main_map_right">
+      <div class="right_data">
+        <div class="social_media">
+          <p>Quéjate en...</p>
+          <p><a href="#">facebook</a>/<a href="http://twitter.com/otrobache">twitter</a></p>
+        </div>            
+        <p class="first">Lleva</p>
+        <p class="days"><%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></p>
+        <p class="first">sin ser arreglado</p>
+        <p class="first gray">(que nosotros sepamos)</p>
+      </div>
+      <a href="#" id="confirm_pothole" class="confirm_pothole"></a>
+    </div>
+  </div>
 </div>
 
+<div id="pothole_info" class="pothole_info">
+  <div class="corner"></div>
+  <img src="<%= @pothole.photo_url %>" alt="potholes image"/>
+</div>
 

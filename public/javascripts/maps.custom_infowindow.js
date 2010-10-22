@@ -117,6 +117,8 @@ vizzuality.maps.infobox.prototype.panMap = function() {
 
   map.setCenter(new google.maps.LatLng(centerY, centerX));
 
-  google.maps.event.removeListener(this.boundsChangedListener_);
-  this.boundsChangedListener_ = null;
+  if (this.boundsChangedListener_) {
+    google.maps.event.removeListener(this.boundsChangedListener_);
+    this.boundsChangedListener_ = null;
+  };
 }

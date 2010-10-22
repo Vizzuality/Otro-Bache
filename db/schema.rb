@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101020151555) do
+ActiveRecord::Schema.define(:version => 20101022213849) do
 
   create_table "cities", :force => true do |t|
     t.column "name", :string
@@ -47,8 +47,10 @@ ActiveRecord::Schema.define(:version => 20101020151555) do
     t.column "updated_at", :datetime
   end
 
-# Could not dump table "geography_columns" because of following StandardError
-#   Unknown type 'name' for column 'f_table_catalog' /Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/bundler/gems/postgis_adapter-e85ca1b/lib/postgis_adapter/common_spatial_adapter.rb:52:in `table'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/bundler/gems/postgis_adapter-e85ca1b/lib/postgis_adapter/common_spatial_adapter.rb:50:in `each'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/bundler/gems/postgis_adapter-e85ca1b/lib/postgis_adapter/common_spatial_adapter.rb:50:in `table'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/schema_dumper.rb:75:in `tables'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/schema_dumper.rb:66:in `each'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/schema_dumper.rb:66:in `tables'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/schema_dumper.rb:27:in `dump'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/schema_dumper.rb:21:in `dump'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/railties/databases.rake:327/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/railties/databases.rake:326:in `open'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/railties/databases.rake:326/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:636:in `call'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:636:in `execute'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:631:in `each'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:631:in `execute'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:597:in `invoke_with_call_chain'/Users/fer/.rvm/rubies/ree-1.8.7-2010.02/lib/ruby/1.8/monitor.rb:242:in `synchronize'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:590:in `invoke_with_call_chain'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:583:in `invoke'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/activerecord-3.0.0/lib/active_record/railties/databases.rake:143/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:636:in `call'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:636:in `execute'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:631:in `each'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:631:in `execute'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:597:in `invoke_with_call_chain'/Users/fer/.rvm/rubies/ree-1.8.7-2010.02/lib/ruby/1.8/monitor.rb:242:in `synchronize'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:590:in `invoke_with_call_chain'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:583:in `invoke'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2051:in `invoke_task'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2029:in `top_level_without_growl'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2029:in `each'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2029:in `top_level_without_growl'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2068:in `standard_exception_handling'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2023:in `top_level_without_growl'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@global/gems/rakegrowl-0.2.0/lib/rakegrowl.rb:32:in `top_level'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2001:in `run'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:2068:in `standard_exception_handling'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/lib/rake.rb:1998:in `run'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/gems/rake-0.8.7/bin/rake:31/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/bin/rake:19:in `load'/Users/fer/.rvm/gems/ree-1.8.7-2010.02@otrobache/bin/rake:19
+  add_index "geo_ips", ["city"], :name => "city_idx"
+  add_index "geo_ips", ["country_name"], :name => "country_name_idx"
+  add_index "geo_ips", ["ip_start"], :name => "index_geo_ips_on_ip_start"
+
 
   create_table "potholes", :force => true do |t|
     t.column "lat", :float
@@ -64,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20101020151555) do
     t.column "created_at", :datetime
     t.column "updated_at", :datetime
     t.column "the_geom", :point, :srid => 4326
+    t.column "photo", :string
   end
 
   add_index "potholes", ["the_geom"], :name => "index_potholes_on_the_geom", :spatial=> true 

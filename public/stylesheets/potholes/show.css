@@ -1,0 +1,31 @@
+.custom_infowindow{
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid #999999;
+  background-color: white;
+  -moz-box-shadow: 0 0 4px #666666;
+  display: none;
+  position: absolute;
+}
+
+div.pothole_info {
+padding: 3px;
+position:relative;
+}
+
+div.pothole_info div.corner{
+  background:url("/images/infowindow_corner_show.png") no-repeat scroll 0 0 transparent;
+  bottom:-16px;
+  height:16px;
+  left:15px;
+  position:absolute;
+  width:18px;
+}
+
+div.pothole_info img{
+  margin: 0;
+  padding: 0;
+  width: 250px;
+  vertical-align: middle;
+}

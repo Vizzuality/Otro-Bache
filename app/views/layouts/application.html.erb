@@ -1,89 +1,83 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 <html xmlns="http://www.w3.org/1999/xhtml"> 
-	<head lang="es" xml:lang="es"> 
-		<title>OtroBache.es - Reporta baches en tu localidad</title>
-		
-		<link rel="shortcut icon" href="/images/favicon.ico" >
-		<%= stylesheet_link_tag "layout" %>	
-		<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
-		<%= javascript_include_tag "http://www.google.com/jsapi" %>
-  	<%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
-		<%= javascript_include_tag "jquery.tools.min.js" %>
-		<%= yield :js %>
-	  	<%= csrf_meta_tag %>
-	
-		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
-		<meta name="keywords" content="bache, carretera, arreglar, ayuntamiento, socabón">	
-		<meta name="author" content="Vizzuality"> 
-		<meta name="description" content="OtroBache es una iniciativa para reportar los baches en tu ciudad. Busca en el mapa la direccion y envia el bache. Pronto podras realizar a traves de tu Iphone, Android o Blackberry.">
+  <head lang="es" xml:lang="es"> 
+    <title>OtroBache.es - Reporta baches en tu localidad</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <%= stylesheet_link_tag "layout" %> 
+    <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
+    <%= javascript_include_tag "http://www.google.com/jsapi" %>
+    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+    <%= javascript_include_tag "jquery.tools.min.js" %>
+    <%= yield :head %>
+    <%= csrf_meta_tag %>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
+    <meta name="keywords" content="bache, carretera, arreglar, ayuntamiento, socabón" />
+    <meta name="author" content="Vizzuality" /> 
+    <meta name="description" content="OtroBache es una iniciativa para reportar los baches en tu ciudad. Busca en el mapa la direccion y envia el bache. Pronto podras realizar a traves de tu Iphone, Android o Blackberry." />
+  </head> 
+  
+  <body>
+    
+    <div class="outer_layout top">
+      <div class="header">
+        <div class="header_left">
+          <a href="/">
+            <span class="logo">
+              <sup><%= country_or_city? @country_name, @city_name %></sup>
+            </span>
+          </a>
+        </div>
+        <div class="header_right">
+          <% if ((controller.controller_name=='potholes') || (controller.controller_name == 'cities'))  %>
+            <%= image_tag("select_arrow.png", :class => "select_index") %>
+          <% elsif (controller.controller_name=='about')%>
+            <%= image_tag("select_arrow.png", :class => "select_descargar") %>
+          <% else %>  
+            <%= image_tag("select_arrow.png", :class => "select_saber") %>
+          <% end %>
+          <ul>
+            <li><%= link_to "BACHES", "/" %></li>
+            <li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    
+    <%= yield %>
+    
+    
+    <div class="outer_layout gray">
+      <div class="footer">
+        <%= image_tag("iphone_nexus.png", :alt => "iPhone and Android") %>
+        <div class="footer_left">
+          <h2>Descarga la aplicación en tu móvil<br/> 
+          y reporta baches de la manera más<br/>
+          rápida y cómoda</h2>
+          <p>Las ciudades están llenas de baches. Sobre todo uno se da cuenta en el coche, en la bici o cuando va andando por la calle.</p>
+          <p>Por eso, hemos preparado una aplicación totalmente gratuíta, para que puedas reportar los baches que encuentres desde tu iphone / android.</p>
+          
+          <p>Estamos trabajando en las aplicaciones móviles. Vuelve pronto a por ellas.</p>
 
-	</head> 
-	
-	<body>
-		
-		<div class="outer_layout top">
-			<div class="header">
-				<div class="header_left">
-					<a href="/"><p class="logo"><sup>(
-						<%if(@country_name)%>
-							<%=@country_name.upcase%>
-						<%end%>
-						<%if(@city_name)%>
-							<%=@city_name.upcase%>
-						<%end%>
-						)</sup></p></a>
-				</div>
-				<div class="header_right">
-					<% if ((controller.controller_name=='potholes') || (controller.controller_name == 'cities'))  %>
-						<%= image_tag("select_arrow.png", :class => "select_index") %>
-					<% elsif (controller.controller_name=='about')%>
-						<%= image_tag("select_arrow.png", :class => "select_descargar") %>
-					<% else %>	
-						<%= image_tag("select_arrow.png", :class => "select_saber") %>
-					<% end %>
-					<ul>
-						<li><%= link_to "BACHES", "/" %></li>
-						<li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		
-		
-		<%= yield %>
-		
-		
-		<div class="outer_layout gray">
-			<div class="footer">
-				<%= image_tag("iphone_nexus.png", :alt => "iPhone and Android") %>
-				<div class="footer_left">
-					<h2>Descarga la aplicación en tu móvil<br/> 
-					y reporta baches de la manera más<br/>
-					rápida y cómoda</h2>
-					<p>Las ciudades están llenas de baches. Sobre todo uno se da cuenta en el coche, en la bici o cuando va andando por la calle.</p>
-					<p>Por eso, hemos preparado una aplicación totalmente gratuíta, para que puedas reportar los baches que encuentres desde tu iphone / android.</p>
-					
-					<p>Estamos trabajando en las aplicaciones móviles. Vuelve pronto a por ellas.</p>
+          <!--div class="download">
+            <h3>Descarga para</h3>
+            <a href="#" class="iphone"></a>
+            <a href="#" class="android"></a>
+          </div-->
+        </div>
 
-					<!--div class="download">
-						<h3>Descarga para</h3>
-						<a href="#" class="iphone"></a>
-						<a href="#" class="android"></a>
-					</div-->
-				</div>
-
-				<div class="footer_right">
-					<ul>
-						<li><%= link_to "BACHES", "/" %></li>
-						<li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
-					</ul>
-					<div class="information">
-						<p class="project">otrobache.com</p>
-						<p class="vizzuality">Un proyecto de <a href="http://www.vizzuality.com">vizzuality</a></p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</body>
+        <div class="footer_right">
+          <ul>
+            <li><%= link_to "BACHES", "/" %></li>
+            <li><%= link_to "SABER MÁS", "/about", :class => "no_margin" %></li>
+          </ul>
+          <div class="information">
+            <p class="project">otrobache.com</p>
+            <p class="vizzuality">Un proyecto de <a href="http://www.vizzuality.com">vizzuality</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>

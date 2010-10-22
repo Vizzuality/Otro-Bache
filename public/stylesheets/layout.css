@@ -11,10 +11,10 @@ div.outer_layout{width:100%;}
 /*HEADER*/
 div.outer_layout.top{float:left;background:url(../images/outer_header_bkg.png) repeat-y center 0;}
 div.header{margin:0 auto;position:relative;width:960px;height:53px;}
-div.header div.header_left{float:left;width:660px;hfeight:53px;background:url(../images/header_bkg.png) repeat-x 0 0;}
+div.header div.header_left{float:left;width:660px; height:53px;background:url(../images/header_bkg.png) repeat-x 0 0;}
 div.header div.header_left a{text-decoration:none;}
-div.header div.header_left p.logo{float:left;margin:14px 0 0 0;background:url(../images/logo.png) no-repeat 0 0;padding:0 0 5px 0;}
-div.header div.header_left p.logo sup{padding:0 0 0 145px;font:normal 11px "Lucida Grande";color:#FF9900;text-shadow:#000000 1px -1px 1px}
+div.header div.header_left span.logo{float:left;margin:14px 0 0 0;background:url(../images/logo.png) no-repeat 0 0;padding:0 0 5px 0;}
+div.header div.header_left span.logo sup{padding:0 0 0 145px;font:normal 11px "Lucida Grande";color:#FF9900;text-shadow:#000000 1px -1px 1px}
 div.header div.header_right{position:relative;float:left;width:257px;height:33px;padding:20px 0 0 43px;background:#000000;}
 div.header div.header_right img.select_index{position:absolute;bottom:0;left:57px;z-index:10;}
 div.header div.header_right img.select_descargar{position:absolute;bottom:0;left:140px;z-index:10;}
