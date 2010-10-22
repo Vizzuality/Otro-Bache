@@ -127,10 +127,12 @@ div.outer_layout.map div.main_map div.main_map_right a.confirm_pothole {position
 div.outer_layout.map div.main_map div.main_map_right a.confirm_pothole:hover {background-position:0 -34px;}
 
 div.outer_layout.map div.main_map div.main_map_right div.right_data {position:relative; float:left; width:264px; padding:150px 0 20px 10px; z-index:7;}
-div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media {position:absolute; z-index:20; bottom:120px; left:42px; padding:7px; width:98px; height:42px; background:url(../images/small_balloon.png) no-repeat 0 0;}
-div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media p {font:normal 12px "Lucida Grande"; color:#1A1A1A;}
-div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media p a {color:#FF9900;}
-div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media p a:hover {color:#FF6600;}
+div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media {position:absolute; z-index:20; bottom:145px; left:42px; padding:7px; width:98px; height:42px; background:url(../images/small_balloon.png) no-repeat 0 0;}
+div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media span {font:normal 12px "Lucida Grande"; color:#1A1A1A;}
+div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media div{padding: 3px 0;}
+div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media div a:first-child{margin-right: 12px;}
+div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media div a {color:#FF9900;}
+div.outer_layout.map div.main_map div.main_map_right div.right_data div.social_media div a:hover {color:#FF6600;}
 div.outer_layout.map div.main_map div.main_map_right p.first {font:normal 13px "Lucida Grande"; color:#7D7D7D;}
 div.outer_layout.map div.main_map div.main_map_right p.days {font:normal 35px "Georgia"; color:#666666;}
 div.outer_layout.map div.main_map div.main_map_right p.first.gray {color:#ABABAB;}
