@@ -71,10 +71,7 @@ $(document).ready(function() {
           }, 250, function() {
             map2.setCenter(new google.maps.LatLng(pothole_data.lat,pothole_data.lon));
             map2.setZoom(16);
-            marker = new google.maps.Marker({
-              position: map2.getCenter(), 
-              map: map2
-            });
+            marker = addCustomMarker(marker, map2, map2.getCenter());
             $('p.confirm_tooltip').hide();
             $('li.selected').find('p.days').text(pothole_data.days);
             $('li.selected').find('p.reported').html(pothole_data.reported);
@@ -99,10 +96,7 @@ $(document).ready(function() {
       $('li.selected').find('p.days').text(pothole_data.days);
       $('li.selected').find('p.reported').html(pothole_data.reported);
       $('li.selected').find('p.place').text(pothole_data.address);
-      marker = new google.maps.Marker({
-          position: map2.getCenter(), 
-          map: map2
-      });
+      marker = addCustomMarker(marker, map2, map2.getCenter());
       $('p.confirm_tooltip').hide();
       $(me).parent().parent().css('display','none');
       var selected_item = $('li.selected');
@@ -223,7 +217,7 @@ $(document).ready(function() {
         $('div.main_map_left div.border_map div.geocorder').fadeIn();
         $('div.main_map_left div.border_map p.click').text('Ahora puedes arrastrar el "marker" donde quieras...');
         
-        addCustomMarker(map, event.latLng);
+        addCustomMarker(add_marker, map, event.latLng);
 
         !geocoder || geocoder.geocode({'latLng': event.latLng}, function(results, status){
           if (results && results[0] && results[0].formatted_address) {
@@ -244,8 +238,8 @@ $(document).ready(function() {
     });
   }
   
-  function addCustomMarker(map, latLong){
-    !add_marker || add_marker.setMap(null);
+  function addCustomMarker(marker, map, latLong){
+    !marker || marker.setMap(null);
     
     var image = new google.maps.MarkerImage(
       '/images/marker.png',
@@ -254,12 +248,14 @@ $(document).ready(function() {
       new google.maps.Point(15, 38)
     );
 
-    add_marker = new google.maps.Marker({
+    marker = new google.maps.Marker({
         position: latLong,
         map: map,
         icon: image,
         draggable: true
     });
+    
+    return marker;
   }
 
   // DEPRECATED
