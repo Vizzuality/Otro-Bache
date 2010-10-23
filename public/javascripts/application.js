@@ -217,7 +217,7 @@ $(document).ready(function() {
         $('div.main_map_left div.border_map div.geocorder').fadeIn();
         $('div.main_map_left div.border_map p.click').text('Ahora puedes arrastrar el "marker" donde quieras...');
         
-        addCustomMarker(add_marker, map, event.latLng);
+        add_marker = addCustomMarker(add_marker, map, event.latLng);
 
         !geocoder || geocoder.geocode({'latLng': event.latLng}, function(results, status){
           if (results && results[0] && results[0].formatted_address) {
@@ -379,7 +379,7 @@ $(document).ready(function() {
   
   //Confirm pothole showed in the list
   function addNewPothole() {
-    if (add_marker!=null && add_marker.getMap()!=null) {
+    if (add_marker !=null && add_marker.getMap() !=null ) {
       $('#create_pothole').fadeOut('fast', function(){
         $('#sending_pothole').fadeIn('fast');
       });
