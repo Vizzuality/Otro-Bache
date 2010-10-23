@@ -215,6 +215,7 @@ div.footer img{position:absolute;z-index:10;bottom:0;right:270px;}
 div.footer div.footer_left{float:left;width:660px;padding:60px 0 0 0;height:505px;background:#222222;}
 div.footer div.footer_left h2{font:normal 35px "Lucida Grande";letter-spacing:-1px;color:white;}
 div.footer div.footer_left p{font:normal 15px "Lucida Grande";width:272px;color:#BEBEBE;padding:40px 0 0 0;}
+div.footer div.footer_left p.available_soon{font-weight: bold;}
 div.footer div.footer_left div.download h3{font:normal 17px "Lucida Grande";color:#C8C8C8;padding:28px 0 0 0;}
 div.footer div.footer_left div.download a.iphone{float:left;width:73px;height:34px;background:url(../images/iphone_button.png) no-repeat 0 0;margin:10px 6px 0 0;}
 div.footer div.footer_left div.download a.android{float:left;width:82px;height:34px;background:url(../images/android_button.png) no-repeat 0 0;margin:10px 0 0 0;}
@@ -226,5 +227,6 @@ div.footer div.footer_right ul li{float:left;width:auto;}
 div.footer div.footer_right ul li a{font:normal 11px "Lucida Grande";color:white;text-decoration:none;margin:0 30px 0 0;}
 div.footer div.footer_right ul li a:hover{text-decoration:underline;}
 div.footer div.footer_right div.information{position:absolute;bottom:29px;left:50px;}
-div.footer div.footer_right div.information p.project{font:normal 21px "junction regular";color:#505050;}
+div.footer div.footer_right div.information p.project{font:normal 20px "Lucida Grande";color:#505050;}
 div.footer div.footer_right div.information p.vizzuality{font:normal 13px "Lucida Grande";color:#505050;}
+div.footer div.footer_right div.information p.vizzuality a{color: inherit; text-decoration: none;}
