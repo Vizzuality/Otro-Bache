@@ -157,6 +157,12 @@ $(document).ready(function() {
     map.controls[google.maps.ControlPosition.LEFT].push(zoomOutControlDiv);
   
     map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
+    zoomInControlDiv = document.createElement('DIV');
+    zoomInControl = new ZoomInControl(zoomInControlDiv, map2);
+    zoomOutControlDiv = document.createElement('DIV');
+    zoomOutControl = new ZoomOutControl(zoomOutControlDiv, map2);
+    map2.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomInControlDiv);
+    map2.controls[google.maps.ControlPosition.LEFT].push(zoomOutControlDiv);
     
     geocoder.geocode( { 'address': $('#location').text()}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {

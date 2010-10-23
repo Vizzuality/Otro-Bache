@@ -73,10 +73,6 @@ div.outer_layout.map div.main_map div.main_map_left div.information p.place{font
 div.outer_layout.map div.main_map div.main_map_left div.information p.reported{font:normal 13px "Georgia";font-style:italic;color:#cccccc;padding:5px 0 0 0;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map{position:relative;width:676px;background:white;padding:5px;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#main_map{width:676px;height:340px;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div#main_map .map_zoom_in{cursor:pointer;background:transparent url('/images/zoom_more.png') no-repeat scroll center center;width:26px;height:26px;margin:10px;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div#main_map .map_zoom_in:hover{background:transparent url('/images/zoom_more_active.png') no-repeat scroll center center;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div#main_map .map_zoom_out{cursor:pointer;background:transparent url('/images/zoom_less.png') no-repeat scroll center center;width:26px;height:26px;margin:16px 10px;}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div#main_map .map_zoom_out:hover{background:transparent url('/images/zoom_less_active.png') no-repeat scroll center center;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map img.shadow{position:absolute;bottom:-13px;left:-3px;z-index:20;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.click{position:absolute;display:none;bottom:225px;right:-60px;width:159px;padding:12px 15px;height:67px;background:url(../images/click_tooltip.png) no-repeat 0 0;font:normal 15px "Lucida Grande";color:#CCCCCC;line-height:18px;z-index:100;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.done{display:none;position:absolute;top:-50px;left:450px;width:180px;height:76px;background:url(../images/confirm_tooltip.png) no-repeat 0 0;padding:12px 15px;font:normal 17px "Lucida Grande";z-index:100;color:white;line-height:21px;}
@@ -205,6 +201,13 @@ div.subheader.show{margin:0 auto;position:relative;width:960px;height:141px;}
 div.subheader.show div.subheader_left h1.show{font:normal 41px "Lucida Grande";color:#666666;letter-spacing:-1px;padding:30px 0 0 0;}
 div.subheader.show div.subheader_left h3.show{font:normal 21px "Lucida Grande";color:#FF9900;}
 div.subheader.show div.subheader_left h3.show strong{font:normal 21px "Lucida Grande";color:#999999;}
+
+/* MAPS - General stuff */
+.map_zoom_in{cursor:pointer;background:transparent url('/images/zoom_more.png') no-repeat scroll center center;width:26px;height:26px;margin:10px;}
+.map_zoom_in:hover{background:transparent url('/images/zoom_more_active.png') no-repeat scroll center center;}
+.map_zoom_out{cursor:pointer;background:transparent url('/images/zoom_less.png') no-repeat scroll center center;width:26px;height:26px;margin:16px 10px;}
+.map_zoom_out:hover{background:transparent url('/images/zoom_less_active.png') no-repeat scroll center center;}
+
 /*FOOTER*/
 div.outer_layout.gray{float:left;background:url(../images/outer_bkg.png) repeat-y center 0;}
 div.footer{margin:0 auto;position:relative;width:960px;height:565px;}

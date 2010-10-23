@@ -1,4 +1,22 @@
 $(document).ready(function() {
+  function ZoomInControl(controlDiv, map) {
+
+    controlDiv.setAttribute('class', 'map_zoom_in');
+
+    google.maps.event.addDomListener(controlDiv, 'click', function() {
+      map.setZoom(map.getZoom() + 1);
+    });
+  };
+
+  function ZoomOutControl(controlDiv, map) {
+
+    controlDiv.setAttribute('class', 'map_zoom_out');
+
+    google.maps.event.addDomListener(controlDiv, 'click', function() {
+      map.setZoom(map.getZoom() - 1);
+    });
+  };
+
   var mapLatLon = new google.maps.LatLng(pothole.lat, pothole.lon);
   
   var myOptions = {
@@ -13,6 +31,14 @@ $(document).ready(function() {
   };
 
   var map    = new google.maps.Map(document.getElementById("main_map"), myOptions);
+  var zoomInControlDiv = document.createElement('DIV');
+  var zoomInControl = new ZoomInControl(zoomInControlDiv, map);
+  zoomInControlDiv.index = 1;
+  var zoomOutControlDiv = document.createElement('DIV');
+  var zoomOutControl = new ZoomOutControl(zoomOutControlDiv, map);
+  zoomOutControlDiv.index = 2;
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomInControlDiv);
+  map.controls[google.maps.ControlPosition.LEFT].push(zoomOutControlDiv);
   
   var marker = new google.maps.Marker ({
     map: map,
