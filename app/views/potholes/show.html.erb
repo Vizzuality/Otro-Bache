@@ -38,7 +38,7 @@
             vez 
           <% end %>
           reportado. Última vez <strong>hace 
-                <%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></strong></p>
+                <%= distance_of_time_in_words(@pothole.reported_date, Time.now) %></strong></p>
       </div>
     </div>
     <div class="main_map_right">
@@ -51,7 +51,7 @@
           </div>
         </div>            
         <p class="first">Lleva</p>
-        <p class="days"><%= distance_of_time_in_words(@pothole.reported_date, Time.now).sub("about ", "alrededor de ").sub("days", "días").sub("day", "día").sub("months", "meses").sub("month", "mes").sub("years", "años").sub("year", "año").sub("hours", "horas").sub("hour", "hora").sub("minutes", "minutos").sub("minute", "minuto").sub("seconds","segundos").sub("second","segundo") %></p>
+        <p class="days"><%= distance_of_time_in_words(@pothole.reported_date, Time.now) %></p>
         <p class="first">sin ser arreglado</p>
         <p class="first gray">(que nosotros sepamos)</p>
       </div>
