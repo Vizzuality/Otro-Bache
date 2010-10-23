@@ -40,10 +40,10 @@ div.outer_layout.about div.about div.about_left div.text{position:relative;float
 div.outer_layout.about div.about div.about_left div.text h4{font:normal 17px "Lucida Grande";}
 div.outer_layout.about div.about div.about_left div.text h4.first{border-bottom:1px solid #CCCCCC;padding:0 0 20px 0;}
 div.outer_layout.about div.about div.about_left div.text a{color:#FF9900;}
-div.outer_layout.about div.about div.about_left div.text div.parragraph{float:left;padding:25px 5px 20px 0;}
-div.outer_layout.about div.about div.about_left div.text div.parragraph h4{float:left;padding:0 0 12px 0;}
-div.outer_layout.about div.about div.about_left div.text div.parragraph p{float:left;padding:0 0 10px 0;font:normal 13px "Lucida Grande";}
-div.outer_layout.about div.about div.about_left div.text div.parragraph strong.special{color:#FF0000;font:normal;}
+div.outer_layout.about div.about div.about_left div.text div.paragraph{padding:10px 5px;}
+div.outer_layout.about div.about div.about_left div.text div.paragraph h4{margin: 25px 0 10px;}
+div.outer_layout.about div.about div.about_left div.text div.paragraph p{padding:0 0 10px 0;font:normal 13px "Lucida Grande";}
+div.outer_layout.about div.about div.about_left div.text div.paragraph strong.special{color:#FF0000;font:normal;}
 div.outer_layout.about div.about_right a{color:#FF9900;}
 div.outer_layout.about div.about_right p{float:left;background:url(../images/arrow_right.jpg) no-repeat 0 2px;padding:0 0 15px 18px;font:normal 13px "Lucida Grande";}
 div.outer_layout.about div.about_right{float:right;width:270px;}
