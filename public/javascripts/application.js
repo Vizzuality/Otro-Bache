@@ -51,15 +51,8 @@ $(document).ready(function() {
         });
   });
   
-
-  
-
-  
-  
-  
   selected_height = $('li.selected').height();
   $('li.selected').height(0);
-
 
   //show confirm pothole
   $('div.pothole_inf').click(function(ev){
@@ -79,9 +72,9 @@ $(document).ready(function() {
             map2.setCenter(new google.maps.LatLng(pothole_data.lat,pothole_data.lon));
             map2.setZoom(16);
             marker = new google.maps.Marker({
-                    position: map2.getCenter(), 
-                    map: map2
-                });
+              position: map2.getCenter(), 
+              map: map2
+            });
             $('p.confirm_tooltip').hide();
             $('li.selected').find('p.days').text(pothole_data.days);
             $('li.selected').find('p.reported').html(pothole_data.reported);
@@ -100,7 +93,6 @@ $(document).ready(function() {
             }
             $('li.selected').animate({height: selected_height}, 300);
           });
-    
     } else {
       map2.setCenter(new google.maps.LatLng(pothole_data.lat,pothole_data.lon));
       map2.setZoom(16);
@@ -108,9 +100,9 @@ $(document).ready(function() {
       $('li.selected').find('p.reported').html(pothole_data.reported);
       $('li.selected').find('p.place').text(pothole_data.address);
       marker = new google.maps.Marker({
-              position: map2.getCenter(), 
-              map: map2
-          });
+          position: map2.getCenter(), 
+          map: map2
+      });
       $('p.confirm_tooltip').hide();
       $(me).parent().parent().css('display','none');
       var selected_item = $('li.selected');
@@ -122,9 +114,7 @@ $(document).ready(function() {
         $('a#confirm_pothole').show();
       }
       $('li.selected').animate({height: selected_height}, 300);
-    
     }
-
   });
 });
 
@@ -137,7 +127,7 @@ $(document).ready(function() {
       google.maps.event.addDomListener(controlDiv, 'click', function() {
         map.setZoom(map.getZoom() + 1);
       });
-    }
+    };
 
     function ZoomOutControl(controlDiv, map) {
 
@@ -146,7 +136,7 @@ $(document).ready(function() {
       google.maps.event.addDomListener(controlDiv, 'click', function() {
         map.setZoom(map.getZoom() - 1);
       });
-    }
+    };
     
     var myLatlng = new google.maps.LatLng(40.463667, -3.74922);
     var myOptions = {
@@ -174,63 +164,56 @@ $(document).ready(function() {
   
     map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
     
-     geocoder.geocode( { 'address': $('#location').text()}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          map.fitBounds(results[0].geometry.viewport); 
-          
-          
-      $.ajax({
-            url: "/api/get_near_localities/",
-            type: "GET",
-            data: ({lat: results[0].geometry.location.lat(), lon: results[0].geometry.location.lng() }),
-            dataType: "json",
+    geocoder.geocode( { 'address': $('#location').text()}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.fitBounds(results[0].geometry.viewport); 
 
-            success: function(result){
-                for (var i=0; i<result.length; i++) {
-                  $('ul#locations_list').append('<li><a class="stat" href="/in/'+result[i].name+'"><span>'+(result[i].name).substr(0,18)+'</span><p class="number">'+result[i].num_baches+'</p></a></li>');
-                }
+        $.ajax({
+          url: "/api/get_near_localities/",
+          type: "GET",
+          data: ({lat: results[0].geometry.location.lat(), lon: results[0].geometry.location.lng() }),
+          dataType: "json",
+          success: function(result){
+              for (var i=0; i<result.length; i++) {
+                $('ul#locations_list').append(
+                  '<li>' +
+                    '<a class="stat" href="/in/'+result[i].name+'">' +
+                      '<span>'+(result[i].name).substr(0,18)+'</span>' +
+                      '<p class="number">'+result[i].num_baches+'</p>' +
+                    '</a>'+
+                  '</li>'
+                );
+              }
 
-                $('ul#locations_list li').each(function(ev){
-                  var number = $(this).children('a').children('p.number').text();
-                  $(this).children('a').children('span').attr('alt',getBarPosition(number)+'px 0px');
-                   $(this).children('a').children('span').css('background-position', getBarPosition(number)+'px 0px');
-                });
+              $('ul#locations_list li').each(function(ev){
+                var number = $(this).children('a').children('p.number').text();
+                $(this).children('a').children('span').attr('alt',getBarPosition(number)+'px 0px');
+                 $(this).children('a').children('span').css('background-position', getBarPosition(number)+'px 0px');
+              });
 
-                // To show over background to the right side
-                $('ul#locations_list li a').hover(function(ev){
-                  var number = $(this).children('p.number').text();
-                  $(this).children('span').css('background-position', getBarPosition(number)+'px -23px');
+              // To show over background to the right side
+              $('ul#locations_list li a').hover(function(ev){
+                var number = $(this).children('p.number').text();
+                $(this).children('span').css('background-position', getBarPosition(number)+'px -23px');
 
-                },function(ev){
-                  $(this).children('span').css('background-position',$(this).children('span').attr('alt'));
-                });
+              },function(ev){
+                $(this).children('span').css('background-position',$(this).children('span').attr('alt'));
+              });
 
-                $('ul#locations_list li a span').hover(function(ev){
-                  $(this).css('background-position','0 -23px');
+              $('ul#locations_list li a span').hover(function(ev){
+                $(this).css('background-position','0 -23px');
 
-                },function(ev){
-                  $(this).css('background-position',$(this).attr('alt'));
-                });
+              },function(ev){
+                $(this).css('background-position',$(this).attr('alt'));
+              });
 
-  				$('ul#locations_list').append('<li class="others"><a href="/cities">Otros lugares</a></li>');
-
-
-
-            }
-         }
-      );
-          
-          
-          
-          
-          
-          
-        } else {
-          alert("Geocode was not successful for the following reason: " + status);
-        }
-      });
-      
-
+              $('ul#locations_list').append('<li class="others"><a href="/cities">Otros lugares</a></li>');
+          }
+        });
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
     
     layer = new google.maps.FusionTablesLayer(FUSION_TABLES_ID);
     layer.setMap(map);
@@ -240,8 +223,7 @@ $(document).ready(function() {
         $('div.main_map_left div.border_map div.geocorder').fadeIn();
         $('div.main_map_left div.border_map p.click').text('Ahora puedes arrastrar el "marker" donde quieras...');
         
-        !add_marker || add_marker.setMap(null);
-        add_marker = new google.maps.Marker({position: event.latLng, map: map, draggable: true});
+        addCustomMarker(map, event.latLng);
 
         !geocoder || geocoder.geocode({'latLng': event.latLng}, function(results, status){
           if (results && results[0] && results[0].formatted_address) {
@@ -259,6 +241,24 @@ $(document).ready(function() {
 
         });
       }
+    });
+  }
+  
+  function addCustomMarker(map, latLong){
+    !add_marker || add_marker.setMap(null);
+    
+    var image = new google.maps.MarkerImage(
+      '/images/marker.png',
+      new google.maps.Size(30, 38),
+      new google.maps.Point(0,0),
+      new google.maps.Point(15, 38)
+    );
+
+    add_marker = new google.maps.Marker({
+        position: latLong,
+        map: map,
+        icon: image,
+        draggable: true
     });
   }
 
@@ -281,7 +281,6 @@ $(document).ready(function() {
       return 0;
     }
   }
-  
   
   //Get pothole data
   function getPotholeData(element) {
@@ -315,7 +314,7 @@ $(document).ready(function() {
      }
    }
   
-  //Check if the pothole has already confirmed.
+  //Close selected pothole
   function closeSelectedItem() {
     $('li.selected').animate({
           height: 0
@@ -417,7 +416,12 @@ $(document).ready(function() {
     var showInfowindow = function(latLong, map, infowindow_content, dimensions){
       !add_marker || add_marker.setMap(null);
     
-      var image = new google.maps.MarkerImage('/images/fusion_marker.png',new google.maps.Size(14, 14),new google.maps.Point(0,0),new google.maps.Point(7, 7));
+      var image = new google.maps.MarkerImage(
+        '/images/fusion_marker.png',
+        new google.maps.Size(14, 14),
+        new google.maps.Point(0,0),
+        new google.maps.Point(7, 7)
+      );
 
       var marker = new google.maps.Marker({
           position: latLong,
