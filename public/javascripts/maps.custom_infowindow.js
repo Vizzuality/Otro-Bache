@@ -10,8 +10,8 @@ var vizzuality = {
       this.content_          = opts.content;
       this.height_           = opts.height;
       this.width_            = opts.width;
-      this.offsetVertical_   = -20 - opts.height;
-      this.offsetHorizontal_ = -20;
+      this.offsetVertical_   = (opts.offsetVertical || -20) - opts.height;
+      this.offsetHorizontal_ = opts.offsetHorizontal || -20;
 
       var me = this;
       this.boundsChangedListener_ = google.maps.event.addListener(this.map_, "bounds_changed", function() {

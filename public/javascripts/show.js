@@ -60,15 +60,20 @@ $(document).ready(function() {
     addInfoWindow = function(){
       if (!pothole || !pothole.photo_url) { return; };
       var infowindow_div = $('div#pothole_info').clone().attr("id", null);
-      var dimensions     = infowindow_div.objectSize();
-
-      var info_window    = new vizzuality.maps.infobox({
-        content: infowindow_div.remove()[0],
-        width: dimensions.width,
-        height: dimensions.height,
-        position: mapLatLon,
-        map: map
+      
+      // We need to wait to image load in order to get the correct size of the entire div
+      infowindow_div.find('img').load(function(){
+        var dimensions     = infowindow_div.objectSize();
+        var info_window    = new vizzuality.maps.infobox({
+          content: infowindow_div.remove()[0],
+          width: dimensions.width,
+          height: dimensions.height,
+          position: mapLatLon,
+          map: map,
+          offsetHorizontal: -112
+        });
       });
+
     };
   
 

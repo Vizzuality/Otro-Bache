@@ -1,10 +1,9 @@
 .custom_infowindow{
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
+  -moz-box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
+  -webkit-box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
   border: 1px solid #999999;
   background-color: white;
-  -moz-box-shadow: 0 0 4px #666666;
   display: none;
   position: absolute;
 }
@@ -15,10 +14,10 @@ position:relative;
 }
 
 div.pothole_info div.corner{
-  background:url("/images/infowindow_corner_show.png") no-repeat scroll 0 0 transparent;
+  background:url("/images/infowindow_corner_show.png") no-repeat scroll 0 -2px transparent;
   bottom:-16px;
   height:16px;
-  left:15px;
+  left:112px;
   position:absolute;
   width:18px;
 }
