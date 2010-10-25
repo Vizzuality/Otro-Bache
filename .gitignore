@@ -4,6 +4,7 @@ config/database.yml
 config/credentials.yml
 db/*.sqlite3
 log/*.log
+tmp/*
 tmp/**/*
 public/data/*.csv
 public/uploads

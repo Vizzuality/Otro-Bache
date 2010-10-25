@@ -45,6 +45,7 @@ end
 task :symlinks, :roles => :app do
   run <<-CMD
     ln -nfs #{deploy_to}/shared/config/database.yml #{release_path}/config/database.yml;
+    ln -nfs #{deploy_to}/shared/config/credentials.yml #{release_path}/config/credentials.yml;
     mkdir -m 777 #{deploy_to}/shared/uploads ; true;
     ln -nfs #{deploy_to}/shared/uploads/ #{current_release}/public/uploads;
   CMD
