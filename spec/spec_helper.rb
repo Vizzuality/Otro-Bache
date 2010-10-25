@@ -24,8 +24,4 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-<<<<<<< HEAD
 end
-=======
-end
->>>>>>> 550d00e0450d042aaa5b40bb4a88cb5ad1039a26

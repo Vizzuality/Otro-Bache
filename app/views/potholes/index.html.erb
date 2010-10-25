@@ -6,7 +6,7 @@
     };
     uploadify_script_data['<%= session_key %>'] = '<%= cookies[session_key] %>';
   </script>
-  <%= javascript_include_tag "application.js", "swfobject.js", "jquery.uploadify.js", 'maps.custom_infowindow.js', 'jquery.dimensions.js' %>
+  <%= javascript_include_tag "application.js", "swfobject.js", "jquery.uploadify.js", 'vizzuality.maps.js', 'jquery.dimensions.js' %>
   <%= stylesheet_link_tag "potholes/index", "uploadify.css", "custom_infowindow" %>
 <% end %>
 <div class="outer_layout sub">
@@ -34,10 +34,10 @@
     <div class="main_map_left">
       <div class="border_map">
         <div id="map_search">
-          <p>Busca cerca de </p>
           <form action="javascript:void geocorder()">
-            <input type="text" value="" />
-            <input type="submit" value="" />
+            <label for="pothole_location">Busca cerca de</label>
+            <input id="pothole_location" type="text" value="" />
+            <input id="do_map_search" type="submit" value="" />
           </form>
           <%= link_to_function image_tag('close_icon.png'), 'closeExpose()', :id => 'close_main_map'  %>
         </div>

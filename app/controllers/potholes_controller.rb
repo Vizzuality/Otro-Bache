@@ -174,13 +174,12 @@ class PotholesController < ApplicationController
   # POST /potholes.xml
   def create
 
-    res           = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(params[:lat]+','+params[:long])
-    @country_name = res.country           || ''
-    @country_code = res.country_code      || ''
-    @address      = res.full_address      || ''
-    @addressline  = res.street_address    || ''
-    @city_name    = res.city              || ''
-    @zip          = res.zip               || ''
+    @country_name = params[:country]           || ''
+    @country_code = params[:country_code]      || ''
+    @address      = params[:full_address]      || ''
+    @addressline  = params[:street_address]    || ''
+    @city_name    = params[:city]              || ''
+    @zip          = params[:zip]               || ''
 
     #find our country and city
     begin
@@ -215,7 +214,11 @@ class PotholesController < ApplicationController
 	  #my_table.select COUNT() from "name", "WHERE x=n"
     # --------------
 
-    print "\n\n\n ----- NUEVO_BACHE ------\n"
+    logger.info ''
+    logger.info ''
+    logger.info '----- NUEVO_BACHE ------'
+    logger.info ''
+    logger.info ''
 
     # Add to Postgresql database
     @pothole = Pothole.new( :lat => lat,

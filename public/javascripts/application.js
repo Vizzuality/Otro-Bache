@@ -14,6 +14,7 @@ var reported_potholes;
 var id_pothole;
 var map_enabled = false;
 var info_window;
+var marker_address;
 
 $(document).ready(function() {
   initialize();
@@ -225,21 +226,7 @@ $(document).ready(function() {
         
         add_marker = addCustomMarker(add_marker, map, event.latLng);
 
-        !geocoder || geocoder.geocode({'latLng': event.latLng}, function(results, status){
-          if (results && results[0] && results[0].formatted_address) {
-            var
-              paragraph = $('div.main_map_left div.border_map div.geocorder div.left p'),
-              font_size = 15;
-            paragraph.css('font-size', font_size).find('span.address').text(results[0].formatted_address);
-            while(paragraph.width() > 400){
-              font_size -= 1;
-              paragraph.css('font-size', font_size);
-            }
-            paragraph.fadeIn();
-          };
-          
-
-        });
+        geocodeMarkerPosition(event);
       }
     });
   }
@@ -261,7 +248,27 @@ $(document).ready(function() {
         draggable: true
     });
     
+    google.maps.event.addListener(marker, 'dragend', geocodeMarkerPosition);
+    
+    
     return marker;
+  }
+  
+  function geocodeMarkerPosition(event){
+    !geocoder || geocoder.geocode({'latLng': event.latLng}, function(results, status){
+      if (results && results[0] && results[0].formatted_address) {
+        marker_address = results[0];
+        var
+          paragraph = $('div.main_map_left div.border_map div.geocorder div.left p'),
+          font_size = 15;
+        paragraph.css('font-size', font_size).find('span.address').text(results[0].formatted_address);
+        while(paragraph.width() > 400){
+          font_size -= 1;
+          paragraph.css('font-size', font_size);
+        }
+        paragraph.fadeIn();
+      };
+    });
   }
 
   // DEPRECATED
@@ -307,7 +314,9 @@ $(document).ready(function() {
         function(results, status) {
           var country = results.formatted_address;
           if (status == google.maps.GeocoderStatus.OK) {
-            map.fitBounds(results[0].geometry.bounds);
+            if (results[0].geometry.bounds) {
+              map.fitBounds(results[0].geometry.bounds);
+            };
             map.setCenter(results[0].geometry.location);
           } else {
             alert('Lo siento no hemos encontrado tu localidad');
@@ -393,7 +402,7 @@ $(document).ready(function() {
       $('div.main_map_left div.border_map p.click').fadeOut();
       $.ajax({
         url: "/potholes",
-        data: "lat="+add_marker.getPosition().lat()+"&long="+add_marker.getPosition().lng(),
+        data: decodeMarkerAddress(),
         dataType: 'json',
         type: 'post',
         success: function(objJson){
@@ -412,6 +421,22 @@ $(document).ready(function() {
     } else {
       alert('No hay ningún punto marcado en el mapa');
     }
+  }
+  
+  function decodeMarkerAddress(){
+    var
+      data = {},
+      decodedAddress = vizzuality.maps.decode_address(marker_address);
+
+    data['lat']            = decodedAddress.lat();
+    data['long']           = decodedAddress.lng();
+    data['full_address']   = decodedAddress.full_address();
+    data['street_address'] = decodedAddress.street();
+    data['city']           = decodedAddress.city();
+    data['zip']            = decodedAddress.postal_code();
+    data['country']        = decodedAddress.country();
+    data['country_code']   = decodedAddress.country_code();
+    return data;
   }
   
   function addPotholeMarker(pothole){
@@ -438,7 +463,6 @@ $(document).ready(function() {
         position: latLong,
         map: map
       });
-
     }
 
     var

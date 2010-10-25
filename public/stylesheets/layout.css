@@ -78,8 +78,8 @@ div.outer_layout.map div.main_map div.main_map_left div.border_map p.click{posit
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.done{display:none;position:absolute;top:-50px;left:450px;width:180px;height:76px;background:url(../images/confirm_tooltip.png) no-repeat 0 0;padding:12px 15px;font:normal 17px "Lucida Grande";z-index:100;color:white;line-height:21px;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map p.done strong{padding:5px 0 0 0;font:normal 14px "Lucida Grande";line-height:18px;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search{position:absolute;top:-25px;left:0;height:30px;width:100%;background:white;padding:0;margin:0;display:none;font:normal 13px "Lucida Grande";}
-div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search p{display:inline;padding:0;margin-left:6px;color:#666666;vertical-align:text-bottom;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search form{display:inline;margin:0;}
+div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search form label{padding:0;margin-left:6px;color:#666666;vertical-align:text-bottom;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search form input[type="text"]{border:none;padding:0;margin:0 5px;border-bottom:1px solid #999999;font:normal 15px "Lucida Grande";color:#333333;width:200px;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search form input[type="text"]:focus{outline:none;}
 div.outer_layout.map div.main_map div.main_map_left div.border_map div#map_search form input[type="submit"]{border:none;width:15px;height:15px;margin:0;background:url(../images/len.png) no-repeat 0 0;margin:7px 0 0 0;}

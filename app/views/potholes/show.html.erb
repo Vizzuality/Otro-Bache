@@ -2,7 +2,7 @@
   <script type="text/javascript" charset="utf-8">
     var pothole = <%= @pothole.to_json.html_safe %>.pothole;
   </script>
-  <%= javascript_include_tag "show.js", "maps.custom_infowindow.js", "jquery.dimensions.js" %>
+  <%= javascript_include_tag "show.js", "vizzuality.maps.js", "jquery.dimensions.js" %>
   <%= stylesheet_link_tag "potholes/show", "custom_infowindow" %>
 <% end %>
 
