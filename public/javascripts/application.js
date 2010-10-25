@@ -17,7 +17,7 @@ var info_window;
 var marker_address;
 
 $(document).ready(function() {
-  initialize();
+  initializeMaps();
   reported_potholes = [];
   $('a#addPothole').click(function(ev){
     ev.stopPropagation();
@@ -65,7 +65,7 @@ $(document).ready(function() {
       marker.setMap(null);
     }
     
-    if ($('li.selected').height()>0) {
+    if ($('li.selected').height() > 0) {
       
       $('li.selected').animate({
             height: 0
@@ -113,7 +113,7 @@ $(document).ready(function() {
   });
 });
 
-  function initialize() {
+  function initializeMaps() {
     
     function ZoomInControl(controlDiv, map) {
 

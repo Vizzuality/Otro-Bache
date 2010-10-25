@@ -42,15 +42,6 @@
           <%= link_to_function image_tag('close_icon.png'), 'closeExpose()', :id => 'close_main_map'  %>
         </div>
         <div id="main_map"></div>
-        <div id="pothole_info" class="pothole_info">
-          <div class="corner"></div>
-          <div class="text">
-            <span>Gracias!,</span>
-            <p>
-              Tu bache se ha reportado correctamente.
-            </p>
-          </div>
-        </div>
         <div class="geocorder">
           <div class="left">
             <p>Bache en <span class="address"></span></p>
@@ -171,5 +162,15 @@
           :previous_label => 'Anteriores',
           :next_label => 'Siguientes'
     } %>
+  </div>
+</div>
+
+<div id="pothole_info" class="pothole_info new_report">
+  <div class="corner"></div>
+  <div class="text">
+    <span>Gracias!,</span>
+    <p>
+      Tu bache se ha reportado correctamente.
+    </p>
   </div>
 </div>
