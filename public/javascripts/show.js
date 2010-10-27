@@ -1,4 +1,7 @@
+var reported_potholes;
+
 $(document).ready(function() {
+  reported_potholes = [];
   function ZoomInControl(controlDiv, map) {
 
     controlDiv.setAttribute('class', 'map_zoom_in');
@@ -31,15 +34,7 @@ $(document).ready(function() {
   };
 
   var map    = new google.maps.Map(document.getElementById("main_map"), myOptions);
-  var zoomInControlDiv = document.createElement('DIV');
-  var zoomInControl = new ZoomInControl(zoomInControlDiv, map);
-  zoomInControlDiv.index = 1;
-  var zoomOutControlDiv = document.createElement('DIV');
-  var zoomOutControl = new ZoomOutControl(zoomOutControlDiv, map);
-  zoomOutControlDiv.index = 2;
-  map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomInControlDiv);
-  map.controls[google.maps.ControlPosition.LEFT].push(zoomOutControlDiv);
-  
+    
   var marker = new google.maps.Marker ({
     map: map,
     position: mapLatLon,
@@ -73,7 +68,10 @@ $(document).ready(function() {
           offsetHorizontal: -112
         });
       });
-
+      var pothole_ = new Object();
+      pothole_.lat = pothole.lat;
+      pothole_.lon = pothole.lon;
+      reported_potholes.push(pothole_);
     };
   
 
@@ -87,7 +85,22 @@ $(document).ready(function() {
   
   circle.bindTo('center', marker, 'position')
   
-  $('#confirm_pothole').click(confirmPothole);
+  function checkIfConfirmed(lat,lon) {
+    for (var i=0; i<reported_potholes.length; i++) {
+      if (reported_potholes[i].lat==lat && reported_potholes[i].lon==lon) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  if (checkIfConfirmed(pothole.lat,pothole.lon)) {
+    $('#confirm_pothole').hide();
+  } else {
+    $('#confirm_pothole').click(confirmPothole).show();
+  }
+  
+  //$('#confirm_pothole').click(confirmPothole);
   
   addInfoWindow();
 
