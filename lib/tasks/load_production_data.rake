@@ -15,7 +15,7 @@ namespace :otrobache do
     config = YAML::load_file("#{Rails.root}/config/credentials.yml")
     ft.clientlogin(config["google_username"], config["google_password"])
 
-    my_table = ft.show_tables[0]
+    my_table = ft.show_tables[1]
     
     ftpotholes = my_table.select "*", "ORDER BY reported_date"
 
@@ -34,11 +34,16 @@ namespace :otrobache do
       end
 
       country = Country.find_or_create_by_code(country_code, :name => country_name)
-      city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id)
-
+      
+      if !city_name.blank?
+        city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id)
+      else
+        city = nil
+      end
+      
       address      = address.gsub(",","|")
       addressline  = addressline.gsub(",","|")
-      reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
+      #reported_date = ftpothole[:reported_date].strftime("%m/%d/%y %H:%M:%S")
 
       print "country: " + country_name + " city: " + city_name
         
@@ -48,11 +53,11 @@ namespace :otrobache do
       #                       "%m/%d/%y %H:%M:%S")
       # For ruby 1.8.7
       
-      print " saving->" + ftpothole[:lat] + " " + ftpothole[:lon]
+      print " saving->" + ftpothole[:lat] + " " + ftpothole[:lon] + " " + ftpothole[:reported_date]
                       
       pothole = Pothole.new(:lat => ftpothole[:lat], 
                      :lon => ftpothole[:lon], 
-                     :reported_date => reported_date, 
+                     :reported_date => ftpothole[:reported_date], 
                      :reported_by => ftpothole[:reported_by],
                      :address => address, 
                      :addressline => addressline,
@@ -66,14 +71,14 @@ namespace :otrobache do
 
       # --------------
       # Fusion Tables
-      sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
-                                'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
-                    values ('#{ftpothole[:lat]}', '#{ftpothole[:long]}', #{encode_text(address)}, #{encode_text(addressline)},
-                            #{encode_text(city.name)},
-                            #{encode_text(country.name)},#{encode_text(country.code)}, #{encode_text(zip)},
-                            'web', '#{reported_date}')"
-      ft.sql_post(sql)
-      sleep(20)
+      # sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
+      #                           'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
+      #               values ('#{ftpothole[:lat]}', '#{ftpothole[:long]}', #{encode_text(address)}, #{encode_text(addressline)},
+      #                       #{encode_text(city.name)},
+      #                       #{encode_text(country.name)},#{encode_text(country.code)}, #{encode_text(zip)},
+      #                       'web', '#{reported_date}')"
+      # ft.sql_post(sql)
+      # sleep(20)
       # ---------------------
 
       print " pothole saved\n"

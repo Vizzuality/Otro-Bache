@@ -25,6 +25,8 @@ gem 'capistrano-ext'
 
 gem 'carrierwave'
 
+gem 'twitter'
+
 # Development
 group :development, :test do
   gem 'ruby-debug',   :platforms => [:mri_18]

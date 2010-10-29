@@ -70,6 +70,7 @@ GEM
     childprocess (0.1.3)
       ffi (~> 0.6.3)
     columnize (0.3.1)
+    crack (0.1.8)
     culerity (0.2.12)
     diff-lcs (1.1.2)
     erubis (2.6.6)
@@ -81,9 +82,12 @@ GEM
     gdata_19 (1.1.2)
     geokit (1.5.0)
     google-geo (2.3)
+    hashie (0.4.0)
     highline (1.6.1)
     hoptoad_notifier (2.3.8)
       activesupport
+    httparty (0.6.1)
+      crack (= 0.1.8)
     i18n (0.4.1)
     json (1.4.6)
     json_pure (1.4.6)
@@ -95,6 +99,7 @@ GEM
       mime-types
       treetop (>= 1.4.5)
     mime-types (1.16)
+    multi_json (0.0.4)
     net-scp (1.0.3)
       net-ssh (>= 1.99.1)
     net-sftp (2.0.5)
@@ -104,6 +109,7 @@ GEM
       net-ssh (>= 1.99.1)
     nofxx-georuby (1.7.1)
     nokogiri (1.4.3.1)
+    oauth (0.4.3)
     pg (0.9.0)
     polyglot (0.3.1)
     rack (1.2.1)
@@ -163,6 +169,11 @@ GEM
     thor (0.14.2)
     treetop (1.4.8)
       polyglot (>= 0.3.1)
+    twitter (0.9.12)
+      hashie (~> 0.4.0)
+      httparty (~> 0.6.1)
+      multi_json (~> 0.0.4)
+      oauth (~> 0.4.3)
     tzinfo (0.3.23)
     will_paginate (3.0.pre2)
     xpath (0.1.2)
@@ -191,4 +202,5 @@ DEPENDENCIES
   ruby-debug
   ruby-debug19
   steak (~> 0.4.0.beta.1)
+  twitter
   will_paginate (~> 3.0.pre2)

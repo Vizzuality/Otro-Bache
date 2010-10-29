@@ -42,14 +42,17 @@ $(document).ready(function() {
     visible: false
   });
     
-  var confirmPothole = function(evt) {
+  var 
+    confirmPothole = function(evt) {
       evt.preventDefault();
-
+      var me = this;
+      
       $.ajax({ url: "/report/"+ pothole.id, method:'POST', success: function(){
         $('#mamufas_selected').fadeOut('fast');
         $('p.confirm_tooltip').fadeIn();
         $('p.confirm_tooltip').delay(4000).fadeOut();
         $.mask.close();
+        $(me).fadeOut('fast');
       }});
     },
     addInfoWindow = function(){
@@ -68,10 +71,6 @@ $(document).ready(function() {
           offsetHorizontal: -112
         });
       });
-      var pothole_ = new Object();
-      pothole_.lat = pothole.lat;
-      pothole_.lon = pothole.lon;
-      reported_potholes.push(pothole_);
     };
   
 
@@ -85,22 +84,8 @@ $(document).ready(function() {
   
   circle.bindTo('center', marker, 'position')
   
-  function checkIfConfirmed(lat,lon) {
-    for (var i=0; i<reported_potholes.length; i++) {
-      if (reported_potholes[i].lat==lat && reported_potholes[i].lon==lon) {
-        return true;
-      }
-    }
-    return false;
-  }
+  $('#confirm_pothole').click(confirmPothole);
   
-  if (checkIfConfirmed(pothole.lat,pothole.lon)) {
-    $('#confirm_pothole').hide();
-  } else {
-    $('#confirm_pothole').click(confirmPothole).show();
-  }
-  
-  //$('#confirm_pothole').click(confirmPothole);
   
   addInfoWindow();
 

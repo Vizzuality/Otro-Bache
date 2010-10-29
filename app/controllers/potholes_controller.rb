@@ -125,7 +125,7 @@ class PotholesController < ApplicationController
                                 
       respond_to do |format|
         format.html # show.html.erb
-        format.xml  { render :xml => @pothole }
+        format.json { render :json => @pothole.to_json }
       end
               
     else
@@ -189,8 +189,6 @@ class PotholesController < ApplicationController
     rescue
     end
 
-
-
     if @zip.blank?
       @zip = "N/A"
     end
@@ -203,23 +201,7 @@ class PotholesController < ApplicationController
 	  @address      = @address.gsub(",","|")
 	  @addressline  = @addressline.gsub(",","|")
 	  reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
-
-    # --------------
-    # Fusion Tables
-    ft = GData::Client::FusionTables.new
-    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
-    ft.clientlogin(config["google_username"], config["google_password"])
-    # my_table = ft.show_tables[0]
-
-	  #my_table.select COUNT() from "name", "WHERE x=n"
-    # --------------
-
-    logger.info ''
-    logger.info ''
-    logger.info '----- NUEVO_BACHE ------'
-    logger.info ''
-    logger.info ''
-
+	  
     # Add to Postgresql database
     @pothole = Pothole.new( :lat => lat,
                             :lon=> long,
@@ -232,7 +214,12 @@ class PotholesController < ApplicationController
                             :country_id => @country.id,
                             :the_geom => Point.from_x_y(long,lat))
 
+    # --------------
     # Fusion Tables
+    ft = GData::Client::FusionTables.new
+    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
+    ft.clientlogin(config["google_username"], config["google_password"])
+
     sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
                               'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
                   values ('#{lat}', '#{long}', #{encode_text(@address)}, #{encode_text(@addressline)},
@@ -241,6 +228,14 @@ class PotholesController < ApplicationController
                           'web', '#{reported_date}')"
     ft.sql_post(sql)
     # ---------------------
+    
+    # Twitter!!!
+    # httpauth = Twitter::HTTPAuth.new(config["twitter_username"], config["twitter_password"])
+    # client = Twitter::Base.new(httpauth)
+    
+    # tweet = "Otro bache en" + @address.gsub(",","|") + "Más en http://otrobache.com \#fb"
+    
+    # client.update(tweet)
 
     respond_to do |format|
       if @pothole.save

@@ -25,13 +25,14 @@ div.header div.header_right ul li a{font:normal 11px "Lucida Grande";color:white
 div.header div.header_right ul li a.no_margin{margin:0;}
 div.header div.header_right ul li a:hover{text-decoration:underline;}
 /*SUBHEADER*/
-div.outer_layout.sub{float:left;background:url(../images/outer_subheader_bkg.png) repeat-y center 0;}
+div.outer_layout.sub{float:left;background:#F5F5F5;}
+
 div.subheader{margin:0 auto;position:relative;width:960px;height:141px;}
-div.subheader div.subheader_left{float:left;width:660px;height:107px;padding:36px 0 0 0;background:url(../images/subheader_bkg.png) repeat-x -1px 0;}
+div.subheader div.subheader_left{float:left;width:660px;height:107px;padding:36px 0 0 0;background:url(../images/subheader_bkg.png) repeat-x center 0;}
 div.subheader div.subheader_left h3{font:normal 21px "Lucida Grande";color:#666666;}
 div.subheader div.subheader_left h1{font:normal 41px "Lucida Grande";color:#666666;letter-spacing:-1px;}
 div.subheader div.subheader_left h1 strong{color:#FF9900;font-weight:normal;}
-div.subheader div.subheader_right{float:left;width:300px;height:141px;background:#F5F5F5;}
+div.subheader div.subheader_right{float:left;width:300px;height:141px;}
 /* MAIN ABOUT */
 div.outer_layout.about{float:left;width:100%;background:url(../images/outer_map_bkg.png) repeat-y center 0;}
 div.outer_layout.about div.about{margin:0 auto;width:960px;}

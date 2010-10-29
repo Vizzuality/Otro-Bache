@@ -54,13 +54,16 @@ $(document).ready(function() {
   
   selected_height = $('li.selected').height();
   $('li.selected').height(0);
-
+  
   //show confirm pothole
   $('div.pothole_inf').click(function(ev){
     ev.stopPropagation();
     ev.preventDefault();
     var me = this;
     var pothole_data = getPotholeData(me);
+    
+    $('a#twitter_link').attr('href','http://twitter.com/share?url=http://otrobache.com/potholes/'+ pothole_data.id + '&text=Otro bache más en ' + pothole_data.address +' - ');
+      
     if (marker!=null) {
       marker.setMap(null);
     }
@@ -295,11 +298,12 @@ $(document).ready(function() {
   function getPotholeData(element) {
     var data = new Object();
 
-    data.address = $(element).find('p.place').text();
+    data.id = $(element).find('p.hidden.id_pothole').text().trim();
+    data.address = $(element).find('p.place').text().trim();
     data.reported = $(element).find('p.reported').html();
     data.lat = $(element).find('p.lat').text();
     data.lon = $(element).find('p.lon').text();
-    data.days = $(element).find('p.days').text();
+    data.days = $(element).find('p.days').text().trim();
     
     
     return data;
