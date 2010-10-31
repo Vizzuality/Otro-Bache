@@ -62,7 +62,13 @@ $(document).ready(function() {
     var me = this;
     var pothole_data = getPotholeData(me);
     
+    var facebook_u = 'http://otrobache.com/potholes/'+ pothole_data.id;
+    var facebook_t = 'Otro bache más en';
+
+    facebook_uri = 'http://www.facebook.com/sharer.php?u=' + encodeURIComponent(encodeURI(facebook_u)) + '&t=' + encodeURI(encodeURIComponent(facebook_t));
+    
     $('a#twitter_link').attr('href','http://twitter.com/share?url=http://otrobache.com/potholes/'+ pothole_data.id + '&text=Otro bache más en ' + pothole_data.address +' - ');
+    $('a#facebook_link').attr('href',facebook_uri);
       
     if (marker!=null) {
       marker.setMap(null);
