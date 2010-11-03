@@ -131,6 +131,7 @@ GEM
       rake (>= 0.8.4)
       thor (~> 0.14.0)
     rake (0.8.7)
+    rmagick (2.13.1)
     rspec (2.0.1)
       rspec-core (~> 2.0.1)
       rspec-expectations (~> 2.0.1)
@@ -198,6 +199,7 @@ DEPENDENCIES
   pg
   ppe-postgis-adapter!
   rails (= 3.0.0)
+  rmagick
   rspec-rails
   ruby-debug
   ruby-debug19

@@ -97,7 +97,7 @@ class PotholesController < ApplicationController
     end
 
     @countries = Country.all
-    
+
     @city_name=city_name
     @country_name=country_name
     session[:country] = @country.name
@@ -110,26 +110,26 @@ class PotholesController < ApplicationController
 
   # GET /potholes/1
   # GET /potholes/1.xml
-  def show 
+  def show
     if !params.nil?
       @pothole = Pothole.find(params[:id])
       @country_name = @pothole.country.name
-      
+
       sql="select distinct on (address,reported_date) *,
              (select count(id) from potholes where address=p.address)
-             as counter from potholes as p where lat = #{@pothole.lat} and lon = #{@pothole.lon} 
+             as counter from potholes as p where lat = #{@pothole.lat} and lon = #{@pothole.lon}
              order by address, reported_date DESC"
       sqlCount="select count(*) as count from ("+sql+") as sql"
 
       @counter = Pothole.find_by_sql(sqlCount).first.count.to_i
-                                
+
       respond_to do |format|
         format.html # show.html.erb
         format.json { render :json => @pothole.to_json }
       end
-              
+
     else
-      render :xml => "{'Status':'Error'}"      
+      render :xml => "{'Status':'Error'}"
     end
   end
 
@@ -196,12 +196,12 @@ class PotholesController < ApplicationController
     @country = Country.find_or_create_by_code(@country_code, :name=>@country_name)
     @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id)
 
-	  lat           = params[:lat][0..7]
-	  long          = params[:long][0..7]
-	  @address      = @address.gsub(",","|")
-	  @addressline  = @addressline.gsub(",","|")
-	  reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
-	  
+    lat           = params[:lat][0..7]
+    long          = params[:long][0..7]
+    @address      = @address.gsub(",","|")
+    @addressline  = @addressline.gsub(",","|")
+    reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
+
     # Add to Postgresql database
     @pothole = Pothole.new( :lat => lat,
                             :lon=> long,
@@ -228,13 +228,13 @@ class PotholesController < ApplicationController
                           'web', '#{reported_date}')"
     ft.sql_post(sql)
     # ---------------------
-    
+
     # Twitter!!!
     # httpauth = Twitter::HTTPAuth.new(config["twitter_username"], config["twitter_password"])
     # client = Twitter::Base.new(httpauth)
-    
+
     # tweet = "Otro bache en" + @address.gsub(",","|") + "Más en http://otrobache.com \#fb"
-    
+
     # client.update(tweet)
 
     respond_to do |format|

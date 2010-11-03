@@ -32,12 +32,12 @@
         <p class="place"></p>
         <p class="reported">
           <%= @counter %>
-          <% if (@counter > 1) %> 
-            veces 
-          <% else %> 
-            vez 
+          <% if (@counter > 1) %>
+            veces
+          <% else %>
+            vez
           <% end %>
-          reportado. Última vez <strong>hace 
+          reportado. Última vez <strong>hace
                 <%= distance_of_time_in_words(@pothole.reported_date, Time.now) %></strong></p>
       </div>
     </div>
@@ -49,7 +49,7 @@
             <a href="#">facebook</a>
             <a href="http://twitter.com/otrobache">twitter</a>
           </div>
-        </div>            
+        </div>
         <p class="first">Lleva</p>
         <p class="days"><%= distance_of_time_in_words(@pothole.reported_date, Time.now) %></p>
         <p class="first">sin ser arreglado</p>
@@ -62,6 +62,6 @@
 
 <div id="pothole_info" class="pothole_info show">
   <div class="corner"></div>
-  <img src="<%= @pothole.photo_url %>" alt="potholes image"/>
+  <img src="<%= @pothole.thumb_url %>" alt="potholes image"/>
 </div>
 

@@ -10,7 +10,7 @@ var vizzuality = {
       this.content_          = opts.content;
       this.height_           = opts.height;
       this.width_            = opts.width;
-      this.offsetVertical_   = (opts.offsetVertical || -20) - opts.height;
+      this.offsetVertical_   = (opts.offsetVertical == null ? -20 : opts.offsetVertical) - opts.height;
       this.offsetHorizontal_ = opts.offsetHorizontal || -20;
 
       var me = this;

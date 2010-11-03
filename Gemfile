@@ -9,7 +9,7 @@ gem 'nofxx-georuby', :require => 'geo_ruby'
 
 gem 'gdata_19'
 gem 'geokit'
-gem 'geokit-rails', :git => 'git://github.com/jlecour/geokit-rails.git', :branch => 'gem' 
+gem 'geokit-rails', :git => 'git://github.com/jlecour/geokit-rails.git', :branch => 'gem'
 
 gem 'fusion_tables', '0.2.2'
 
@@ -24,6 +24,7 @@ gem 'capistrano'
 gem 'capistrano-ext'
 
 gem 'carrierwave'
+gem 'rmagick'
 
 gem 'twitter'
 

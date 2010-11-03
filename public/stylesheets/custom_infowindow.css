@@ -8,29 +8,47 @@ div#pothole_info {
 }
 
 div.pothole_info.show {
-  -moz-box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
-  -webkit-box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
-  box-shadow: 5px 5px 5px rgba(0,0,0,0.15);
-  border: 1px solid #999999;
-  background-color: white;
-  padding: 3px;
+  border: 0 none;
+  background-color: transparent;
   position: relative;
 }
 
-div.pothole_info.show div.corner {
-  background: url("/images/balloon_point_white.png") no-repeat scroll 0 0 transparent;
-  bottom: -21px;
-  height: 21px;
-  left: 112px;
-  position: absolute;
-  width: 23px;
+div.pothole_info.show.horz{
+  background: transparent url('/images/infowindow_horz.png') no-repeat scroll center center;
+  width: 263px;
+  height: 216px;
 }
 
-div.pothole_info.show img {
-  margin: 0;
-  padding: 0;
-  width: 250px;
-  vertical-align: middle;
+div.pothole_info.show.vert{
+  background: transparent url('/images/infowindow_vert.png') no-repeat scroll center center;
+  width: 201px;
+  height: 280px;
+}
+
+
+div.pothole_info.show div.corner {
+  background-color: transparent;
+  bottom: -21px;
+  height: 21px;
+  left: 0;
+  position: absolute;
+  width: 0;
+}
+
+div.pothole_info.show.horz img {
+  width:241px;
+  height:178px;
+  margin:9px;
+  padding:0;
+  vertical-align:middle;
+}
+
+div.pothole_info.show.vert img {
+  width:178px;
+  height:241px;
+  margin:9px;
+  padding:0;
+  vertical-align:middle;
 }
 
 div.pothole_info.new_report {

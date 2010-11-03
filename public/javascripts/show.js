@@ -56,21 +56,39 @@ $(document).ready(function() {
       }});
     },
     addInfoWindow = function(){
-      if (!pothole || !pothole.photo_url) { return; };
-      var infowindow_div = $('div#pothole_info').clone().attr("id", null);
-      
-      // We need to wait to image load in order to get the correct size of the entire div
+      if (!pothole || !pothole.thumb_url) { return; };
+      var 
+          infowindow_div = $('div#pothole_info').clone().attr("id", null),
+          infowindow_opts = {
+            content: infowindow_div.remove()[0],
+            position: mapLatLon,
+            map: map
+          },
+          infowindow_horz = {
+            width: 263,
+            height: 216,
+            offsetHorizontal: -112,
+            offsetVertical: 0
+          },
+          infowindow_vert = {
+            width: 201,
+            height: 280,
+            offsetHorizontal: -97,
+            offsetVertical: 0
+          };
       infowindow_div.find('img').load(function(){
-        var dimensions     = infowindow_div.objectSize();
-        var info_window    = new vizzuality.maps.infobox({
-          content: infowindow_div.remove()[0],
-          width: dimensions.width,
-          height: dimensions.height,
-          position: mapLatLon,
-          map: map,
-          offsetHorizontal: -112
-        });
+        var dimensions = $(this).clone().objectSize(), width = dimensions.width, height = dimensions.height;
+
+        if (width > height) {
+          infowindow_div.addClass('horz');
+          infowindow_opts = $.extend(infowindow_opts, infowindow_horz);
+        }else{
+          infowindow_div.addClass('vert');
+          infowindow_opts = $.extend(infowindow_opts, infowindow_vert);
+        };
+        new vizzuality.maps.infobox(infowindow_opts);
       });
+      
     };
   
 
