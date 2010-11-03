@@ -12,17 +12,17 @@
 <div class="outer_layout sub">
   <div class="subheader">
     <div class="subheader_left">
-      
+
       <% if (@total_entries > 0) %>
         <h3>Que nosotros sepamos,</h3>
-        <h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%> 
+        <h1>hay <strong><%= @total_entries %> <%= (@total_entries > 1)? 'baches' : 'bache'%>
           en <%= @actual_term_searched.truncate(18) %></strong></h1>
       <% else %>
         <h3>No tenemos baches reportados</h3>
         <h1><strong>¡Reporta el primero!</strong></h1>
       <% end %>
-      
-      
+
+
     </div>
     <div class="subheader_right"></div>
   </div>
@@ -89,8 +89,8 @@
   <div class="sort">
     <p>Ordenar: <a class="selected" href="#">Últimos primero</a> | <a href="#">Más confirmados</a></p>
   </div>
-  <ul id="pothole_list">  
-    
+  <ul id="pothole_list">
+
     <% @potholes.each do |pothole| %>
       <li class="first">
         <div class="outer_item">
@@ -101,15 +101,15 @@
             </div>
             <div class="data">
               <p class="place">
-              <%= pothole.addressline.truncate(50) %> 
+              <%= pothole.addressline.truncate(50) %>
               <strong>(<%= pothole.zip %>, <%= pothole.city.name.truncate(10) %>)</strong></p>
-              <p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong> 
-              
-              <% if (pothole.counter.to_i > 1) %> 
-                veces 
-              <% else %> 
-                vez 
-              <% end %> reportado. Última vez hace 
+              <p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong>
+
+              <% if (pothole.counter.to_i > 1) %>
+                veces
+              <% else %>
+                vez
+              <% end %> reportado. Última vez hace
 
               <strong><%= distance_of_time_in_words(pothole.reported_date, Time.now) %></strong></p>
 
@@ -144,7 +144,7 @@
           <div class="social_media">
             <p>Quéjate en...</p>
             <p><a target="_blank" id="facebook_link" href="#">facebook</a>/<a target="_blank" id="twitter_link" href="#">twitter</a></p>
-          </div>            
+          </div>
           <p class="first">Lleva</p>
           <p class="days">65 días</p>
           <p class="first">sin ser arreglado</p>
@@ -156,7 +156,7 @@
     </li>
   </ul>
   <div class="background_summary">
-    <%= will_paginate @potholes, { 
+    <%= will_paginate @potholes, {
           :inner_window => 1,
           :outer_window => 0,
           :previous_label => 'Anteriores',
@@ -166,6 +166,15 @@
 </div>
 
 <div id="pothole_info" class="pothole_info new_report">
+  <div class="corner"></div>
+  <div class="text">
+    <span>Gracias!,</span>
+    <p>
+      Tu bache se ha reportado correctamente.
+    </p>
+  </div>
+</div>
+<div id="pothole_info" class="pothole_info show">
   <div class="corner"></div>
   <div class="text">
     <span>Gracias!,</span>

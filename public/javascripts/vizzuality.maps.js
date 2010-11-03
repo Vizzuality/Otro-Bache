@@ -21,6 +21,30 @@ var vizzuality = {
       this.setMap(this.map_);
     },
     
+    horizontal_infobox: function(opts){
+      var infowindow_horz = {
+        width: 263,
+        height: 216,
+        offsetHorizontal: -112,
+        offsetVertical: 0
+      };
+      opts = $.extend(infowindow_horz, opts);
+      opts.content = $(opts.content).addClass('horz')[0];
+      new vizzuality.maps.infobox(opts);
+    },
+    
+    vertical_infobox: function(opts){
+      var infowindow_vert = {
+        width: 201,
+        height: 280,
+        offsetHorizontal: -97,
+        offsetVertical: 0
+      };
+      opts = $.extend(infowindow_vert, opts);
+      opts.content = $(opts.content).addClass('vert')[0];
+      new vizzuality.maps.infobox(opts);
+    },
+    
     decode_address: function(address){
       vizzuality.maps.decode_address.address = address;
 

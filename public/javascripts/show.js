@@ -63,30 +63,15 @@ $(document).ready(function() {
             content: infowindow_div.remove()[0],
             position: mapLatLon,
             map: map
-          },
-          infowindow_horz = {
-            width: 263,
-            height: 216,
-            offsetHorizontal: -112,
-            offsetVertical: 0
-          },
-          infowindow_vert = {
-            width: 201,
-            height: 280,
-            offsetHorizontal: -97,
-            offsetVertical: 0
           };
       infowindow_div.find('img').load(function(){
         var dimensions = $(this).clone().objectSize(), width = dimensions.width, height = dimensions.height;
 
         if (width > height) {
-          infowindow_div.addClass('horz');
-          infowindow_opts = $.extend(infowindow_opts, infowindow_horz);
+          new vizzuality.maps.horizontal_infobox(infowindow_opts);
         }else{
-          infowindow_div.addClass('vert');
-          infowindow_opts = $.extend(infowindow_opts, infowindow_vert);
+          new vizzuality.maps.vertical_infobox(infowindow_opts);
         };
-        new vizzuality.maps.infobox(infowindow_opts);
       });
       
     };
