@@ -193,8 +193,8 @@ class PotholesController < ApplicationController
       @zip = "N/A"
     end
 
-    @country = Country.find_or_create_by_code(@country_code, :name=>@country_name)
-    @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id)
+    @country = Country.find_or_create_by_code(@country_code, :name => @country_name)
+    @city    = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id)
 
     lat           = params[:lat][0..7]
     long          = params[:long][0..7]
@@ -213,21 +213,6 @@ class PotholesController < ApplicationController
                             :city_id => @city.id,
                             :country_id => @country.id,
                             :the_geom => Point.from_x_y(long,lat))
-
-    # --------------
-    # Fusion Tables
-    ft = GData::Client::FusionTables.new
-    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
-    ft.clientlogin(config["google_username"], config["google_password"])
-
-    sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
-                              'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
-                  values ('#{lat}', '#{long}', #{encode_text(@address)}, #{encode_text(@addressline)},
-                          #{encode_text(@city.name)},
-                          #{encode_text(@country.name)},#{encode_text(@country.code)}, #{encode_text(@zip)},
-                          'web', '#{reported_date}')"
-    ft.sql_post(sql)
-    # ---------------------
 
     # Twitter!!!
     # httpauth = Twitter::HTTPAuth.new(config["twitter_username"], config["twitter_password"])
@@ -289,6 +274,13 @@ class PotholesController < ApplicationController
     end
   end
 
+  def at
+    pothole = params[:lat] && params[:lon] ? Pothole.close_to().where(:lat => params[:lat], :lon => params[:lon]).first : {}
+
+    respond_to do |format|
+      format.json { render :json => pothole.to_json }
+    end
+  end
 
 end
 

@@ -225,7 +225,7 @@ $(document).ready(function() {
       }
     });
     
-    layer = new google.maps.FusionTablesLayer(FUSION_TABLES_ID);
+    layer = new google.maps.FusionTablesLayer(FUSION_TABLES_ID, {suppressInfoWindows: true});
     layer.setMap(map);
     
     google.maps.event.addListener(map, 'click', function(event) {
@@ -237,6 +237,61 @@ $(document).ready(function() {
 
         geocodeMarkerPosition(event);
       }
+    });
+    google.maps.event.addListener(layer, 'click', function(event) {
+
+      if (event && event.row && event.row.pothole_id && event.row.pothole_id.value) {
+
+        var pothole_id = event.row.pothole_id.value;
+
+        $.getJSON('/potholes/'+pothole_id, function(objJson){
+
+          var pothole = objJson.pothole;
+
+          if (!pothole || !pothole.thumb_url) { return; };
+console.debug(pothole);
+
+          var 
+              infowindow,
+              infowindow_div = $('div#pothole_info_show').clone().attr("id", null),
+              infowindow_opts = {
+                content: infowindow_div.remove()[0],
+                position: event.latLng,
+                map: map
+              },
+              pothole_count = 1;
+
+          infowindow_div.hover(function(){
+            infowindow_div.find('div.text').fadeIn('fast');
+          }, function(){
+            infowindow_div.find('div.text').fadeOut('fast');
+          });
+          infowindow_div.find('div.text div.close a').click(function(evt){
+            evt.preventDefault();
+            infowindow_div.fadeOut('fast', function(){
+              infowindow.remove();
+            });
+          });
+          infowindow_div.find('div.text p.street').text(pothole.addressline);
+          infowindow_div.find('div.text p.city').text(pothole.zip + ', ' + pothole.city.name);
+          infowindow_div.find('div.text div.reported_times p.times.one').show()
+          infowindow_div.find('div.text div.reported_times p.times.one span').text(1);
+          infowindow_div.find('div.text div.reported_times p.last strong').text(pothole.reported_date);
+
+          infowindow_div.find('img')
+          .attr('src', pothole.thumb_url)
+          .load(function(){
+            var dimensions = $(this).clone().objectSize(), width = dimensions.width, height = dimensions.height;
+
+            if (width > height) {
+              infowindow = new vizzuality.maps.horizontal_infobox(infowindow_opts);
+            }else{
+              infowindow = new vizzuality.maps.vertical_infobox(infowindow_opts);
+            };
+          });
+
+        });
+      };
     });
   }
   

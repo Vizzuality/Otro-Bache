@@ -51,6 +51,61 @@ div.pothole_info.show.vert img {
   vertical-align:middle;
 }
 
+div.pothole_info.show div.text {
+  background-color:white;
+  left:9px;
+  top:9px;
+  opacity:0.9;
+  position:absolute;
+  display: none;
+}
+
+div.pothole_info.show.horz div.text {
+  width:241px;
+  height:178px;
+}
+
+div.pothole_info.show.vert div.text {
+  width:178px;
+  height:241px;
+}
+div.pothole_info.show div.text div.close a{
+  background: transparent url(/images/close_icon.png) no-repeat scroll center center;
+  display: block;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  right: 9px;
+  top: 9px;
+}
+
+div.pothole_info.show div.text p.street{
+  font-size: 17px;
+  font-weight: bold;
+  margin: 5px;
+}
+div.pothole_info.show div.text p.city{
+  font-size: 13px;
+  margin: 5px;
+}
+div.pothole_info.show div.text div.reported_times{
+  font-family: Georgia;
+  border-top:1px solid black;
+  bottom:6px;
+  color:#666666;
+  height:40px;
+  position:absolute;
+  padding: 5px;
+}
+
+div.pothole_info.show.horz div.text div.reported_times{
+  width: 230px;
+}
+
+div.pothole_info.show div.text p.times{
+  display: none;
+}
+
 div.pothole_info.new_report {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;

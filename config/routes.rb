@@ -1,34 +1,34 @@
 Otrobache::Application.routes.draw do |map|
 
   root :to => 'potholes#index'
-  
+
   resources :potholes do
     post 'add_photo', :on => :member
   end
-  
+
   match "create" => "potholes#create"
-  
+
   match "in/:location" => "potholes#index"
   match "countries/:country" => "potholes#index"
   match "cities/:city" => "potholes#index"
   match "cities" => "cities#index"
   match "pothole/:id" => "potholes#show"
-  
-  match "report/:id" => "potholes#edit"  
+
+  match "report/:id" => "potholes#edit"
   match "create" => "potholes#create"
   match "potholes" => "potholes#index"
-  
+
   get "about" => "about#index"
-  
+
   get "download" => "download#index"
 
   namespace :api do
     get "get_near_localities" =>"api#get_near_localities",:format => :json
   end
 
-  # map.latlongroute 'create/:lat/:lng' :controller 
-  
-  
+  # map.latlongroute 'create/:lat/:lng' :controller
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

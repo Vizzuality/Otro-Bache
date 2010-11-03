@@ -30,7 +30,7 @@ var vizzuality = {
       };
       opts = $.extend(infowindow_horz, opts);
       opts.content = $(opts.content).addClass('horz')[0];
-      new vizzuality.maps.infobox(opts);
+      return new vizzuality.maps.infobox(opts);
     },
     
     vertical_infobox: function(opts){
@@ -42,7 +42,7 @@ var vizzuality = {
       };
       opts = $.extend(infowindow_vert, opts);
       opts.content = $(opts.content).addClass('vert')[0];
-      new vizzuality.maps.infobox(opts);
+      return new vizzuality.maps.infobox(opts);
     },
     
     decode_address: function(address){
