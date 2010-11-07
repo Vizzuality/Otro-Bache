@@ -54,10 +54,10 @@ class PotholesController < ApplicationController
       # To show it in the title
       @actual_term_searched = @city.name
 
-      sql="select distinct on (address,reported_date) *,
+      sql="select distinct on (reported_date, address) *,
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where city_id = #{@city.id}
-             order by address, reported_date DESC"
+             order by reported_date DESC, address"
       sqlCount="select count(*) as count from ("+sql+") as sql"
       @total_entries = (params[:total_entries]) ?
       params[:total_entries].to_i :
@@ -75,9 +75,9 @@ class PotholesController < ApplicationController
     elsif country_name.present?
       @country = Country.find_or_create_by_code(country_code, :name=>country_name)
 
-      sql="select distinct on (address,reported_date) *,
+      sql="select distinct on (reported_date, address) *,
         (select count(id) from potholes where address=p.address)
-        as counter from potholes as p where country_id = #{@country.id} order by address, reported_date DESC"
+        as counter from potholes as p where country_id = #{@country.id} order by reported_date DESC, address"
       sqlCount="select count(*) as count from ("+sql+") as sql"
       @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
 
@@ -115,10 +115,10 @@ class PotholesController < ApplicationController
       @pothole = Pothole.find(params[:id])
       @country_name = @pothole.country.name
 
-      sql="select distinct on (address,reported_date) *,
+      sql="select distinct on (reported_date, address) *,
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where lat = #{@pothole.lat} and lon = #{@pothole.lon}
-             order by address, reported_date DESC"
+             order by reported_date DESC, address"
       sqlCount="select count(*) as count from ("+sql+") as sql"
 
       @counter = Pothole.find_by_sql(sqlCount).first.count.to_i
@@ -178,7 +178,7 @@ class PotholesController < ApplicationController
     @country_code = params[:country_code]      || ''
     @address      = params[:full_address]      || ''
     @addressline  = params[:street_address]    || ''
-    @city_name    = params[:city]              || ''
+    @city_name    = params[:city]
     @zip          = params[:zip]               || ''
 
     #find our country and city
@@ -214,6 +214,20 @@ class PotholesController < ApplicationController
                             :country_id => @country.id,
                             :the_geom => Point.from_x_y(long,lat))
 
+    # --------------
+    # Fusion Tables
+    ft = GData::Client::FusionTables.new
+    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
+    ft.clientlogin(config["google_username"], config["google_password"])
+
+    sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
+                              'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
+                              values ('#{lat}', '#{long}', #{encode_text(@address)}, #{encode_text(@addressline)},
+                                      #{encode_text(@city.name)},
+                                      #{encode_text(@country.name)},#{encode_text(@country.code)}, #{encode_text(@zip)},
+                                      'web', '#{reported_date}')"
+    ft.sql_post(sql)
+    # ---------------------
     # Twitter!!!
     # httpauth = Twitter::HTTPAuth.new(config["twitter_username"], config["twitter_password"])
     # client = Twitter::Base.new(httpauth)
