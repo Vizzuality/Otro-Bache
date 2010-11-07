@@ -1,6 +1,9 @@
 class Pothole < ActiveRecord::Base
+  include ActionView::Helpers::DateHelper
 
   mount_uploader :photo, PhotoUploader
+
+  attr_accessor :count
 
   validates :lat, :presence => true
   validates :lon, :presence => true
@@ -22,11 +25,15 @@ class Pothole < ActiveRecord::Base
     photo && photo.thumb ? photo.thumb.url : nil
   end
 
+  def last_time
+    distance_of_time_in_words(updated_at, Time.now) unless reported_date.blank?
+  end
+
   def to_json
     attributes = {
       :include => [:city],
       :except => [:photo],
-      :methods => [:photo_url, :thumb_url]
+      :methods => [:photo_url, :thumb_url, :count, :last_time]
     }
     super(attributes)
   end
@@ -42,7 +49,6 @@ class Pothole < ActiveRecord::Base
                           #{encode_text(city.name)},
                           #{encode_text(country.name)},#{encode_text(country.code)}, #{encode_text(zip)},
                           'web', '#{reported_date}', #{to_param})"
-logger.debug sql
     ft.sql_post(sql)
   end
 end

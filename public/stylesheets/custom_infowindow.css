@@ -5,6 +5,7 @@ div#pothole_info {
 .custom_infowindow {
   display: none;
   position: absolute;
+  cursor: default;
 }
 
 div.pothole_info.show {

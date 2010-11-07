@@ -246,10 +246,11 @@ $(document).ready(function() {
 
         $.getJSON('/potholes/'+pothole_id, function(objJson){
 
-          var pothole = objJson.pothole;
+          var 
+            pothole       = objJson.pothole,
+            times_class = objJson.pothole.count > 1 ? 'other' : 'one';
 
           if (!pothole || !pothole.thumb_url) { return; };
-console.debug(pothole);
 
           var 
               infowindow,
@@ -274,9 +275,9 @@ console.debug(pothole);
           });
           infowindow_div.find('div.text p.street').text(pothole.addressline);
           infowindow_div.find('div.text p.city').text(pothole.zip + ', ' + pothole.city.name);
-          infowindow_div.find('div.text div.reported_times p.times.one').show()
-          infowindow_div.find('div.text div.reported_times p.times.one span').text(1);
-          infowindow_div.find('div.text div.reported_times p.last strong').text(pothole.reported_date);
+          infowindow_div.find('div.text div.reported_times p.times.' + times_class).show()
+          infowindow_div.find('div.text div.reported_times p.times.' + times_class + ' span').text(objJson.pothole.count);
+          infowindow_div.find('div.text div.reported_times p.last strong').text(pothole.last_time);
 
           infowindow_div.find('img')
           .attr('src', pothole.thumb_url)

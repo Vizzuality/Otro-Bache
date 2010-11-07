@@ -5,8 +5,6 @@ class PotholesController < ApplicationController
   # define('FLICKR_API_SECRET', 'e4dac314a1e456af');
 
 
-  # GET /potholes
-  # GET /potholes.xml
   def index
     #If the controller is called without location params we redirect where the user is geolocating its IP
     if params[:location].blank?
@@ -108,33 +106,21 @@ class PotholesController < ApplicationController
     end
   end
 
-  # GET /potholes/1
-  # GET /potholes/1.xml
   def show
-    if !params.nil?
-      @pothole = Pothole.find(params[:id])
-      @country_name = @pothole.country.name
-
-      sql="select distinct on (address,reported_date) *,
-             (select count(id) from potholes where address=p.address)
-             as counter from potholes as p where lat = #{@pothole.lat} and lon = #{@pothole.lon}
-             order by address, reported_date DESC"
-      sqlCount="select count(*) as count from ("+sql+") as sql"
-
-      @counter = Pothole.find_by_sql(sqlCount).first.count.to_i
+    unless params.blank?
+      @pothole       = Pothole.find(params[:id])
+      @country_name  = @pothole.country.name
+      @pothole.count = Pothole.where(:address => @pothole.address).count
 
       respond_to do |format|
         format.html # show.html.erb
         format.json { render :json => @pothole.to_json }
       end
-
     else
-      render :xml => "{'Status':'Error'}"
+      render :json => "{'Status':'Error'}"
     end
   end
 
-  # GET /potholes/new
-  # GET /potholes/new.xml
   def new
     @pothole = Pothole.new
     respond_to do |format|
@@ -143,7 +129,6 @@ class PotholesController < ApplicationController
     end
   end
 
-  # GET /potholes/1/edit
   def edit
 
     @pothole = Pothole.find(params[:id])
@@ -170,8 +155,6 @@ class PotholesController < ApplicationController
     end
   end
 
-  # POST /potholes
-  # POST /potholes.xml
   def create
 
     @country_name = params[:country]           || ''
@@ -233,8 +216,6 @@ class PotholesController < ApplicationController
     end
   end
 
-  # PUT /potholes/1
-  # PUT /potholes/1.xml
   def update
     @pothole = Pothole.find(params[:id])
 
@@ -249,8 +230,6 @@ class PotholesController < ApplicationController
     end
   end
 
-  # DELETE /potholes/1
-  # DELETE /potholes/1.xml
   def destroy
     @pothole = Pothole.find(params[:id])
     @pothole.destroy

@@ -31,14 +31,13 @@
       <div class="information">
         <p class="place"></p>
         <p class="reported">
-          <%= @counter %>
-          <% if (@counter > 1) %>
+          <%= @pothole.count %>
+          <% if (@pothole.count > 1) %>
             veces
           <% else %>
             vez
           <% end %>
-          reportado. Última vez <strong>hace
-                <%= distance_of_time_in_words(@pothole.reported_date, Time.now) %></strong></p>
+          reportado. Última vez <strong>hace <%= distance_of_time_in_words(@pothole.reported_date, Time.now) %></strong></p>
       </div>
     </div>
     <div class="main_map_right">
