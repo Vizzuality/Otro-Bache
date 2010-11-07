@@ -326,13 +326,31 @@ $(document).ready(function() {
         var
           paragraph = $('div.main_map_left div.border_map div.geocorder div.left p'),
           font_size = 15;
-        paragraph.css('font-size', font_size).find('span.address').text(results[0].formatted_address);
+        
+        paragraph.css('font-size', font_size).find('span.address').text("Bache en " + results[0].formatted_address);
+        
         while(paragraph.width() > 400){
           font_size -= 1;
           paragraph.css('font-size', font_size);
         }
         paragraph.fadeIn();
-      };
+      } else {
+        // javo
+        marker_address = results[0];
+        var
+          paragraph = $('div.main_map_left div.border_map div.geocorder div.left p'),
+          font_size = 15;
+
+        paragraph.css({'font-size': font_size, 'color': 'red' , 'font-weight': 'bolder'}).find('span.address').text("ERROR: Sólo se pueden reportar baches pertenecientes a ciudades");
+
+        while(paragraph.width() > 400){
+          font_size -= 1;
+          paragraph.css('font-size', font_size);
+        }
+        paragraph.fadeIn();
+        
+        $('div.geocorder div.steps').hide();
+      }
     });
   }
 
