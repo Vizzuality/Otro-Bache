@@ -57,10 +57,9 @@ class PotholesController < ApplicationController
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where city_id = #{@city.id}
              order by reported_date DESC, address"
-      sqlCount="select count(*) as count from ("+sql+") as sql"
       @total_entries = (params[:total_entries]) ?
                       params[:total_entries].to_i :
-                      Pothole.find_by_sql(sqlCount).first.count.to_i
+                      Pothole.find_by_sql(sql).count
 
       # Paginate
       @current_page = params[:page].blank? ? 1 : params[:page].to_i
@@ -78,8 +77,7 @@ class PotholesController < ApplicationController
       sql="select distinct on (reported_date, address) *,
         (select count(id) from potholes where address=p.address)
         as counter from potholes as p where country_id = #{@country.id} order by reported_date DESC, address"
-      sqlCount="select count(*) as count from ("+sql+") as sql"
-      @total_entries = (params[:total_entries]) ? params[:total_entries].to_i : Pothole.find_by_sql(sqlCount).first.count.to_i
+      @total_entries = (params[:total_entries]) ? params[:total_entries] : Pothole.find_by_sql(sql).count
 
       # Paginate
       @current_page = params[:page].blank? ? 1 : params[:page].to_i
