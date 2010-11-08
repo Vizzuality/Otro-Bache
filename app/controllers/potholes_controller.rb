@@ -28,7 +28,7 @@ class PotholesController < ApplicationController
 
     #first we check if this is a registered country
     result = GeoIp.where_country(params[:location]).first
-    debugger
+
     if result
       #we have a country
       country_name = result.country_name.downcase
@@ -48,6 +48,7 @@ class PotholesController < ApplicationController
 
     if city_name.present?
       @city = City.find_or_create_by_name(city_name)
+      @country = @city.country
 
       # To show it in the title
       @actual_term_searched = @city.name
@@ -71,7 +72,7 @@ class PotholesController < ApplicationController
       end
 
     elsif country_name.present?
-      
+
       @country = Country.find_or_create_by_code(country_code, :name=>country_name)
 
       sql="select distinct on (reported_date, address) *,

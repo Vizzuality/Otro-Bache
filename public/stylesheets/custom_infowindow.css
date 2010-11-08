@@ -1,4 +1,4 @@
-div#pothole_info {
+div#pothole_info, div#pothole_info_show {
   display: none;
 }
 
