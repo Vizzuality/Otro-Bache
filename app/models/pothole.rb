@@ -39,15 +39,19 @@ class Pothole < ActiveRecord::Base
   end
 
   def add_to_fusion_tables
-    ft = GData::Client::FusionTables.new
-    ft.clientlogin(APP_CONFIG[:google_username], APP_CONFIG[:google_password])
+#    ft = GData::Client::FusionTables.new
+#    ft.clientlogin(APP_CONFIG[:google_username], APP_CONFIG[:google_password])
 
-    sql = "insert into #{APP_CONFIG[:fusion_tables_id]} ('lat', 'lon', 'address', 'addressline',
-                              'city', 'country','country_code', 'zip', 'reported_by', 'reported_date', 'pothole_id')
-                  values ('#{lat}', '#{lon}', #{encode_text(address)}, #{encode_text(addressline)},
+#    sql = "insert into #{APP_CONFIG[:fusion_tables_id]} ('lat', 'lon', 'address', 'addressline',
+#                              'city', 'country','country_code', 'zip', 'reported_by', 'reported_date', 'pothole_id')
+#                  values ('#{lat}', '#{lon}', #{encode_text(address)}, #{encode_text(addressline)},
                           #{encode_text(city.name)},
                           #{encode_text(country.name)},#{encode_text(country.code)}, #{encode_text(zip)},
-                          'web', '#{reported_date}', #{to_param})"
-    ft.sql_post(sql)
+#                          'web', '#{reported_date}', #{to_param})"
+    # ft.sql_post(sql)
+    File.open("#{Rails.root}/public/data.csv", 'a') {|f| 
+      f.puts("#{lat},#{lon},#{encode_text(address)},#{encode_text(addressline)},#{encode_text(city.name)},#{encode_text(country.name)},#{encode_text(zip)},web,#{reported_date},#{encode_text(country.code)},#{to_param}") 
+    }
+    #lat,lon,address,addressline,city,country,zip,reported_by,reported_date,country_code,pothole_id
   end
 end
