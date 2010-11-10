@@ -9,7 +9,7 @@ ul{list-style:none;}
 div.outer_layout{width:100%;}
 .hidden{display:none;}
 /*HEADER*/
-div.outer_layout.top{float:left;background:url(../images/outer_header_bkg.png) repeat-y center 0;}
+div.outer_layout.top{float:left;background:#000000;}
 div.header{margin:0 auto;position:relative;width:960px;height:53px;}
 div.header div.header_left{float:left;width:660px;height:53px;background:url(../images/header_bkg.png) repeat-x 0 0;}
 div.header div.header_left a{text-decoration:none;}
