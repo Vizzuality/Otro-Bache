@@ -36,7 +36,7 @@ end
 desc "Migraciones"
 task :run_migrations, :roles => [:app] do
   run <<-CMD
-    export RAILS_ENV=production &&
+    export RAILS_ENV=#{rails_env} &&
     cd #{release_path} &&
     rake db:migrate
   CMD
