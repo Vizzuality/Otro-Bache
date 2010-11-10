@@ -9,3 +9,4 @@ tmp/*
 tmp/**/*
 public/data/*.csv
 public/uploads
+public/data.csv
