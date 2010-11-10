@@ -40,10 +40,9 @@ class Pothole < ActiveRecord::Base
 
   def add_to_fusion_tables
     ft = GData::Client::FusionTables.new
-    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
-    ft.clientlogin(config["google_username"], config["google_password"])
+    ft.clientlogin(APP_CONFIG[:google_username], APP_CONFIG[:google_password])
 
-    sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
+    sql = "insert into #{APP_CONFIG[:fusion_tables_id]} ('lat', 'lon', 'address', 'addressline',
                               'city', 'country','country_code', 'zip', 'reported_by', 'reported_date', 'pothole_id')
                   values ('#{lat}', '#{lon}', #{encode_text(address)}, #{encode_text(addressline)},
                           #{encode_text(city.name)},

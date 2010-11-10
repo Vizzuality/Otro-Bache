@@ -205,21 +205,6 @@ class PotholesController < ApplicationController
 
     # client.update(tweet)
 
-    # --------------
-    # Fusion Tables
-    ft = GData::Client::FusionTables.new
-    config = YAML::load_file("#{Rails.root}/config/credentials.yml")
-    ft.clientlogin(config["google_username"], config["google_password"])
-
-    sql = "insert into 272266 ('lat', 'lon', 'address', 'addressline',
-                              'city', 'country','country_code', 'zip', 'reported_by', 'reported_date')
-                  values ('#{lat}', '#{long}', #{encode_text(@address)}, #{encode_text(@addressline)},
-                          #{encode_text(@city.name)},
-                          #{encode_text(@country.name)},#{encode_text(@country.code)}, #{encode_text(@zip)},
-                          'web', '#{reported_date}')"
-    ft.sql_post(sql)
-    # ---------------------
-
     respond_to do |format|
       if @pothole.save
         format.html { render :text => "saved" }

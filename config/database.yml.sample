@@ -4,7 +4,7 @@ development:
   database: otrobache_development
   host: localhost
   username: postgres
-  password: 
+  password:
   pool: 5
   timeout: 5000
 
@@ -14,9 +14,20 @@ test:
   database: otrobache_test
   host: localhost
   username: postgres
-  password: 
+  password:
   pool: 5
   timeout: 5000
+
+staging:
+  adapter: postgresql
+  template: template_postgis
+  database: otrobache_staging
+  host: localhost
+  username: postgres
+  password:
+  pool: 5
+  timeout: 5000
+
 
 production:
   adapter: postgresql

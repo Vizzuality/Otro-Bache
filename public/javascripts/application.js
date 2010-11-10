@@ -1,7 +1,3 @@
-// The official id is 272266
-// The developer id is 225314
-var FUSION_TABLES_ID = 272266;
-
 var selected_height;
 var max_potholes = 31;
 var map;
@@ -224,7 +220,7 @@ $(document).ready(function() {
         alert("Geocode was not successful for the following reason: " + status);
       }
     });
-    
+
     layer = new google.maps.FusionTablesLayer(FUSION_TABLES_ID, {suppressInfoWindows: true});
     layer.setMap(map);
     
@@ -327,13 +323,18 @@ $(document).ready(function() {
           paragraph = $('div.main_map_left div.border_map div.geocorder div.left p'),
           font_size = 15;
         
-        paragraph.css('font-size', font_size).find('span.address').text("Bache en " + results[0].formatted_address);
+        paragraph.css({
+          'font-size': font_size,
+          'color': null,
+          'font-weight': 'normal'
+        }).find('span.address').text("Bache en " + results[0].formatted_address);
         
         while(paragraph.width() > 400){
           font_size -= 1;
           paragraph.css('font-size', font_size);
         }
         paragraph.fadeIn();
+        // $('div.geocorder div#create_pothole').fadeIn('fast');
       } else {
         // javo
         marker_address = results[0];
@@ -526,7 +527,7 @@ $(document).ready(function() {
   function addPotholeMarker(pothole){
     var showInfowindow = function(latLong, map, infowindow_content, dimensions){
       !add_marker || add_marker.setMap(null);
-    
+
       var image = new google.maps.MarkerImage(
         '/images/fusion_marker.png',
         new google.maps.Size(14, 14),
@@ -547,6 +548,7 @@ $(document).ready(function() {
         position: latLong,
         map: map
       });
+
     }
 
     var

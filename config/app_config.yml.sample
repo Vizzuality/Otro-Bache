@@ -1,0 +1,27 @@
+development:
+  twitter_username: your_username
+  twitter_password:
+  google_username: your_username
+  google_password:
+  fusion_tables_id:
+
+test:
+  twitter_username: your_username
+  twitter_password:
+  google_username: your_username
+  google_password:
+  fusion_tables_id:
+
+staging:
+  twitter_username: your_username
+  twitter_password:
+  google_username: your_username
+  google_password:
+  fusion_tables_id:
+
+production:
+  twitter_username: your_username
+  twitter_password:
+  google_username: your_username
+  google_password:
+  fusion_tables_id:

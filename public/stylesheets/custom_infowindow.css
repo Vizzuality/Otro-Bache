@@ -83,7 +83,7 @@ div.pothole_info.show div.text div.close a{
 div.pothole_info.show div.text p.street{
   font-size: 17px;
   font-weight: bold;
-  margin: 5px;
+  margin: 5px 8px 5px 5px;
 }
 div.pothole_info.show div.text p.city{
   font-size: 13px;

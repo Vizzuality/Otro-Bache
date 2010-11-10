@@ -51,16 +51,16 @@ var vizzuality = {
       return {
         lat: function(){
           var address = vizzuality.maps.decode_address.address;
-          if (address.geometry && address.geometry.location && address.geometry.location.b) {
-            return address.geometry.location.b;
+          if (address.geometry && address.geometry.location && address.geometry.location.lat()) {
+            return address.geometry.location.lat();
           };
           return null;
         },
         
         lng: function(){
           var address = vizzuality.maps.decode_address.address;
-          if (address.geometry && address.geometry.location && address.geometry.location.c) {
-            return address.geometry.location.c;
+          if (address.geometry && address.geometry.location && address.geometry.location.lng()) {
+            return address.geometry.location.lng();
           };
           return null;
         },
