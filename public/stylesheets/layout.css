@@ -137,6 +137,7 @@ div.outer_layout.list div.sort p a:hover{color:#FF6600;}
 div.outer_layout.list div.sort p a.selected{padding:0 5px;color:#666666;text-decoration:none;}
 div.outer_layout.list div.sort p a.selected:hover{text-decoration:none;}
 div.outer_layout.list div.background_summary{clear:both;margin:0 233px;width:686px;}
+
 div.outer_layout.list div.pagination{float:left;width:100%;padding:20px 0;background:url(../images/white_gray.png) repeat-y 2px 0 white;text-align:center;font:normal 13px "Lucida Grande";color:#666666;}
 div.outer_layout.list div.pagination a,
 div.outer_layout.list div.pagination span{background-color:#CCCCCC;color:#666666;margin:0 2px;padding:4px 8px;}

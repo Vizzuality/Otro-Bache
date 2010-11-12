@@ -92,35 +92,37 @@
   <ul id="pothole_list">
 
     <% @potholes.each do |pothole| %>
-      <li class="first">
-        <div class="outer_item">
-          <div class="pothole_inf">
-            <a href="#" class="view_more"></a>
-            <div class="image">
-              <%= image_tag((pothole.counter.to_i > 1)? "plus.png" : "reported.png", :alt => "reported") %>
-            </div>
-            <div class="data">
-              <p class="place">
-              <%= pothole.addressline.truncate(50) %>
-              <strong>(<%= pothole.zip %>, <%= pothole.city.name.truncate(10) %>)</strong></p>
-              <p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong>
+      <% if ((pothole.city.name != "null") && (pothole.zip != "null") && (pothole.address != "null")) %>
+        <li class="first">
+          <div class="outer_item">
+            <div class="pothole_inf">
+              <a href="#" class="view_more"></a>
+              <div class="image">
+                <%= image_tag((pothole.counter.to_i > 1)? "plus.png" : "reported.png", :alt => "reported") %>
+              </div>
+              <div class="data">
+                <p class="place">
+                  <%= pothole.addressline.truncate(50) %>
+                  <strong>(<%= pothole.zip %>, <%= pothole.city.name.truncate(10) %>)</strong></p>
+                <p class="reported"><strong class="count"><%= pothole.counter.to_i %></strong>
 
-              <% if (pothole.counter.to_i > 1) %>
-                veces
-              <% else %>
-                vez
-              <% end %> reportado. Última vez hace
+                <% if (pothole.counter.to_i > 1) %>
+                  veces
+                <% else %>
+                  vez
+                <% end %> reportado. Última vez hace
 
-              <strong><%= distance_of_time_in_words(pothole.reported_date, Time.now) %></strong></p>
+                <strong><%= distance_of_time_in_words(pothole.reported_date, Time.now) %></strong></p>
 
-              <p class="hidden lat"><%= pothole.lat %></p>
-              <p class="hidden lon"><%= pothole.lon %></p>
-              <p class="hidden id_pothole"><%= pothole.id %></p>
-              <p class="hidden days"><%= distance_of_time_in_words(pothole.reported_date, Time.now) %></p>
+                <p class="hidden lat"><%= pothole.lat %></p>
+                <p class="hidden lon"><%= pothole.lon %></p>
+                <p class="hidden id_pothole"><%= pothole.id %></p>
+                <p class="hidden days"><%= distance_of_time_in_words(pothole.reported_date, Time.now) %></p>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
+        </li>
+      <% end %>
     <% end %>
     <li class="selected">
       <div class="pothole_data">

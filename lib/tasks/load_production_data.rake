@@ -38,14 +38,17 @@ namespace :otrobache do
         city_name    = res.city
         zip          = res.zip
 
-        if country_name.nil? || country_code.nil? || address.nil? || addressline.nil? || city_name.nil? || zip.nil?
+        if country_name.nil? || country_code.nil? || address.nil? || addressline.nil? || city_name.nil? || zip.nil? ||
+           city_name == "null"
 
           puts count.to_s + ". pothole NOT SAVED - " + ftpothole[:lat] + " " + ftpothole[:lon] + " " + ftpothole[:reported_date] + "\n"
 
         else
-
+          
+          temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
+          
           country = Country.find_or_create_by_code(country_code, :name => country_name)
-          city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id)
+          city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
 
           address      = address.gsub(",","|")
           addressline  = addressline.gsub(",","|")
