@@ -5,11 +5,10 @@ class Pothole < ActiveRecord::Base
 
   attr_accessor :count
 
-  validates :lat, :presence => true
-  validates :lon, :presence => true
-  validates :address, :presence => true
-  validates :zip, :presence => true
-
+  validates_presence_of :lat, :lon, :address, :zip
+  validates_exclusion_of :address, :in => %w(null), :message => "Address must be given."
+  validates_exclusion_of :zip, :in => %w(null), :message => "Zip must be given."
+     
   belongs_to :city
   belongs_to :country
 
