@@ -22,6 +22,14 @@ You will need to create a postgis template database. [Here][3] explain how to do
 After that, you can proceed with the rest of the installation steps:
 
     bundle install
+    
+You need imagemagick
+    ruby -e "$(curl -fsSL https://gist.github.com/raw/323731/install_homebrew.rb)"
+
+    brew install imagemagick
+
+And the database:
+    
     rake db:setup
 
 This will take a while, since 1.4 million records must be inserted in the database.

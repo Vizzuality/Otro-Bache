@@ -177,7 +177,7 @@ $(document).ready(function() {
         $.ajax({
           url: "/api/get_near_localities/",
           type: "GET",
-          data: ({lat: results[0].geometry.location.lat(), lon: results[0].geometry.location.lng() }),
+          data: ({lat: results[0].geometry.location.lat(), lon: results[0].geometry.location.lng(),current_city_id:$('#city_id').text() }),
           dataType: "json",
           success: function(result){
               for (var i=0; i<result.length; i++) {

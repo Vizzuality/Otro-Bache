@@ -51,6 +51,7 @@ class PotholesController < ApplicationController
       temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
       
       @city = City.find_or_create_by_name(city_name.downcase, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+      @city_id=@city.id
       @country = @city.country
 
       # To show it in the title
