@@ -488,6 +488,7 @@ $(document).ready(function() {
       $.ajax({
         url: "/potholes",
         data: decodeMarkerAddress(),
+        traditional: false,
         dataType: 'json',
         type: 'post',
         success: function(objJson){
@@ -513,14 +514,15 @@ $(document).ready(function() {
       data = {},
       decodedAddress = vizzuality.maps.decode_address(marker_address);
 
-    data['lat']            = decodedAddress.lat();
-    data['long']           = decodedAddress.lng();
-    data['full_address']   = decodedAddress.full_address();
-    data['street_address'] = decodedAddress.street();
-    data['city']           = decodedAddress.city();
-    data['zip']            = decodedAddress.postal_code();
-    data['country']        = decodedAddress.country();
-    data['country_code']   = decodedAddress.country_code();
+    data['lat']            = decodedAddress.lat() || '';
+    data['long']           = decodedAddress.lng() || '';
+    data['full_address']   = decodedAddress.full_address() || '';
+    data['street_address'] = decodedAddress.street() || '';
+    data['city']           = decodedAddress.city() || '';
+    data['zip']            = decodedAddress.postal_code() || '';
+    data['country']        = decodedAddress.country() || '';
+    data['country_code']   = decodedAddress.country_code() || '';
+
     return data;
   }
   
