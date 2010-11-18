@@ -11,6 +11,7 @@ var id_pothole;
 var map_enabled = false;
 var info_window;
 var marker_address;
+var infowindow;
 
 $(document).ready(function() {
   initializeMaps();
@@ -246,10 +247,9 @@ $(document).ready(function() {
             pothole       = objJson.pothole,
             times_class = objJson.pothole.count > 1 ? 'other' : 'one';
 
-          if (!pothole || !pothole.thumb_url) { return; };
+          if (!pothole) { return; };
 
           var 
-              infowindow,
               infowindow_div = $('div#pothole_info_show').clone().attr("id", null),
               infowindow_opts = {
                 content: infowindow_div.remove()[0],
@@ -258,15 +258,10 @@ $(document).ready(function() {
               },
               pothole_count = 1;
 
-          infowindow_div.hover(function(){
-            infowindow_div.find('div.text').fadeIn('fast');
-          }, function(){
-            infowindow_div.find('div.text').fadeOut('fast');
-          });
           infowindow_div.find('div.text div.close a').click(function(evt){
             evt.preventDefault();
             infowindow_div.fadeOut('fast', function(){
-              infowindow.remove();
+              !infowindow || infowindow_div.remove();
             });
           });
           infowindow_div.find('div.text p.street').text(pothole.addressline);
@@ -275,22 +270,37 @@ $(document).ready(function() {
           infowindow_div.find('div.text div.reported_times p.times.' + times_class + ' span').text(objJson.pothole.count);
           infowindow_div.find('div.text div.reported_times p.last strong').text(pothole.last_time);
 
-          infowindow_div.find('img')
-          .attr('src', pothole.thumb_url)
-          .load(function(){
-            var dimensions = $(this).clone().objectSize(), width = dimensions.width, height = dimensions.height;
-
-            if (width > height) {
-              infowindow = new vizzuality.maps.horizontal_infobox(infowindow_opts);
-            }else{
-              infowindow = new vizzuality.maps.vertical_infobox(infowindow_opts);
-            };
-          });
-
+          if (pothole.thumb_url) {
+            infowindow_div
+            .hover(function(){
+              infowindow_div.find('div.text').fadeIn('fast');
+            }, function(){
+              infowindow_div.find('div.text').fadeOut('fast');
+            })
+            .find('img')
+            .attr('src', pothole.thumb_url)
+            .load(function(){
+              checkInfowindowDimensions.call(infowindow_div, infowindow_opts);
+            });
+          }else{
+            infowindow_div.find('div.text').show();
+            infowindow_div.find('img').hide();
+            checkInfowindowDimensions.call(infowindow_div, infowindow_opts);
+          };
         });
       };
     });
-  }
+  };
+  
+  function checkInfowindowDimensions(infowindow_opts){
+    var dimensions = $(this).clone().objectSize(), width = dimensions.width, height = dimensions.height;
+
+    if (width > height) {
+      infowindow = new vizzuality.maps.horizontal_infobox(infowindow_opts);
+    }else{
+      infowindow = new vizzuality.maps.vertical_infobox(infowindow_opts);
+    };
+  };
   
   function addCustomMarker(marker, map, latLong){
     !marker || marker.setMap(null);
