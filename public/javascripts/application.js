@@ -504,7 +504,7 @@ $(document).ready(function() {
         type: 'post',
         success: function(objJson){
           if (!objJson || !objJson['pothole']) {return;};
-          
+          map_enabled = false;
           addPotholeMarker(objJson['pothole']);
           setupUploadify(objJson['pothole']);
 
