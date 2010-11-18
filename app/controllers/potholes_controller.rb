@@ -185,6 +185,13 @@ class PotholesController < ApplicationController
     @country = Country.find_or_create_by_code(@country_code, :name => @country_name)
     @city    = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
 
+    if @city.nil?
+      @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+    else
+      if @city.the_geom.nil? 
+        @city.update_attributes(:name => @city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f)) 
+      end
+    end
     lat           = params[:lat][0..7]
     long          = params[:long][0..7]
     @address      = @address.gsub(",","|")
