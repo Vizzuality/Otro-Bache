@@ -9,7 +9,7 @@ ul{list-style:none;}
 div.outer_layout{width:100%;}
 .hidden{display:none;}
 /*HEADER*/
-div.outer_layout.top{float:left;background:#000000;}
+div.outer_layout.top{float:left;background:url(../images/outer_header_bkg.png) repeat-y center 0;}
 div.header{margin:0 auto;position:relative;width:960px;height:53px;}
 div.header div.header_left{float:left;width:660px;height:53px;background:url(../images/header_bkg.png) repeat-x 0 0;}
 div.header div.header_left a{text-decoration:none;}
@@ -25,10 +25,10 @@ div.header div.header_right ul li a{font:normal 11px "Lucida Grande";color:white
 div.header div.header_right ul li a.no_margin{margin:0;}
 div.header div.header_right ul li a:hover{text-decoration:underline;}
 /*SUBHEADER*/
-div.outer_layout.sub{float:left;background:#F5F5F5;}
+div.outer_layout.sub{float:left;width:100%;background:url(../images/outer_map_bkg.png) repeat-y center 0;}
 
 div.subheader{margin:0 auto;position:relative;width:960px;height:141px;}
-div.subheader div.subheader_left{float:left;width:660px;height:107px;padding:36px 0 0 0;background:url(../images/subheader_bkg.png) repeat-x center 0;}
+div.subheader div.subheader_left{float:left;width:660px;height:107px;padding:36px 0 0 0;background-color: white;}
 div.subheader div.subheader_left h3{font:normal 21px "Lucida Grande";color:#666666;}
 div.subheader div.subheader_left h1{font:normal 41px "Lucida Grande";color:#666666;letter-spacing:-1px;}
 div.subheader div.subheader_left h1 strong{color:#FF9900;font-weight:normal;}
