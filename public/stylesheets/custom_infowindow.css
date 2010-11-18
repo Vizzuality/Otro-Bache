@@ -50,6 +50,7 @@ div.pothole_info.show.vert img {
   margin:9px;
   padding:0;
   vertical-align:middle;
+  display: none;
 }
 
 div.pothole_info.show div.text {
@@ -58,7 +59,6 @@ div.pothole_info.show div.text {
   top:9px;
   opacity:0.9;
   position:absolute;
-  display: none;
 }
 
 div.pothole_info.show.horz div.text {

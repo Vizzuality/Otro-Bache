@@ -274,6 +274,7 @@ $(document).ready(function() {
           infowindow_div.find('div.text div.reported_times p.last strong').text(pothole.last_time);
 
           if (pothole.thumb_url) {
+            infowindow_div.find('div.text').hide();
             infowindow_div
             .hover(function(){
               infowindow_div.find('div.text').fadeIn('fast');
@@ -283,11 +284,11 @@ $(document).ready(function() {
             .find('img')
             .attr('src', pothole.thumb_url)
             .load(function(){
+              $(this).css('display', 'inline');
               checkInfowindowDimensions.call(infowindow_div, infowindow_opts);
             });
           }else{
-            infowindow_div.find('div.text').show();
-            infowindow_div.find('img').hide();
+            infowindow_div.find('img').remove();
             checkInfowindowDimensions.call(infowindow_div, infowindow_opts);
           };
         });
