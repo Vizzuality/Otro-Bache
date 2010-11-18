@@ -47,9 +47,9 @@ class PotholesController < ApplicationController
     end
 
     if city_name.present?
-      
+
       temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
-      
+
       @city = City.find_or_create_by_name(city_name.downcase, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
       @city_id=@city.id
       @country = @city.country
@@ -57,10 +57,10 @@ class PotholesController < ApplicationController
       # To show it in the title
       @actual_term_searched = @city.name
 
-      sql="select distinct on (reported_date, address) *,
+      sql="select distinct on (updated_at, address) *,
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where city_id = #{@city.id}
-             order by reported_date DESC, address"
+             order by updated_at DESC, address"
       @total_entries = (params[:total_entries]) ?
                       params[:total_entries].to_i :
                       Pothole.find_by_sql(sql).count
@@ -78,9 +78,9 @@ class PotholesController < ApplicationController
 
       @country = Country.find_or_create_by_code(country_code, :name=>country_name)
 
-      sql="select distinct on (reported_date, address) *,
+      sql="select distinct on (updated_at, address) *,
         (select count(id) from potholes where address=p.address)
-        as counter from potholes as p where country_id = #{@country.id} order by reported_date DESC, address"
+        as counter from potholes as p where country_id = #{@country.id} order by updated_at DESC, address"
       @total_entries = (params[:total_entries]) ? params[:total_entries] : Pothole.find_by_sql(sql).count
 
       # Paginate
@@ -135,21 +135,13 @@ class PotholesController < ApplicationController
 
   def edit
 
-    @pothole = Pothole.find(params[:id])
+    @pothole = Pothole.find(params[:id]).clone()
 
-    @country =  Country.find_by_id(@pothole.country_id)
-    @city = City.find_by_id(@pothole.city_id)
+    @pothole.reported_date = Time.now.strftime("%m/%d/%y %H:%M:%S")
+    @pothole.reported_by   = 'web'
 
     respond_to do |format|
-      if @pothole.update_attributes(:lat => @pothole.lat,
-          :lon=> @pothole.lon,
-          :reported_date => Time.now.strftime("%m/%d/%y %H:%M:%S"),
-          :reported_by => "web",
-          :address => @pothole.address,
-          :addressline => @pothole.addressline,
-          :zip => @pothole.zip,
-          :city_id => @city.id,
-          :country_id => @country.id)
+      if @pothole.save
         format.html { redirect_to :controller => "potholes", :action => "index" }
         format.xml  { head :ok }
       else
@@ -188,8 +180,8 @@ class PotholesController < ApplicationController
     if @city.nil?
       @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
     else
-      if @city.the_geom.nil? 
-        @city.update_attributes(:name => @city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f)) 
+      if @city.the_geom.nil?
+        @city.update_attributes(:name => @city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
       end
     end
     lat           = params[:lat][0..7]

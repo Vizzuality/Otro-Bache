@@ -48,6 +48,7 @@ $(document).ready(function() {
           }
         });
   });
+  $('a#confirm_pothole').live('click', confirmPothole);
   
   selected_height = $('li.selected').height();
   $('li.selected').height(0);
@@ -58,7 +59,9 @@ $(document).ready(function() {
     ev.preventDefault();
     var me = this;
     var pothole_data = getPotholeData(me);
-    
+
+    $('a#confirm_pothole').attr('href', '/report/'+pothole_data.id);
+
     var facebook_u = 'http://otrobache.com/potholes/'+ pothole_data.id;
     var facebook_t = 'Otro bache más en';
 
@@ -447,10 +450,9 @@ $(document).ready(function() {
   }
   
   //Confirm pothole showed in the list
-  function confirmPothole() {
-    
-    id_pothole = $('p.id_pothole').html();
-    
+  function confirmPothole(evt) {
+    evt.preventDefault();
+
     $("li.selected").expose({
         closeOnClick: false,
         closeOnEsc: false,
@@ -462,7 +464,7 @@ $(document).ready(function() {
         }
      });
     
-      $.ajax({ url: "/report/"+ id_pothole, method:'POST', success: function(){
+      $.ajax({ url: $(this).attr('href'), method:'POST', success: function(){
       $('#mamufas_selected').fadeOut('fast');
       $('p.confirm_tooltip').fadeIn();
       $('p.confirm_tooltip').delay(4000).fadeOut();
@@ -487,7 +489,6 @@ $(document).ready(function() {
     
   }
   
-  //Confirm pothole showed in the list
   function addNewPothole() {
     if (add_marker !=null && add_marker.getMap() !=null ) {
       $('#create_pothole').fadeOut('fast', function(){

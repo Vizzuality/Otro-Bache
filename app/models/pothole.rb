@@ -8,7 +8,7 @@ class Pothole < ActiveRecord::Base
   validates_presence_of :lat, :lon, :address, :zip
   validates_exclusion_of :address, :in => %w(null), :message => "Address must be given."
   validates_exclusion_of :zip, :in => %w(null), :message => "Zip must be given."
-     
+
   belongs_to :city
   belongs_to :country
 
@@ -25,7 +25,7 @@ class Pothole < ActiveRecord::Base
   end
 
   def last_time
-    distance_of_time_in_words(updated_at, Time.now) unless reported_date.blank?
+    distance_of_time_in_words(reported_date, Time.now) unless reported_date.blank?
   end
 
   def to_json
@@ -48,11 +48,11 @@ class Pothole < ActiveRecord::Base
                           #{encode_text(country.name)},#{encode_text(country.code)}, #{encode_text(zip)},
                           'web', '#{reported_date}', #{to_param})"
     ft.sql_post(sql)
-    
-    #File.open("#{Rails.root}/public/data.csv", 'a') {|f| 
-    #  f.puts("#{lat},#{lon},#{encode_text(address)},#{encode_text(addressline)},#{encode_text(city.name)},#{encode_text(country.name)},#{encode_text(zip)},web,#{reported_date},#{encode_text(country.code)},#{to_param}") 
+
+    #File.open("#{Rails.root}/public/data.csv", 'a') {|f|
+    #  f.puts("#{lat},#{lon},#{encode_text(address)},#{encode_text(addressline)},#{encode_text(city.name)},#{encode_text(country.name)},#{encode_text(zip)},web,#{reported_date},#{encode_text(country.code)},#{to_param}")
     #}
     #lat,lon,address,addressline,city,country,zip,reported_by,reported_date,country_code,pothole_id
-  
+
   end
 end
