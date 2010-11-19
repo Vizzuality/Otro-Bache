@@ -265,6 +265,8 @@ $(document).ready(function() {
             evt.preventDefault();
             infowindow_div.fadeOut('fast', function(){
               infowindow.remove();
+              infowindow = null;
+              delete infowindow;
             });
           });
           infowindow_div.find('div.text p.street').text(pothole.addressline);

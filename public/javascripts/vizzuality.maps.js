@@ -19,6 +19,10 @@ var vizzuality = {
       });
 
       this.setMap(this.map_);
+      $(document).trigger('close_infowindow');
+      $(document).bind('close_infowindow', function(evt){
+        me.remove();
+      });
     },
     
     horizontal_infobox: function(opts){
@@ -165,10 +169,9 @@ var vizzuality = {
 vizzuality.maps.infobox.prototype = new google.maps.OverlayView();
 
 vizzuality.maps.infobox.prototype.remove = function() {
-  if (this.div_) {
-    this.div_.parentNode.removeChild(this.div_);
-    this.div_ = null;
-  }
+  !this.div_              || ($(this.div_).remove(), this.div_ = null);
+  !this.content_          || ($(this.content_).remove(), this.content_ = null);
+  delete this;
 };
 
 vizzuality.maps.infobox.prototype.draw = function() {
