@@ -93,7 +93,7 @@
   <ul id="pothole_list">
 
     <% @potholes.each do |pothole| %>
-      <% if ((pothole.city.name != "null") && (pothole.zip != "null") && (pothole.address != "null")) %>
+      <% if ((!pothole.city.nil?) && (pothole.city.name != "null") && (pothole.zip != "null") && (pothole.address != "null")) %>
         <li class="first">
           <div class="outer_item">
             <div class="pothole_inf">
