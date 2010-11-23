@@ -48,7 +48,7 @@ namespace :otrobache do
           temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
           
           country = Country.find_or_create_by_code(country_code, :name => country_name)
-          city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+          city = City.find_or_create_by_name(city_name.downcase, :country_id => country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))
 
           address      = address.gsub(",","|")
           addressline  = addressline.gsub(",","|")

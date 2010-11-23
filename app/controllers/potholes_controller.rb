@@ -50,7 +50,7 @@ class PotholesController < ApplicationController
 
       temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
 
-      @city = City.find_or_create_by_name(city_name.downcase, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+      @city = City.find_or_create_by_name(city_name.downcase, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))
       @city_id=@city.id
       @country = @city.country
 
@@ -175,13 +175,13 @@ class PotholesController < ApplicationController
     temp = Geokit::Geocoders::GoogleGeocoder.geocode(@city_name.downcase)
 
     @country = Country.find_or_create_by_code(@country_code, :name => @country_name)
-    @city    = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+    @city    = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))
 
     if @city.nil?
-      @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+      @city = City.find_or_create_by_name(@city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))
     else
       if @city.the_geom.nil?
-        @city.update_attributes(:name => @city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lat.to_f, temp.lng.to_f))
+        @city.update_attributes(:name => @city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))
       end
     end
     lat           = params[:lat][0..7]
