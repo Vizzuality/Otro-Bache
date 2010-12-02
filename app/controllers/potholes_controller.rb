@@ -11,8 +11,7 @@ class PotholesController < ApplicationController
       #geolocate
       begin
         url_to_redirect = "spain"
-        # request.env["REMOTE_ADDR"]
-        user_location = GeoIp.where_ip("178.79.142.149").first
+        user_location = GeoIp.where_ip(request.env["REMOTE_ADDR"]).first
         if user_location.city.blank? && user_location.country_name.present? && user_location.country_name == "Reserved"
           url_to_redirect = "spain"
         elsif user_location.city.blank?
