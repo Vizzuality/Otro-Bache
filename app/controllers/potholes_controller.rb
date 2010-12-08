@@ -11,6 +11,7 @@ class PotholesController < ApplicationController
       #geolocate
       begin
         url_to_redirect = "spain"
+        #user_location = GeoIp.where_ip(request.env["REMOTE_ADDR"]).first
         user_location = GeoIp.where_ip(request.env["REMOTE_ADDR"]).first
         if user_location.city.blank? && user_location.country_name.present? && user_location.country_name == "Reserved"
           url_to_redirect = "spain"
@@ -50,9 +51,23 @@ class PotholesController < ApplicationController
 
       temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
 
-      @city = City.find_or_create_by_name(city_name.downcase, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))
+      @country = Country.find_by_code(temp.country_code)
+      if @country.nil?
+        @country = Country.find_or_create_by_name(temp.country, :code => temp.country_code)
+      end
+      
+      @city = City.find_by_name(city_name.downcase)
+
+      if @city.nil?
+        @city = City.find_or_create_by_name(city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))        
+      end
+      
+      if @city.country_id.nil?
+        @city.update_attributes(:country_id => @country.id)
+      end 
+
       @city_id=@city.id
-      @country = @city.country
+      #@country = @city.country
 
       # To show it in the title
       @actual_term_searched = @city.name
@@ -61,6 +76,7 @@ class PotholesController < ApplicationController
              (select count(id) from potholes where address=p.address)
              as counter from potholes as p where city_id = #{@city.id}
              order by updated_at DESC, address"
+
       @total_entries = (params[:total_entries]) ?
                       params[:total_entries].to_i :
                       Pothole.find_by_sql(sql).count
