@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head lang="es" xml:lang="es">
+    <title>OtroBache.es - Reporta baches en tu localidad</title>
+    <%= javascript_include_tag "http://code.jquery.com/jquery-1.4.3.min.js" %>
+    
+<!--    <%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=false" %>
+    <%= javascript_include_tag "http://www.google.com/jsapi" %>
+    <%= javascript_include_tag "http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" %>
+    <%= javascript_include_tag "jquery.tools.min.js" %>-->
+    <%= javascript_include_tag "http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.js" %>
+    <%= stylesheet_link_tag "mobile/index", "http://code.jquery.com/mobile/1.0a1/jquery.mobile-1.0a1.min.css", "custom" %>
+    <%= stylesheet_link_tag "/stylesheets/layout.css" %>
+    
+  </head>
+  <body>
+    <div data-role="page"> 
+      <div role="banner" class="ui-bar-a ui-header" data-role="header" data-position="inline">
+        <% if (controller.controller_name=='potholes') %>
+        	  <h1 aria-level="1" role="heading" tabindex="0" class="ui-title">Otrobache.com</h1>
+            <a data-theme="a" class="ui-btn-right ui-btn ui-btn-icon ui-btn-corner-all ui-shadow ui-btn-up-a" href="/about">
+                  	    <span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">About</span></a>
+
+        <% end %>
+      </div>
+      <%= yield %>
+    </div>
+  </body>
+</html>

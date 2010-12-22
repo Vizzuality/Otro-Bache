@@ -15,12 +15,13 @@ Otrobache::Application.routes.draw do |map|
   match "pothole/:id" => "potholes#show"
 
   match "report/:id" => "potholes#edit"
-  match "create" => "potholes#create"
   match "potholes" => "potholes#index"
 
   get "about" => "about#index"
 
   get "download" => "download#index"
+  
+  match '*a', :to => 'potholes#render_404'
 
   namespace :api do
     get "get_near_localities" =>"api#get_near_localities",:format => :json

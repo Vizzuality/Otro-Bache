@@ -1,0 +1,15 @@
+<div class="subheader" data-role="content">
+    <% if (@total_entries > 0) %>
+      <h1><%= @total_entries %></h1>
+      <h3><%= (@total_entries > 1)? 'baches' : 'bache'%> ya <%= (@total_entries >1)? 'reportados' : 'reportado' %></h3>
+    <% else %>
+      <h1>Reporta</h1>
+      <h3>el primero !!</h3>
+      
+    <% end %>    
+  </div>
+  <div class="layout" data-role="content">
+    <%= link_to image_tag("add_mobile.png"), :action => 'create' %>
+    <p>pulsa para reportar un bache aquí</p>
+  </div>
+</div>

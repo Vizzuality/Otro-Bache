@@ -165,8 +165,21 @@ $(document).ready(function() {
     zoomOutControlDiv.index = 2;
     map.controls[google.maps.ControlPosition.TOP_LEFT].push(zoomInControlDiv);
     map.controls[google.maps.ControlPosition.LEFT].push(zoomOutControlDiv);
+
+    var myOptions2 = {
+      zoom: 8,
+      center: myLatlng,
+      mapTypeControl: false,
+      navigationControl: false,
+      navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      disableDefaultUI: false,
+      draggable: false,
+      scrollwheel: false,
+      streetViewControl: false
+    };
   
-    map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions);
+    map2 = new google.maps.Map(document.getElementById("selected_map"), myOptions2);
     zoomInControlDiv = document.createElement('DIV');
     zoomInControl = new ZoomInControl(zoomInControlDiv, map2);
     zoomOutControlDiv = document.createElement('DIV');
@@ -322,7 +335,7 @@ $(document).ready(function() {
         position: latLong,
         map: map,
         icon: image,
-        draggable: true
+        draggable: false
     });
     
     google.maps.event.addListener(marker, 'dragend', geocodeMarkerPosition);

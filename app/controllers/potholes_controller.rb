@@ -6,62 +6,100 @@ class PotholesController < ApplicationController
 
 
   def index
+
     #If the controller is called without location params we redirect where the user is geolocating its IP
     if params[:location].blank?
       #geolocate
       begin
         url_to_redirect = "spain"
-        #user_location = GeoIp.where_ip(request.env["REMOTE_ADDR"]).first
+      
         user_location = GeoIp.where_ip(request.env["REMOTE_ADDR"]).first
-        if user_location.city.blank? && user_location.country_name.present? && user_location.country_name == "Reserved"
-          url_to_redirect = "spain"
-        elsif user_location.city.blank?
-          url_to_redirect = CGI.escape(user_location.country_name.downcase)
-        else
-          url_to_redirect = CGI.escape(user_location.city.downcase)
+        
+        if request.format == :mobile
+          if user_location.city.blank?
+            param = "Spain"
+          else
+            param = user_location.city
+          end
+        else         
+          if user_location.city.blank? && user_location.country_name.present? && user_location.country_name == "Reserved"
+            url_to_redirect = "spain"
+          elsif user_location.city.blank?
+            url_to_redirect = CGI.escape(user_location.country_name.downcase)
+          else
+            url_to_redirect = CGI.escape(user_location.city.downcase)
+          end
+          redirect_to "/in/#{url_to_redirect}" and return
         end
-        redirect_to "/in/#{url_to_redirect}" and return
       rescue
         #the user location could not be not determined, send it to spain
         redirect_to "/in/spain" and return
       end
     end
-
-    #first we check if this is a registered country
-    result = GeoIp.where_country(params[:location]).first
-
+    
+    if request.format == :mobile
+      result = GeoIp.where_country(param).first
+    else
+      #first we check if this is a registered country
+      result = GeoIp.where_country(params[:location]).first
+    end
+    
     if result
       #we have a country
       country_name = result.country_name.downcase
       country_code = result.country_code
       city_name    = nil
     else
-        result = GeoIp.where_city(params[:location]).first
+        if request.format == :mobile
+          result = GeoIp.where_city(user_location.city.downcase).first
+        else
+          result = GeoIp.where_city(params[:location]).first
+        end
+        
         if(result)
           #we have a city
-          country_name = nil
+          country_code = result.country_code
+          country_name = result.country_name 
           city_name    = result.city.downcase
+          lat         = result.latitude
+          long = result.longitude
         else
-          #we have nothing.
-          redirect_to "/in/spain" and return
+          
+          if request.format == :mobile
+            country_code = "ES"
+            country_name = "Spain"
+            city_name = nil
+          else
+            #we have nothing.
+            redirect_to "/in/spain" and return
+          end
         end
     end
 
     if city_name.present?
-
-      temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
-
-      @country = Country.find_by_code(temp.country_code)
-      if @country.nil?
-        @country = Country.find_or_create_by_name(temp.country, :code => temp.country_code)
+      if country_code
+        @country = Country.find_by_code(country_code)
+        if @country.nil?
+          @country = Country.find_or_create_by_name(country_name, :code => country_code)
+        end
+      else
+        temp = Geokit::Geocoders::GoogleGeocoder.geocode(city_name.downcase)
+        @country = Country.find_by_code(temp.country_code)
+        if @country.nil?
+          @country = Country.find_or_create_by_name(temp.country, :code => temp.country_code)
+        end
       end
-      
+  
       @city = City.find_by_name(city_name.downcase)
 
       if @city.nil?
-        @city = City.find_or_create_by_name(city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))        
+        if temp
+          @city = City.find_or_create_by_name(city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(temp.lng.to_f, temp.lat.to_f))        
+        else
+          @city = City.find_or_create_by_name(city_name.downcase, :country_id => @country.id, :the_geom => Point.from_x_y(long.to_f, lat.to_f))        
+        end
       end
-      
+    
       if @city.country_id.nil?
         @city.update_attributes(:country_id => @country.id)
       end 
@@ -119,8 +157,9 @@ class PotholesController < ApplicationController
     @city_name=city_name
     @country_name=country_name
     session[:country] = @country.name
-
+    
     respond_to do |format|
+      format.mobile # index.mobile.erb
       format.html # index.html.erb
       format.xml  { render :xml => @potholes }
     end
@@ -168,7 +207,7 @@ class PotholesController < ApplicationController
   end
 
   def create
-
+    debugger
     @country_name = params[:country]           || ''
     @country_code = params[:country_code]      || ''
     @address      = params[:full_address]      || ''

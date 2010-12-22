@@ -1,0 +1,41 @@
+
+<div class="layout">
+  <div class="information">
+     <p class="place">c/Jacobinia, cerca del 38</p>
+     <p class="reported">2 veces reportado. Última vez <strong>hace 23 días</strong></p>
+   </div>
+</div>
+
+<div class="outer_layout list">
+  <ul id="pothole_list">
+    <li class="selected">
+      <div class="pothole_data">
+        <div class="left_selected">
+          <a href="javascript:void closeSelectedItem()" class="close_arrow" id="close_selected"></a>
+          <%= image_tag("gray_arrow.png", :class=>"grey_arrow", :alt => "grey arrow") %>
+          <div class="information">
+            <p class="place">c/Jacobinia, cerca del 38</p>
+            <p class="reported">2 veces reportado. Última vez <strong>hace 23 días</strong></p>
+          </div>
+          <div class="border_map">
+            <div id="selected_map"></div>
+            <div id="mamufas_selected">
+              <%= image_tag("ajax-loader.gif") %>
+            </div>
+          </div>
+          <p class="confirm_tooltip">Gracias,<br/><strong>El bache se ha confirmado correctamente!</strong></p>
+          <a href="#" id="confirm_pothole" class="confirm_pothole"></a>
+        </div>
+        <div class="right_selected">
+          <div class="social_media">
+            <p>Quéjate en...</p>
+            <p><a target="_blank" id="facebook_link" href="#">facebook</a>/<a target="_blank" id="twitter_link" href="#">twitter</a></p>
+          </div>
+          <p class="first">Lleva</p>
+          <p class="days">65 días</p>
+          <p class="first">sin ser arreglado</p>
+          <p class="first gray">(que nosotros sepamos)</p>
+        </div>
+      </div>
+    </li>
+  </ul>
