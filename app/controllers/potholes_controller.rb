@@ -207,7 +207,6 @@ class PotholesController < ApplicationController
   end
 
   def create
-    debugger
     @country_name = params[:country]           || ''
     @country_code = params[:country_code]      || ''
     @address      = params[:full_address]      || ''
